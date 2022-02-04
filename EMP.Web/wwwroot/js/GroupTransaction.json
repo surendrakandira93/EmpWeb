@@ -1,0 +1,66 @@
+[
+  {
+    "product": "Dell Inspiron 15 3511",
+    "entryDate": "2021-08-15T00:00:00",
+    "existDate": "2021-09-15T00:00:00",
+    "qty": 50,
+    "price": 46033
+  },
+
+  {
+    "product": "Dell Vostro 3500",
+    "entryDate": "2021-09-05T00:00:00",
+    "existDate": "2021-09-15T00:00:00",
+    "qty": 25,
+    "price": 55000
+  },
+
+  {
+    "product": "Dell Inspiron 14 (5410) 2-in-1",
+    "entryDate": "2021-10-02T00:00:00",
+    "existDate": "2021-11-10T00:00:00",
+    "qty": 23,
+    "price": 53999
+  },
+
+  {
+    "product": "Dell Alienware x17 R1",
+    "entryDate": "2021-10-15T00:00:00",
+    "existDate": "2021-11-20T00:00:00",
+    "qty": 5,
+    "price": 290990
+  },
+
+  {
+    "product": "Dell Alienware x15 R1",
+    "entryDate": "2021-11-20T00:00:00",
+    "existDate": "2021-12-25T00:00:00",
+    "qty": 8,
+    "price": 240990
+  },
+
+  {
+    "product": "Dell Latitude 9520",
+    "entryDate": "2022-01-03T00:00:00",
+    "existDate": "2022-02-02T00:00:00",
+    "qty": 65,
+    "price": 145000
+  },
+
+  {
+    "product": "Dell Latitude 7420",
+    "entryDate": "2021-05-07T00:00:00",
+    "existDate": "2021-05-25T00:00:00",
+    "qty": 25,
+    "price": 90000
+  },
+
+  {
+    "product": "Dell XPS 17 (9710) ",
+    "entryDate": "2021-05-11T00:00:00",
+    "existDate": "2021-06-15T00:00:00",
+    "qty": 35,
+    "price": 264490
+  }
+
+]

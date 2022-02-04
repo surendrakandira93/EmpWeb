@@ -1,0 +1,114 @@
+﻿
+<style>
+	.quest-tags li {
+    margin-bottom: 5px;
+}
+.usr_img {
+    width: 56px;
+}
+.forum-page {
+    padding: 0px 0;
+}
+ .error {
+        color: red;
+    }
+</style>
+
+<section class="forum-page">
+			<div class="container">
+				<div class="forum-questions-sec">
+					<div class="row">
+						<div class="col-lg-7">
+							<div class="forum-questions">
+								
+								
+								
+							</div>
+                             <nav aria-label="Page navigation example" class="full-pagi">
+                        <ul class="pagination">
+                           
+                        </ul>
+                    </nav>
+							
+						</div>
+						<div class="col-lg-5">
+                    <div class="widget widget-user">
+                        <h3 class="title-wd">Add/Edit Employee</h3>
+                        <form asp-action="Create" asp-controller="Employee" method="post" id="frm-add-employee">
+                            <div id="validation-summary"></div>
+                            <div class="cp-field">
+                                <h5>Employee Name</h5>
+                                <div class="cpp-fiel">
+                                    <input type="hidden" name="EmployeeId" id="employee_id" />
+                                    <input type="text" name="Name" id="employee_name" placeholder="Employee Name" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+                            <div class="cp-field">
+                                <h5>Date Of Brith</h5>
+                                <div class="cpp-fiel">
+                                    <input type="date" name="DateOfBrith" id="employee_DateOfBrith" placeholder="DateOfBrith" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+                            <div class="cp-field">
+                                <h5>Technologies</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" name="Technolog" id="employee_Technolog" placeholder="Technologies" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+                            <div class="cp-field">
+                                <h5>Gender</h5>
+                                <div class="cpp-fiel">
+                                    <select  name="Gender" id="employee_Gender" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                    <option value="">Select Gender</option>    
+                                        <option value="Male">Male</option>    
+                                    <option value="Female">Female</option>    
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5>City</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" name="City" id="employee_City" placeholder="City" class="form-control">
+                                </div>
+                            </div>
+
+                             <div class="cp-field">
+                                <h5>Linkedin URL</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" name="LinkedinURL" id="employee_LinkedinURL" placeholder="Linkedin URL" class="form-control">
+                                </div>
+                            </div>
+
+                             
+
+                             <div class="cp-field">
+                                <h5>Profile Image</h5>
+                                <div class="cpp-fiel">
+                                    <input type="hidden" name="imageURL" id="employee_imageURL" />
+                                    <input type="file" name="ImageURLFile" id="ImageURLFile">
+                                 <img src="/UserImage/" id="view_ImageURLFile" style="width:50px;height:50px;display:none;" /> 
+                                </div>
+                            </div>
+
+                            <div class="save-stngs pd2">
+                                <ul>
+                                    <li><button type="submit">Create</button></li>
+
+                                </ul>
+                            </div><!--save-stngs end-->
+                        </form>
+
+                    </div>
+
+                </div>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+
+		@section Scripts{
+            <script src="~/js/moment.js" asp-append-version="true"></script>
+<script src="~/js/Custom/Employee.js" asp-append-version="true"></script>
+}

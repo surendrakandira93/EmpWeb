@@ -1,0 +1,330 @@
+﻿@model EmployeeProfileDto
+@using EMP.Common;
+
+<style>
+    .user-pro-img {
+        margin-top: 0px;
+    }
+</style>
+
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="main-left-sidebar">
+                        <div class="user_profile">
+                            <div class="user-pro-img">
+                                <form name="photo" id="imageUploadForm" enctype="multipart/form-data" asp-action="UpdateProfileImage" asp-controller="Employee" method="post">
+                                    <img id="view_ImageURLFile" src="@(!string.IsNullOrEmpty(Model.ImageURL)?"/UserImage/"+Model.ImageURL:"/images/resources/user-pro-img.jpg")" alt="" style="width: 220px;">
+                                    <div class="add-dp" id="OpenImgUpload">
+                                        <input type="file" id="ImageURLFile" name="ImageURLFile">
+                                        <label for="ImageURLFile"><i class="fas fa-camera"></i></label>
+                                    </div>
+                                </form>
+                            </div><!--user-pro-img end-->
+                            <div class="user_pro_status">
+                                <ul class="flw-status">
+                                    <li>
+                                        <span>Connection</span>
+                                        <b>@Model.Member</b>
+                                    </li>
+                                    <li>
+                                        <span>Groups</span>
+                                        <b>@Model.Group</b>
+                                    </li>
+                                </ul>
+                            </div><!--user_pro_status end-->
+                            <ul class="social_links">
+                                <li class="lin-li-view">
+                                    <a href="javascript:void(0);" title="" class="btn-lin-edit"><i class="fa fa-pencil"></i><i class="la la-linkedin"></i></a>
+                                    <span class="lin_url_span">@Model.LinkedinURL</span>
+                                </li>
+                                <li class="lin-li-save" style="display:none;">
+                                    <a href="javascript:void(0);" class="btn-lin-save" title=""><i class="fa fa-save"></i><i class="la la-linkedin"></i></a>
+                                    <input type="text" id="txt_lin_url" class="form-control-sm">
+
+                                </li>
+                            </ul>
+                        </div><!--user_profile end-->
+                        <div class="suggestions full-width">
+                            <div class="sd-title">
+                                <h3> Group for Subscription</h3>
+                                <i class="la la-ellipsis-v"></i>
+                            </div><!--sd-title end-->
+
+
+
+
+                            <div class="suggestions-list">
+                                @foreach (var item in @Model.Subscription)
+                                {
+                                    <div class="suggestion-usd">
+                                        <img src="@(!string.IsNullOrEmpty(item.IconImg)?"/GroupImage/"+item.IconImg:"/images/resources/usrr-img1.png")" width="35" alt="">
+                                        <div class="sgt-text">
+                                            <a href="/employeegroup/view/@item.Id">
+                                                <h4>@item.Name</h4>
+                                            </a>
+                                            <span>@item.Description.TrimLength(20)</span>
+                                        </div>
+                                        <span class="add-subscription" data-id="@item.Id"><i class="la la-plus"></i></span>
+                                    </div>
+                                    }
+
+                                <div class="view-more">
+                                    <a href="#" title="">View More</a>
+                                </div>
+
+                            </div><!--suggestions-list end-->
+                        </div><!--suggestions end-->
+                    </div><!--main-left-sidebar end-->
+                </div>
+                <div class="col-lg-9">
+                    <div class="main-ws-sec">
+                        <div class="user-tab-sec rewivew">
+                            <h3>@Model.Name</h3>
+
+                            <div class="tab-feed st2 settingjb">
+                                <ul>
+
+                                    <li data-tab="my-bids" class="active">
+                                        <a href="#" title="">
+                                            <img src="/images/ic5.png" alt="">
+                                            <span>Groups</span>
+                                        </a>
+                                    </li>
+
+                                    <li data-tab="info-dd">
+                                        <a href="#" title="">
+                                            <img src="/images/ic2.png" alt="">
+                                            <span>Skill</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div><!-- tab-feed end-->
+                        </div>
+
+                        <div class="product-feed-tab active current animated fadeIn" id="my-bids">
+                            <div style="padding-bottom:30px;">
+                                <div class="usy-name" style="color:green;">
+                                    Self   <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="usy-name" style="color:green;">
+                                    Accepted    <i class="fas fa-thumbs-up"></i>
+                                </div>
+                                <div class="usy-name" style="color: yellow;">
+                                    Subscription    <i class="fas fa-plus"></i>
+                                </div>
+                                <div class="usy-name" style="color: red;">
+                                    Pending    <i class="fas fa-thumbs-down"></i>
+                                </div>
+                            </div>
+                            <div class="posts-section">
+                                @foreach (var item in Model.Self)
+                                {
+                                    if (Model.ForApproval.Any() && Model.ForApproval.Any(x => x.Id == item.Id))
+                                    {
+                                        var approveItem = Model.ForApproval.FirstOrDefault(x => x.Id == item.Id);
+                                        <div class="post-bar">
+                                            <div class="post_topbar">
+                                                <div class="usy-dt">
+                                                    <img src="@(!string.IsNullOrEmpty(item.IconImg) ? "/GroupImage/" + item.IconImg : "/images/resources/user-pro-img.jpg")" alt="" width="35">
+                                                    <div class="usy-name">
+                                                        <a href="/employeegroup/view/@item.Id"><h3>@item.Name</h3></a>
+                                                    </div>
+                                                    <div class="usy-name" style="float:right;color:green;">
+                                                        <i class="fas fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="job_descp">
+                                                <p>@item.Description</p>
+                                            </div>
+                                            <div class="suggestions-list">
+                                                @foreach (var emp in approveItem.Employees)
+                                                {
+                                                    <div class="suggestion-usd">
+                                                        <img src="@(!string.IsNullOrEmpty(emp.ImageURL) ? "/UserImage/" + emp.ImageURL : "/images/resources/user-pro-img.jpg")" width="35" alt="">
+                                                        <div class="sgt-text">
+                                                            <h4>@emp.Name</h4>
+                                                        </div>
+                                                        <div class="ed-opts">
+                                                            <a href="javascript:void(0)" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
+                                                            <ul class="ed-options">
+                                                                <li><a href="javascript:void(0)" title="" class="add-action" data-id="@item.Id" data-empid="@emp.Id" data-type="3">Accept</a></li>
+                                                                <li style="margin-bottom: 15px;"><a href="javascript:void(0)" title="" class="add-action" data-id="@item.Id" data-empid="@emp.Id" data-type="4">Reject</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <ul class="skill-tags">
+                                                            @foreach (var skill in emp.Technologies)
+                                                            {
+                                                                <li><a href="javascript:void(0);" title="">@skill</a></li>
+                                                            }
+
+
+                                                        </ul>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div class="post-bar">
+                                            <div class="post_topbar">
+                                                <div class="usy-dt">
+                                                    <img src="@(!string.IsNullOrEmpty(item.IconImg)?"/GroupImage/"+item.IconImg:"/images/resources/user-pro-img.jpg")" alt="" width="35">
+                                                    <div class="usy-name">
+                                                        <a href="/employeegroup/view/@item.Id"> <h3>@item.Name</h3></a>
+                                                    </div>
+                                                    <div class="usy-name" style="float:right;color:green;">
+                                                        <i class="fas fa-heart"></i>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="job_descp">
+                                                <p>@item.Description</p>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+
+                                @foreach (var item in Model.Accepted)
+                                {
+                                    <div class="post-bar">
+                                        <div class="post_topbar">
+                                            <div class="usy-dt">
+                                                <img src="@(!string.IsNullOrEmpty(item.IconImg)?"/GroupImage/"+item.IconImg:"/images/resources/user-pro-img.jpg")" alt="" width="35">
+                                                <div class="usy-name">
+                                                    <a href="/employeegroup/view/@item.Id"><h3>@item.Name</h3></a>
+                                                </div>
+                                                <div class="usy-name" style="float:right;color:green;">
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="job_descp">
+                                            <p>@item.Description</p>
+                                        </div>
+                                    </div>
+                                }
+
+                                @foreach (var item in Model.Subscription)
+                                {
+                            <div class="post-bar">
+                                <div class="post_topbar">
+                                    <div class="usy-dt">
+                                        <img src="@(!string.IsNullOrEmpty(item.IconImg)?"/GroupImage/"+item.IconImg:"/images/resources/user-pro-img.jpg")" alt="" width="35">
+                                        <div class="usy-name">
+                                            <a href="/employeegroup/view/@item.Id"><h3>@item.Name</h3></a>
+                                        </div>
+                                        <div class="usy-name" style="float: right; color: yellow;">
+                                            <i class="fas fa-plus"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <span class="add-subscription" style="float:right;color: #b2b2b2;width: 30px;height: 30px;border-radius: 3px;border: 1px solid #e5e5e5;text-align: center;line-height: 30px;font-weight: 700;cursor: pointer;" data-id="@item.Id"><i class="la la-plus"></i></span>
+                                <div class="job_descp">
+                                    <p>@item.Description</p>
+                                </div>
+                            </div>
+                                }
+
+                                @foreach (var item in Model.Pending)
+                                {
+                                    <div class="post-bar">
+                                        <div class="post_topbar">
+                                            <div class="usy-dt">
+                                                <img src="/GroupImage/@item.IconImg" alt="" width="35">
+                                                <div class="usy-name">
+                                                    <a href="/employeegroup/view/@item.Id"><h3>@item.Name</h3></a>
+                                                </div>
+                                                <div class="usy-name" style="float:right;color:red;">
+                                                    <i class="fas fa-thumbs-down"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="job_descp">
+                                            <p>@item.Description</p>
+                                        </div>
+                                    </div>
+                                }
+                                
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="product-feed-tab" id="info-dd">
+
+                            <div class="user-profile-ov">
+                                <h3>
+                                    <a href="#" title="" class="skills-open">Skills</a>
+                                    <a href="#" title="" class="skills-open"><i class="fa fa-pencil"></i></a>
+                                    <a href="#">
+                                        <i class="fa fa-plus-square"></i>
+                                    </a>
+                                </h3>
+                                <ul class="ul-viewll-skill">
+                                    @foreach (var item in Model.Technologies)
+                                    {
+                                        <li><a href="javascript:void(0);" title="@item">@item</a></li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div><!--main-ws-sec end-->
+            </div>
+            
+        </div>
+    </div><!-- main-section-data end-->
+</div>
+
+
+<div class="overview-box" id="skills-box">
+    <div class="overview-edit">
+        <h3>Skills</h3>
+        <form asp-action="UpdateTechnologies" asp-controller="Employee" method="post" id="form-update-skilles">
+            <ul class="ul-skill">
+                @foreach (var item in Model.Technologies)
+                {
+                    <li data-skill="@item">
+                        <a href="javascript:void(0)" title="@item" class="skl-name">@item</a>
+                        <a href="javascript:void(0);" title="" class="close-skl"><i class="la la-close"></i></a>
+                        <input type="hidden" value="@item" id="hid_skill_@item" name="Technologies" />
+                    </li>
+
+                }
+
+            </ul>
+
+            @Html.AntiForgeryToken()
+            <input type="text" name="skills" id="txt_skills" placeholder="Skills">
+            <button type="submit" class="save">Save &amp;Chages</button>
+            <button type="button" class="save-add btn-save-more">Save &amp; Add More</button>
+            @*<button type="button" class="cancel">Cancel</button>*@
+        </form>
+        <a href="#" title="" class="close-box"><i class="la la-close"></i></a>
+    </div><!--overview-edit end-->
+</div>
+
+@section Scripts{
+    <script src="~/js/moment.js" asp-append-version="true"></script>
+    <script src="~/js/Custom/EmpProfile.js" asp-append-version="true"></script>
+}

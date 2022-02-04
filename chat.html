@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+</head>
+<body>
+    <div id="chart_div"></div>
+    <script>
+        google.charts.load('current', { packages: ['corechart', 'line'] });
+        google.charts.setOnLoadCallback(drawBasic);
+        var arr = new Array();
+        function drawBasic() {            
+            var now = new Date();            
+            for (var d = new Date('2021-08-01'); d <= now; d.setDate(d.getDate() + 1))
+            {
+                var subArr = new Array();
+                subArr.push(new Date(d));
+                subArr.push(getRandomNumberBetween());
+                arr.push(subArr);
+            }
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'X');
+            data.addColumn('number', 'Equity');
+            data.addRows(arr);
+
+            var options = {
+                hAxis: {
+                    title: 'Date'
+                },
+                vAxis: {
+                    title: 'Popularity'
+                }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+
+        function getRandomNumberBetween() {
+            var min = 0, max = 60000;
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+    </script>
+</body>
+</html>

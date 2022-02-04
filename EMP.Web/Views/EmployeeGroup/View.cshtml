@@ -1,0 +1,164 @@
+﻿@model EmployeeGroupForApprovalListDto
+
+<style>
+    .user-pro-img {
+        margin-top: 0px;
+    }
+    table {
+        width: 750px;
+        border-collapse: collapse;
+        margin: 50px auto;
+    }
+
+    /* Zebra striping */
+    tr:nth-of-type(odd) {
+        background: #eee;
+    }
+
+    th {
+        background: #3498db;
+        color: white;
+        font-weight: bold;
+    }
+
+    td, th {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+        font-size: 18px;
+    }
+</style>
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="main-left-sidebar">
+                        <div class="user_profile">
+                            <div class="user-pro-img">
+                                <img src="@(!string.IsNullOrEmpty(Model.IconImg)?"/GroupImage/"+Model.IconImg:"//images/resources/user-pro-img.jpg")" alt="">
+                            </div><!--user-pro-img end-->
+                            <div class="user_pro_status">
+
+                                <ul class="flw-status">
+                                    <li>
+                                        <span>Members</span>
+                                        <b>@Model.Employees.Count(x => x.InviteType == (int)InviteType.Accepted || x.InviteType == (int)InviteType.Invite)</b>
+                                    </li>
+                                    <li>
+                                        <span>Pending</span>
+                                        <b><b>@Model.Employees.Count(x => x.InviteType == (int)InviteType.Pending)</b></b>
+                                    </li>
+                                </ul>
+                            </div><!--user_pro_status end-->
+
+                        </div><!--user_profile end-->
+                        <div class="suggestions full-width">
+                            <div class="sd-title">
+                                <h3>Members</h3>
+                                <i class="la la-ellipsis-v"></i>
+                            </div><!--sd-title end-->
+                            <div class="suggestions-list">
+                                @foreach (var emp in Model.Employees)
+                                {
+                                    <div class="suggestion-usd">
+                                        <img src="@(!string.IsNullOrEmpty(emp.ImageURL)?"/UserImage/"+emp.ImageURL:"/images/resources/user-pro-img.jpg")" width="35" alt="">
+                                        <div class="sgt-text">
+                                            <h4>@emp.Name</h4>
+                                            <span>@(((InviteType)emp.InviteType).ToString())</span>
+                                        </div>
+
+                                    </div>
+                                }
+
+                            </div><!--suggestions-list end-->
+                        </div><!--suggestions end-->
+                    </div><!--main-left-sidebar end-->
+                </div>
+                <div class="col-lg-9">
+                    <div class="main-ws-sec">
+                        <div class="user-tab-sec">
+                            <div class="user-profile-ov">
+                                <h3>@Model.Name</h3>
+                                <p>@Model.Description</p>
+                            </div>
+                        </div>
+
+                        <div class="posts-section">
+                            <div class="post-bar">                                
+                                <div class="widget-user">
+                                    <h3 class="title-wd">Filter</h3>
+                                    
+                                        <div class="cp-field col-md-4">
+                                            <h5>From Date</h5>
+                                            <div class="cpp-fiel">
+                                                <input type="date" id="fromdate" placeholder="From Date" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="cp-field col-md-4">
+                                            <h5>To Date</h5>
+                                            <div class="cpp-fiel">
+                                                <input type="date" id="todate" placeholder="To Date" class="form-control">
+                                            </div>
+                                        </div>                                        
+
+                                        <div class="save-stngs pd2 col-md-4">
+                                            <ul>
+                                                <li><button type="button" id="btn_filter">Filter</button></li>
+
+                                            </ul>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <div class="post-bar">
+                                <h3 class="title-wd">Trading History</h3>
+                                <table class="table-light" id="tansction_grid">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Entry Date</th>
+                                            <th>Exit date</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+
+                            <div class="post-bar">
+                                <div id="chart_div"></div>
+                            </div>
+
+
+                            <div class="process-comm">
+                                <div class="spinner">
+                                    <div class="bounce1"></div>
+                                    <div class="bounce2"></div>
+                                    <div class="bounce3"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!--main-ws-sec end-->
+                </div>
+
+            </div>
+        </div><!-- main-section-data end-->
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/moment.js" asp-append-version="true"></script>
+    <script src="~/js/google-chart-loader.js" asp-append-version="true"></script>
+    <script src="~/js/Custom/EmpGroupView.js" asp-append-version="true"></script>
+}

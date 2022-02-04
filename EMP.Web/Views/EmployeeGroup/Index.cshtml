@@ -1,0 +1,114 @@
+﻿
+<style>
+    .quest-tags li {
+        margin-bottom: 5px;
+    }
+
+    .usr_img {
+        width: 56px;
+    }
+
+    .forum-page {
+        padding: 0px 0;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .select2-selection__choice__display {
+        float: none !important;
+    }
+
+    .select2-selection__choice {
+        width: auto !important;
+    }
+
+</style>
+
+<link rel="stylesheet" type="text/css" href="~/plugins/Select2/css/select2.min.css">
+
+<section class="forum-page">
+    <div class="container">
+        <div class="forum-questions-sec">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="forum-questions">
+
+                       
+
+                    </div>
+
+                    <nav aria-label="Page navigation example" class="full-pagi">
+                        <ul class="pagination">
+                           
+                        </ul>
+                    </nav>
+
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="widget widget-user">
+                        <h3 class="title-wd">Add/Edit Employee Group</h3>
+                        <form asp-action="Create" asp-controller="EmployeeGroup" method="post" id="frm-add-group">
+                            <div id="validation-summary"></div>
+                            <div class="cp-field">
+                                <h5>Group Name</h5>
+                                <div class="cpp-fiel">
+                                    <input type="hidden" name="Id" id="group_id" />
+                                    <input type="text" name="Name" id="group_name" placeholder="Group Name" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+                            <div class="cp-field">
+                                <h5>Group Description</h5>
+                                <div class="cpp-fiel">
+                                    <input type="hidden" name="Id" id="group_id" />
+                                    <textarea name="Description" id="group_description" placeholder="Group Description" class="form-control" data-msg-required="*required" data-rule-required="true"></textarea>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5> Invite Employees</h5>
+                                <div class="cpp-fiel">
+                                    <select name=EmployeeIds id="emp_select" class=form-control multiple data-msg-required="*required" data-rule-required="true">
+                                        @foreach (SelectListItem item in ViewBag.empList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+
+                             <div class="cp-field">
+                                <h5>Group Image</h5>
+                                <div class="cpp-fiel">
+                                    <input type="hidden" name="imageURL" id="employee_imageURL" />
+                                    <input type="file" name="ImageURLFile" id="ImageURLFile" data-msg-required="*required" data-rule-required="true">
+                                 <img src="/GroupImage/" id="view_ImageURLFile" style="width:50px;height:50px;display:none;" /> 
+                                </div>
+                            </div>
+
+                            <div class="save-stngs pd2">
+                                <ul>
+                                    <li><button type="submit">Create Group</button></li>
+
+                                </ul>
+                            </div><!--save-stngs end-->
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+<script src="~/plugins/Select2/js/select2.min.js" asp-append-version="true"></script>
+<script src="~/js/Custom/EmpGroup.js" asp-append-version="true"></script>
+}
