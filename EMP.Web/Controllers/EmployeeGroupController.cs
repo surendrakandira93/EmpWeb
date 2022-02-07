@@ -26,7 +26,7 @@ namespace EMP.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var allEmpService = await employeeService.GetAllEmployeeAsync<ResponseDto<List<EmployeeDto>>>();
-            var empList = allEmpService.Result.Where(x=>x.Id!=CurrentUser.UserId).Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
+            var empList = allEmpService.Result.Where(x => x.Id != CurrentUser.UserId).Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).ToList();
             ViewBag.empList = empList;
             return View();
         }
@@ -112,24 +112,32 @@ namespace EMP.Web.Controllers
         public async Task<IActionResult> View(Guid id)
         {
             var response = await service.GetGroupForView<ResponseDto<EmployeeGroupForApprovalListDto>>(id);
-
+            ViewBag.dateList = GetTransctionList().Select(x => new SelectListItem() { Text = x.EntryDate.ToString("dd/MM/yyyy"), Value = x.EntryDate.ToString("MM/dd/yyyy") }).ToList();
             return View(response.Result);
         }
 
-        public async Task<IActionResult> GetTransction(DateTime? from, DateTime? to)
+        public async Task<IActionResult> GetTransction(DateTime? from)
+        {
+
+            List<GroupTransactionDto> dataResponse = GetTransctionList();
+
+            if (from.HasValue)
+            {
+                dataResponse = dataResponse.Where(x => x.EntryDate == from).ToList();
+            }
+            return NewtonSoftJsonResult(new RequestOutcome<List<GroupTransactionDto>> { Data = dataResponse, IsSuccess = true });
+        }
+
+        public List<GroupTransactionDto> GetTransctionList()
         {
             var webRoot = env.WebRootPath;
             string filePath = $"{webRoot}/js/GroupTransaction.json";
             List<GroupTransactionDto> dataResponse = new List<GroupTransactionDto>();
             using (var sr = new StreamReader(filePath))
             {
-                dataResponse = JsonConvert.DeserializeObject<List<GroupTransactionDto>>(sr.ReadToEnd()).OrderBy(o => o.EntryDate).ToList();
+                return JsonConvert.DeserializeObject<List<GroupTransactionDto>>(sr.ReadToEnd()).OrderBy(o => o.EntryDate).ToList();
             }
-            if (from.HasValue && to.HasValue)
-            {
-                dataResponse = dataResponse.Where(x => x.EntryDate >= from && x.EntryDate <= to).ToList();
-            }
-            return NewtonSoftJsonResult(new RequestOutcome<List<GroupTransactionDto>> { Data = dataResponse, IsSuccess = true });
+
         }
 
 

@@ -1,0 +1,118 @@
+﻿@model ShipmentAddDto
+
+<style>
+    .error {
+        color: red;
+    }
+
+    .save-stngs ul li {
+        width: auto;
+    }
+
+    .validation-summary-errors {
+        color: red;
+    }
+
+    .save-stngs ul li a {
+        display: inline-block;
+        color: #000000;
+        font-size: 16px;
+        border: 1px solid #e5e5e5;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 22px;
+        font-weight: 600;
+        background: none;
+        cursor: pointer;
+    }
+</style>
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+                <div class="col-lg-3">
+
+                </div>
+                <div class="col-lg-6">
+
+                    <div class="widget widget-user">
+                        <h3 class="title-wd">Add/Edit Shipment</h3>
+                        <form asp-action="Create" asp-controller="Shipment" method="post" id="frm-add-shipment">
+                            <div id="validation-summary"></div>
+                            <div class="cp-field">
+                                <h5>Broker</h5>
+                                <div class="cpp-fiel">
+                                    <input type="hidden" asp-for="Id" />
+                                    <select class="form-control" asp-for="Broker" data-msg-required="*required" data-rule-required="true" asp-items="ViewBag.brokersList">
+                                        <option value=""> Select Broker</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="cp-field">
+                                <h5>Trading Platform</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" asp-for="Platform" placeholder="Trading Platform" class="form-control" data-msg-required="*required" data-rule-required="true">
+
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5> Trading Platform Login Id</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" asp-for="LoginId" placeholder="Trading Platform Login Id" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5> API Key</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" asp-for="APIKey" placeholder="API Key" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5> Password</h5>
+                                <div class="cpp-fiel">
+                                    <input type="password" asp-for="Password" placeholder="Password" class="form-control" data-msg-required="*required" data-rule-required="true" value="@Model.Password">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5> Security Answer (2FA)</h5>
+                                <div class="cpp-fiel">
+                                    <input type="password" asp-for="Password2" placeholder="Security Answer (2FA)" class="form-control" data-msg-required="*required" data-rule-required="true" value="@Model.Password2">
+                                </div>
+                            </div>
+
+
+                            <div class="save-stngs pd2">
+                                <ul>
+                                    <li><button type="button" style="background-color:green;"><i class="fa fa-ring"></i> Validate</button></li>
+                                    <li><button type="submit" style="background-color:lightseagreen;"><i class="fa fa-save"></i> Save</button></li>
+                                    @if (Model.Id.HasValue)
+                                    {
+                        <li><a style="background-color:red;" href="javascript:void(0);" class="shipment-action" data-action="DeleteById" data-id="@Model.Id"> <i class="fa fa-trash"></i>Delete</a></li>}
+                                </ul>
+                            </div><!--save-stngs end-->
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-lg-3">
+
+                </div>
+
+            </div>
+        </div><!-- main-section-data end-->
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/moment.js" asp-append-version="true"></script>
+    <script src="~/js/google-chart-loader.js" asp-append-version="true"></script>
+    <script src="~/js/Custom/Shipment_Addedit.js" asp-append-version="true"></script>
+}

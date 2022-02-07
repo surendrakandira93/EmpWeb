@@ -8,11 +8,9 @@
             google.charts.setOnLoadCallback(drawBasic);
 
             $("#btn_filter").on('click', function () {
-                if ($("#fromdate").val() != "" && $("#todate").val() != "") {
+                
                     BindGrid();
-                } else {
-                    alert("from and to date are required !");
-                }
+                
             });
 
         }
@@ -50,9 +48,9 @@
             var $grid = $("#tansction_grid tbody");
             $grid.empty();
 
-            var from = $("#fromdate").val(), to = $("#todate").val();
+            var from = $("#fromdate").val();
 
-            $.ajax(`/EmployeeGroup/GetTransction?from=${from}&to=${to}`, {
+            $.ajax(`/EmployeeGroup/GetTransction?from=${from}`, {
                 type: "GET",
                 success: function (result) {
                     if (result.data.length > 0) {

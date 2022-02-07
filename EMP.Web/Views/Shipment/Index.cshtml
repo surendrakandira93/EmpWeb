@@ -1,0 +1,119 @@
+﻿@model List<ShipmentDto>
+
+<style>
+    .user-pro-img {
+        margin-top: 0px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 50px auto;
+    }
+
+    /* Zebra striping */
+    tr:nth-of-type(odd) {
+        background: #eee;
+    }
+
+    th {
+        background: #3498db;
+        color: white;
+        font-weight: bold;
+    }
+
+    td, th {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+        font-size: 18px;
+    }
+</style>
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="main-ws-sec">
+                        <div class="posts-section">
+                            <div class="post-bar">
+                                <div class="post-st">
+                                    <ul>
+                                        <li><a href="/shipment/create" title="" style="background-color:cadetblue;">Create</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-validate" title="" style="background-color:cadetblue;">Validate All</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-action" data-action="UPDateToLive" data-message="Are you sure want to live !" title="" style="background-color:green;">Live</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-action"  data-action="UPDateToNonLive" data-message="Are you sure want to Non live !" title="" style="background-color:orange;">Non-Live</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-action"  data-action="DeleteById" data-message="Are you sure want to delete !" title="" style="background-color:red;">Delete</a></li>
+                                    </ul>
+                                </div>
+                                <h3 class="title-wd">Trading Account</h3>
+                                <table class="table-light" id="shipment_grid">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Login Id</th>
+                                            <th>Pseudo Acc</th>
+                                            <th>Live</th>
+                                            <th>Broker</th>
+                                            <th>Platform</th>
+                                            <th>Expiry</th>
+                                            <th>Day Left</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                            <tr>
+                                <td>
+                                <input type="radio" name="radio_shipment" value="@item.Id" /></td>
+                                <td>
+                                <a href="/shipment/create/@item.Id">@item.LoginId</a> </td>
+                                <td>@item.LoginId</td>
+                                <td>
+                                    @if (item.IsLive)
+                                    {
+                <span style="color: green; font-size: 20px; font-weight: bold;">Yes</span> }
+                                    else
+                                    {
+                <span style="color: red; font-size: 20px; font-weight: bold;">No</span>}
+
+
+                                </td>
+                                <td>@(((Brokers)item.Broker).GetDisplayName())</td>
+                                <td>@item.Platform</td>
+                                <td>@item.Expiry.ToString("dd/MM/yyyy")</td>
+                                <td>@(item.Expiry < DateTime.Now ? "-1" : (item.Expiry.Date - DateTime.Now.Date).TotalDays.ToString())</td>
+                            </tr> }
+                                        }
+                                        else
+                                        {
+                            <tr>
+                                <td colspan="8">Item not found</td>
+                            </tr>
+}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div><!--main-ws-sec end-->
+                </div>
+
+            </div>
+        </div><!-- main-section-data end-->
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/moment.js" asp-append-version="true"></script>
+    <script src="~/js/google-chart-loader.js" asp-append-version="true"></script>
+    <script src="~/js/Custom/Shipment_index.js" asp-append-version="true"></script>
+}
