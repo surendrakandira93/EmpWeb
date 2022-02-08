@@ -1,4 +1,6 @@
 ﻿@model List<ShipmentDto>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <style>
     .user-pro-img {
@@ -41,25 +43,25 @@
                             <div class="post-bar">
                                 <div class="post-st">
                                     <ul>
-                                        <li><a href="/shipment/create" title="" style="background-color:cadetblue;">Create</a></li>
-                                        <li><a href="javascript:void(0);" class="shipment-validate" title="" style="background-color:cadetblue;">Validate All</a></li>
-                                        <li><a href="javascript:void(0);" class="shipment-action" data-action="UPDateToLive" data-message="Are you sure want to live !" title="" style="background-color:green;">Live</a></li>
-                                        <li><a href="javascript:void(0);" class="shipment-action"  data-action="UPDateToNonLive" data-message="Are you sure want to Non live !" title="" style="background-color:orange;">Non-Live</a></li>
-                                        <li><a href="javascript:void(0);" class="shipment-action"  data-action="DeleteById" data-message="Are you sure want to delete !" title="" style="background-color:red;">Delete</a></li>
+                                        <li><a href="/shipment/create" title="" style="background-color:cadetblue;">@Localizer["AddNew"]</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-validate" title="" style="background-color:cadetblue;">@Localizer["ValidateAll"]</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-action" data-action="UPDateToLive" data-message="Are you sure want to live !" title="" style="background-color:green;">@Localizer["Live"]</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-action" data-action="UPDateToNonLive" data-message="Are you sure want to Non live !" title="" style="background-color:orange;">@Localizer["Non_Live"]</a></li>
+                                        <li><a href="javascript:void(0);" class="shipment-action" data-action="DeleteById" data-message="Are you sure want to delete !" title="" style="background-color:red;">@Localizer["Delete"]</a></li>
                                     </ul>
                                 </div>
-                                <h3 class="title-wd">Trading Account</h3>
+                                <h3 class="title-wd">@Localizer["TradingAccount"]</h3>
                                 <table class="table-light" id="shipment_grid">
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Login Id</th>
-                                            <th>Pseudo Acc</th>
-                                            <th>Live</th>
-                                            <th>Broker</th>
-                                            <th>Platform</th>
-                                            <th>Expiry</th>
-                                            <th>Day Left</th>
+                                            <th>@Localizer["LoginId"]</th>
+                                            <th>@Localizer["PseudoAcc"]</th>
+                                            <th>@Localizer["Live"]</th>
+                                            <th>@Localizer["Broker"]</th>
+                                            <th>@Localizer["Platform"]</th>
+                                            <th>@Localizer["Expiry"]</th>
+                                            <th>@Localizer["Day Left"]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,17 +71,19 @@
                                             {
                             <tr>
                                 <td>
-                                <input type="radio" name="radio_shipment" value="@item.Id" /></td>
+                                    <input type="radio" name="radio_shipment" value="@item.Id" />
+                                </td>
                                 <td>
-                                <a href="/shipment/create/@item.Id">@item.LoginId</a> </td>
+                                    <a href="/shipment/create/@item.Id">@item.LoginId</a>
+                                </td>
                                 <td>@item.LoginId</td>
                                 <td>
                                     @if (item.IsLive)
                                     {
-                <span style="color: green; font-size: 20px; font-weight: bold;">Yes</span> }
-                                    else
-                                    {
-                <span style="color: red; font-size: 20px; font-weight: bold;">No</span>}
+                                    <span style="color: green; font-size: 20px; font-weight: bold;">@Localizer["Yes"]</span> }
+            else
+            {
+                                <span style="color: red; font-size: 20px; font-weight: bold;">@Localizer["No"]</span>}
 
 
                                 </td>
@@ -87,14 +91,14 @@
                                 <td>@item.Platform</td>
                                 <td>@item.Expiry.ToString("dd/MM/yyyy")</td>
                                 <td>@(item.Expiry < DateTime.Now ? "-1" : (item.Expiry.Date - DateTime.Now.Date).TotalDays.ToString())</td>
-                            </tr> }
-                                        }
-                                        else
-                                        {
-                            <tr>
-                                <td colspan="8">Item not found</td>
                             </tr>
-}
+ }
+                    }
+                    else
+                    {
+        <tr>
+            <td colspan="8">@Localizer["ItemNotFound"]</td>
+        </tr>}
                                     </tbody>
                                 </table>
 

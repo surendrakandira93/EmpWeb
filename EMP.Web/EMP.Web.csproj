@@ -43,4 +43,9 @@
     <ProjectReference Include="..\EMP.Service\EMP.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Controllers\" />
+    <Folder Include="Resources\Views\Employee\" />
+  </ItemGroup>
+
 </Project>

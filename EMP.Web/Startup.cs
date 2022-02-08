@@ -9,9 +9,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace EMP.Web
 {
@@ -27,6 +31,15 @@ namespace EMP.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
+            
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();           
+
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllersWithViews();
@@ -56,8 +69,21 @@ namespace EMP.Web
             services.AddHttpContextAccessor();
             services.AddSession();
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("hi-In"),
+                        new CultureInfo("de-DE"),
+                        new CultureInfo("ja-JP")
+                    };
 
-           // services.AddTransient<IValidator<SignupDto>, SignupDtoValidator>();
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+            // services.AddTransient<IValidator<SignupDto>, SignupDtoValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,12 +97,30 @@ namespace EMP.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            var supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("hi-In"),
+                        new CultureInfo("de-DE"),
+                        new CultureInfo("ja-JP")
+                    };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                // Formatting numbers, dates, etc.
+                SupportedCultures = supportedCultures,
+                // UI strings that we have localized.
+                SupportedUICultures = supportedCultures
+            });
+
             app.UseAuthentication();
 
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseRequestLocalization();
             app.UseAuthorization();
             app.UseSession();
             app.UseEndpoints(endpoints =>
