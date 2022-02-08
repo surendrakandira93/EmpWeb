@@ -30,5 +30,7 @@ namespace EMP.Service
 
         Task<T> GetEmployeeProfile<T>(Guid id);
 
+        Task<T> ChangePasswordAsync<T>(Guid id, string password);
+
     }
 }

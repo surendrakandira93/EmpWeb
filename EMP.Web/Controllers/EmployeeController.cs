@@ -169,6 +169,42 @@ namespace EMP.Web.Controllers
             return NewtonSoftJsonResult(new RequestOutcome<dynamic> { Message = $"Update Link Url successfully", IsSuccess = true });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.Password != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("", "New password and ConfirmPassword does not match ");
+                    return CreateModelStateErrors();
+                }
+
+                var response = (await service.GetEmployeeByIdAsync<ResponseDto<EmployeeDto>>(CurrentUser.UserId)).Result;
+                if (response.Password != model.CurrentPassword)
+                {
+                    ModelState.AddModelError("", "Current password does not match ");
+                    return CreateModelStateErrors();
+                }
+
+                var response1 = await service.ChangePasswordAsync<ResponseDto<EmployeeDto>>(CurrentUser.UserId,model.Password);
+            }
+            else
+            {
+                //ModelState.AddModelError("", "Technologies required");
+                return CreateModelStateErrors();
+
+            }
+
+            return NewtonSoftJsonResult(new RequestOutcome<dynamic> { Message = $"Password Changed successfully", IsSuccess = true,RedirectUrl= $"/employee/profile" });
+        }
+
 
     }
 }

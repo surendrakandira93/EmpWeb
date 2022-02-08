@@ -132,5 +132,14 @@ namespace EMP.Service
             });
         }
 
+        public async Task<T> ChangePasswordAsync<T>(Guid id,string password)
+        {
+            return await this.SendAsync<T>(new ApiRequestDto()
+            {
+                ApiType = SiteKeys.ApiType.GET,
+                Url = $"{baseUrl}ChangePassword/{id}?password={password}"
+            });
+        }
+
     }
 }
