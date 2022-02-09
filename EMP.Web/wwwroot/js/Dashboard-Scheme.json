@@ -1,0 +1,1154 @@
+[
+  {
+
+    "name": "Scheme 1",
+    "header": "Normally, our immune system produces proteins called antibodies that protect the body from these foreign invaders. ",
+    "result": [
+      {
+        "instrumen": "NZX 50 Index",
+        "lpt": 12279.56,
+        "lt": 390.16,
+        "chg": 3.28,
+        "history": [
+          {
+            "date": "Feb 08, 2022",
+            "price": 24331.85,
+            "open": 24574.90,
+            "high": 24575.43,
+            "low": 24094.95,
+            "chg": -0.45
+          },
+          {
+            "date": "Feb 07, 2022",
+            "price": 24441.84,
+            "open": 24810.15,
+            "high": 24869.87,
+            "low": 24353.44,
+            "chg": -1.25
+          },
+          {
+            "date": "Feb 04, 2022",
+            "price": 24750.61,
+            "open": 24965.44,
+            "high": 24982.62,
+            "low": 24710.34,
+            "chg": -0.68
+          },
+          {
+            "date": "Feb 03, 2022",
+            "price": 24920.43,
+            "open": 25183.17,
+            "high": 25184.29,
+            "low": 24857.49,
+            "chg": -0.90
+          },
+          {
+            "date": "Feb 02, 2022",
+            "price": 25146.13,
+            "open": 25005.04,
+            "high": 25183.71,
+            "low": 24964.45,
+            "chg": 1.08
+          },
+          {
+            "date": "Feb 01, 2022",
+            "price": 24877.93,
+            "open": 24874.79,
+            "high": 24914.04,
+            "low": 24487.83,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 31, 2022",
+            "price": 24613.01,
+            "open": 24473.90,
+            "high": 24646.87,
+            "low": 24418.52,
+            "chg": 1.76
+          },
+          {
+            "date": "Jan 28, 2022",
+            "price": 24186.73,
+            "open": 24152.20,
+            "high": 24606.35,
+            "low": 24138.71,
+            "chg": 1.02
+          },
+          {
+            "date": "Jan 27, 2022",
+            "price": 23942.10,
+            "open": 24089.97,
+            "high": 24092.18,
+            "low": 23606.16,
+            "chg": -1.25
+          },
+          {
+            "date": "Jan 25, 2022",
+            "price": 24245.46,
+            "open": 23825.69,
+            "high": 24265.87,
+            "low": 23490.48,
+            "chg": 1.03
+          },
+          {
+            "date": "Jan 24, 2022",
+            "price": 23998.73,
+            "open": 24932.56,
+            "high": 24943.05,
+            "low": 23770.52,
+            "chg": -3.82
+          },
+          {
+            "date": "Jan 21, 2022",
+            "price": 24951.67,
+            "open": 25356.89,
+            "high": 25356.89,
+            "low": 24806.38,
+            "chg": -2.01
+          },
+          {
+            "date": "Jan 20, 2022",
+            "price": 25464.31,
+            "open": 25514.06,
+            "high": 25600.65,
+            "low": 25365.71,
+            "chg": -0.07
+          },
+          {
+            "date": "Jan 19, 2022",
+            "price": 25482.18,
+            "open": 25556.34,
+            "high": 25559.28,
+            "low": 25247.87,
+            "chg": -0.34
+          },
+          {
+            "date": "Jan 18, 2022",
+            "price": 25569.85,
+            "open": 26229.68,
+            "high": 26281.49,
+            "low": 25495.05,
+            "chg": -2.20
+          },
+          {
+            "date": "Jan 17, 2022",
+            "price": 26144.07,
+            "open": 26149.43,
+            "high": 26197.09,
+            "low": 26090.44,
+            "chg": 0.23
+          },
+          {
+            "date": "Jan 14, 2022",
+            "price": 26085.24,
+            "open": 26004.57,
+            "high": 26120.52,
+            "low": 25891.70,
+            "chg": 0.22
+          },
+          {
+            "date": "Jan 13, 2022",
+            "price": 26027.21,
+            "open": 26015.77,
+            "high": 26057.03,
+            "low": 25822.06,
+            "chg": 0.38
+          },
+          {
+            "date": "Jan 12, 2022",
+            "price": 25929.36,
+            "open": 25807.06,
+            "high": 25954.66,
+            "low": 25742.91,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 11, 2022",
+            "price": 25651.53,
+            "open": 25649.07,
+            "high": 25748.15,
+            "low": 25587.72,
+            "chg": 0.01
+          },
+          {
+            "date": "Jan 10, 2022",
+            "price": 25649.52,
+            "open": 25578.95,
+            "high": 25676.52,
+            "low": 25548.13,
+            "chg": 0.69
+          }
+        ]
+      },
+      {
+        "instrumen": "Hang Seng",
+        "lpt": 24573.29,
+        "lt": 771.03,
+        "chg": 3.24,
+        "history": [
+          {
+            "date": "Feb 08, 2022",
+            "price": 24331.85,
+            "open": 24574.90,
+            "high": 24575.43,
+            "low": 24094.95,
+            "chg": -0.45
+          },
+          {
+            "date": "Feb 07, 2022",
+            "price": 24441.84,
+            "open": 24810.15,
+            "high": 24869.87,
+            "low": 24353.44,
+            "chg": -1.25
+          },
+          {
+            "date": "Feb 04, 2022",
+            "price": 24750.61,
+            "open": 24965.44,
+            "high": 24982.62,
+            "low": 24710.34,
+            "chg": -0.68
+          },
+          {
+            "date": "Feb 03, 2022",
+            "price": 24920.43,
+            "open": 25183.17,
+            "high": 25184.29,
+            "low": 24857.49,
+            "chg": -0.90
+          },
+          {
+            "date": "Feb 02, 2022",
+            "price": 25146.13,
+            "open": 25005.04,
+            "high": 25183.71,
+            "low": 24964.45,
+            "chg": 1.08
+          },
+          {
+            "date": "Feb 01, 2022",
+            "price": 24877.93,
+            "open": 24874.79,
+            "high": 24914.04,
+            "low": 24487.83,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 31, 2022",
+            "price": 24613.01,
+            "open": 24473.90,
+            "high": 24646.87,
+            "low": 24418.52,
+            "chg": 1.76
+          },
+          {
+            "date": "Jan 28, 2022",
+            "price": 24186.73,
+            "open": 24152.20,
+            "high": 24606.35,
+            "low": 24138.71,
+            "chg": 1.02
+          },
+          {
+            "date": "Jan 27, 2022",
+            "price": 23942.10,
+            "open": 24089.97,
+            "high": 24092.18,
+            "low": 23606.16,
+            "chg": -1.25
+          },
+          {
+            "date": "Jan 25, 2022",
+            "price": 24245.46,
+            "open": 23825.69,
+            "high": 24265.87,
+            "low": 23490.48,
+            "chg": 1.03
+          },
+          {
+            "date": "Jan 24, 2022",
+            "price": 23998.73,
+            "open": 24932.56,
+            "high": 24943.05,
+            "low": 23770.52,
+            "chg": -3.82
+          },
+          {
+            "date": "Jan 21, 2022",
+            "price": 24951.67,
+            "open": 25356.89,
+            "high": 25356.89,
+            "low": 24806.38,
+            "chg": -2.01
+          },
+          {
+            "date": "Jan 20, 2022",
+            "price": 25464.31,
+            "open": 25514.06,
+            "high": 25600.65,
+            "low": 25365.71,
+            "chg": -0.07
+          },
+          {
+            "date": "Jan 19, 2022",
+            "price": 25482.18,
+            "open": 25556.34,
+            "high": 25559.28,
+            "low": 25247.87,
+            "chg": -0.34
+          },
+          {
+            "date": "Jan 18, 2022",
+            "price": 25569.85,
+            "open": 26229.68,
+            "high": 26281.49,
+            "low": 25495.05,
+            "chg": -2.20
+          },
+          {
+            "date": "Jan 17, 2022",
+            "price": 26144.07,
+            "open": 26149.43,
+            "high": 26197.09,
+            "low": 26090.44,
+            "chg": 0.23
+          },
+          {
+            "date": "Jan 14, 2022",
+            "price": 26085.24,
+            "open": 26004.57,
+            "high": 26120.52,
+            "low": 25891.70,
+            "chg": 0.22
+          },
+          {
+            "date": "Jan 13, 2022",
+            "price": 26027.21,
+            "open": 26015.77,
+            "high": 26057.03,
+            "low": 25822.06,
+            "chg": 0.38
+          },
+          {
+            "date": "Jan 12, 2022",
+            "price": 25929.36,
+            "open": 25807.06,
+            "high": 25954.66,
+            "low": 25742.91,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 11, 2022",
+            "price": 25651.53,
+            "open": 25649.07,
+            "high": 25748.15,
+            "low": 25587.72,
+            "chg": 0.01
+          },
+          {
+            "date": "Jan 10, 2022",
+            "price": 25649.52,
+            "open": 25578.95,
+            "high": 25676.52,
+            "low": 25548.13,
+            "chg": 0.69
+          }
+        ]
+      },
+      {
+        "instrumen": "Straits Times",
+        "lpt": 3331.41,
+        "lt": 81.82,
+        "chg": 2.52,
+        "history": [
+          {
+            "date": "Feb 08, 2022",
+            "price": 24331.85,
+            "open": 24574.90,
+            "high": 24575.43,
+            "low": 24094.95,
+            "chg": -0.45
+          },
+          {
+            "date": "Feb 07, 2022",
+            "price": 24441.84,
+            "open": 24810.15,
+            "high": 24869.87,
+            "low": 24353.44,
+            "chg": -1.25
+          },
+          {
+            "date": "Feb 04, 2022",
+            "price": 24750.61,
+            "open": 24965.44,
+            "high": 24982.62,
+            "low": 24710.34,
+            "chg": -0.68
+          },
+          {
+            "date": "Feb 03, 2022",
+            "price": 24920.43,
+            "open": 25183.17,
+            "high": 25184.29,
+            "low": 24857.49,
+            "chg": -0.90
+          },
+          {
+            "date": "Feb 02, 2022",
+            "price": 25146.13,
+            "open": 25005.04,
+            "high": 25183.71,
+            "low": 24964.45,
+            "chg": 1.08
+          },
+          {
+            "date": "Feb 01, 2022",
+            "price": 24877.93,
+            "open": 24874.79,
+            "high": 24914.04,
+            "low": 24487.83,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 31, 2022",
+            "price": 24613.01,
+            "open": 24473.90,
+            "high": 24646.87,
+            "low": 24418.52,
+            "chg": 1.76
+          },
+          {
+            "date": "Jan 28, 2022",
+            "price": 24186.73,
+            "open": 24152.20,
+            "high": 24606.35,
+            "low": 24138.71,
+            "chg": 1.02
+          },
+          {
+            "date": "Jan 27, 2022",
+            "price": 23942.10,
+            "open": 24089.97,
+            "high": 24092.18,
+            "low": 23606.16,
+            "chg": -1.25
+          },
+          {
+            "date": "Jan 25, 2022",
+            "price": 24245.46,
+            "open": 23825.69,
+            "high": 24265.87,
+            "low": 23490.48,
+            "chg": 1.03
+          },
+          {
+            "date": "Jan 24, 2022",
+            "price": 23998.73,
+            "open": 24932.56,
+            "high": 24943.05,
+            "low": 23770.52,
+            "chg": -3.82
+          },
+          {
+            "date": "Jan 21, 2022",
+            "price": 24951.67,
+            "open": 25356.89,
+            "high": 25356.89,
+            "low": 24806.38,
+            "chg": -2.01
+          },
+          {
+            "date": "Jan 20, 2022",
+            "price": 25464.31,
+            "open": 25514.06,
+            "high": 25600.65,
+            "low": 25365.71,
+            "chg": -0.07
+          },
+          {
+            "date": "Jan 19, 2022",
+            "price": 25482.18,
+            "open": 25556.34,
+            "high": 25559.28,
+            "low": 25247.87,
+            "chg": -0.34
+          },
+          {
+            "date": "Jan 18, 2022",
+            "price": 25569.85,
+            "open": 26229.68,
+            "high": 26281.49,
+            "low": 25495.05,
+            "chg": -2.20
+          },
+          {
+            "date": "Jan 17, 2022",
+            "price": 26144.07,
+            "open": 26149.43,
+            "high": 26197.09,
+            "low": 26090.44,
+            "chg": 0.23
+          },
+          {
+            "date": "Jan 14, 2022",
+            "price": 26085.24,
+            "open": 26004.57,
+            "high": 26120.52,
+            "low": 25891.70,
+            "chg": 0.22
+          },
+          {
+            "date": "Jan 13, 2022",
+            "price": 26027.21,
+            "open": 26015.77,
+            "high": 26057.03,
+            "low": 25822.06,
+            "chg": 0.38
+          },
+          {
+            "date": "Jan 12, 2022",
+            "price": 25929.36,
+            "open": 25807.06,
+            "high": 25954.66,
+            "low": 25742.91,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 11, 2022",
+            "price": 25651.53,
+            "open": 25649.07,
+            "high": 25748.15,
+            "low": 25587.72,
+            "chg": 0.01
+          },
+          {
+            "date": "Jan 10, 2022",
+            "price": 25649.52,
+            "open": 25578.95,
+            "high": 25676.52,
+            "low": 25548.13,
+            "chg": 0.69
+          }
+        ]
+      },
+      {
+        "instrumen": "ASX 200",
+        "lpt": 7120.21,
+        "lt": 148.58,
+        "chg": 2.13,
+        "history": []
+      },
+      {
+        "instrumen": "All Ordinaries",
+        "lpt": 7418.9,
+        "lt": 150.61,
+        "chg": 2.07,
+        "history": []
+      },
+      {
+        "instrumen": "Nikkei 225",
+        "lpt": 27439.99,
+        "lt": 438.01,
+        "chg": 1.62,
+        "history": []
+      },
+      {
+        "instrumen": "KOSPI",
+        "lpt": 2750.26,
+        "lt": 42.44,
+        "chg": 1.57,
+        "history": []
+      },
+      {
+        "instrumen": "SET",
+        "lpt": 1674.22,
+        "lt": 25.41,
+        "chg": 1.54,
+        "history": []
+      },
+      {
+        "instrumen": "Jakarta Composite",
+        "lpt": 6731.39,
+        "lt": 100.24,
+        "chg": 1.51,
+        "history": []
+      },
+      {
+        "instrumen": "ATX",
+        "lpt": 3893.57,
+        "lt": 50.54,
+        "chg": 1.32,
+        "history": []
+      },
+      {
+        "instrumen": "PSE Composite",
+        "lpt": 7456.35,
+        "lt": 94.70,
+        "chg": 1.29,
+        "history": []
+      },
+      {
+        "instrumen": "BSE Sensex",
+        "lpt": 58644.82,
+        "lt": 630.65,
+        "chg": 1.09,
+        "history": []
+      },
+      {
+        "instrumen": "Nifty",
+        "lpt": 17516.3,
+        "lt": 176.45,
+        "chg": 1.02,
+        "history": []
+      },
+      {
+        "instrumen": "FTSE 100",
+        "lpt": 7516.4,
+        "lt": 52.03,
+        "chg": 0.70,
+        "history": []
+      },
+      {
+        "instrumen": "KLSE Composite",
+        "lpt": 1522.76,
+        "lt": 10.49,
+        "chg": 0.69,
+        "history": []
+      },
+      {
+        "instrumen": "Bovespa",
+        "lpt": 112244.9,
+        "lt": 101.40,
+        "chg": 0.09,
+        "history": []
+      },
+      {
+        "instrumen": "Madrid General",
+        "lpt": 856.69,
+        "lt": -0.65,
+        "chg": -0.08,
+        "history": []
+      },
+      {
+        "instrumen": "DJIA",
+        "lpt": 35089.74,
+        "lt": -42.12,
+        "chg": -0.12,
+        "history": []
+      },
+      {
+        "instrumen": "IPC",
+        "lpt": 51255.31,
+        "lt": -75.55,
+        "chg": -0.15,
+        "history": []
+      },
+      {
+        "instrumen": "S&amp;P 500",
+        "lpt": 4500.53,
+        "lt": -15.02,
+        "chg": -0.33,
+        "history": []
+      },
+      {
+        "instrumen": "S&amp;P 100",
+        "lpt": 2081.87,
+        "lt": -10.74,
+        "chg": -0.51,
+        "history": []
+      },
+      {
+        "instrumen": "CAC 40",
+        "lpt": 6951.38,
+        "lt": -47.82,
+        "chg": -0.68,
+        "history": []
+      },
+      {
+        "instrumen": "Swiss Market",
+        "lpt": 12140.25,
+        "lt": -86.45,
+        "chg": -0.71,
+        "history": []
+      },
+      {
+        "instrumen": "FTSE 250 Index",
+        "lpt": 21712.04,
+        "lt": -214.58,
+        "chg": -0.98,
+        "history": []
+      },
+      {
+        "instrumen": "Nasdaq",
+        "lpt": 14098.01,
+        "lt": -141.87,
+        "chg": -1.00,
+        "history": []
+      },
+      {
+        "instrumen": "AEX General",
+        "lpt": 747.17,
+        "lt": -8.03,
+        "chg": -1.06,
+        "history": []
+      },
+      {
+        "instrumen": "BEL-20",
+        "lpt": 4010.43,
+        "lt": -61.50,
+        "chg": -1.51,
+        "history": []
+      },
+      {
+        "instrumen": "Nasdaq 100",
+        "lpt": 14694.35,
+        "lt": -235.70,
+        "chg": -1.58,
+        "history": []
+      },
+      {
+        "instrumen": "All Share",
+        "lpt": 12762.6,
+        "lt": -246.90,
+        "chg": -1.90,
+        "history": []
+      },
+      {
+        "instrumen": "STOXX 50",
+        "lpt": 4086.58,
+        "lt": -88.02,
+        "chg": -2.11,
+        "history": []
+      },
+      {
+        "instrumen": "DAX",
+        "lpt": 15099.56,
+        "lt": -371.64,
+        "chg": -2.40,
+        "history": []
+      },
+      {
+        "instrumen": "Santiago Ind IPSA",
+        "lpt": 4425.52,
+        "lt": -122.93,
+        "chg": -2.70,
+        "history": []
+      },
+      {
+        "instrumen": "MerVal",
+        "lpt": 87934,
+        "lt": -2973.52,
+        "chg": -3.27,
+        "history": []
+      }
+    ]
+  },
+  {
+
+    "name": "Scheme 2",
+    "header": "There is no single diagnostic test for systemic lupus. The test you will hear most about is called the antinuclear antibody (ANA) test. ",
+    "result": [
+      {
+        "instrumen": "NZX 50 Index",
+        "lpt": 12279.56,
+        "lt": 390.16,
+        "chg": 3.28,
+        "history": [
+          {
+            "date": "Feb 08, 2022",
+            "price": 24331.85,
+            "open": 24574.90,
+            "high": 24575.43,
+            "low": 24094.95,
+            "chg": -0.45
+          },
+          {
+            "date": "Feb 07, 2022",
+            "price": 24441.84,
+            "open": 24810.15,
+            "high": 24869.87,
+            "low": 24353.44,
+            "chg": -1.25
+          },
+          {
+            "date": "Feb 04, 2022",
+            "price": 24750.61,
+            "open": 24965.44,
+            "high": 24982.62,
+            "low": 24710.34,
+            "chg": -0.68
+          },
+          {
+            "date": "Feb 03, 2022",
+            "price": 24920.43,
+            "open": 25183.17,
+            "high": 25184.29,
+            "low": 24857.49,
+            "chg": -0.90
+          },
+          {
+            "date": "Feb 02, 2022",
+            "price": 25146.13,
+            "open": 25005.04,
+            "high": 25183.71,
+            "low": 24964.45,
+            "chg": 1.08
+          },
+          {
+            "date": "Feb 01, 2022",
+            "price": 24877.93,
+            "open": 24874.79,
+            "high": 24914.04,
+            "low": 24487.83,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 31, 2022",
+            "price": 24613.01,
+            "open": 24473.90,
+            "high": 24646.87,
+            "low": 24418.52,
+            "chg": 1.76
+          },
+          {
+            "date": "Jan 28, 2022",
+            "price": 24186.73,
+            "open": 24152.20,
+            "high": 24606.35,
+            "low": 24138.71,
+            "chg": 1.02
+          },
+          {
+            "date": "Jan 27, 2022",
+            "price": 23942.10,
+            "open": 24089.97,
+            "high": 24092.18,
+            "low": 23606.16,
+            "chg": -1.25
+          },
+          {
+            "date": "Jan 25, 2022",
+            "price": 24245.46,
+            "open": 23825.69,
+            "high": 24265.87,
+            "low": 23490.48,
+            "chg": 1.03
+          },
+          {
+            "date": "Jan 24, 2022",
+            "price": 23998.73,
+            "open": 24932.56,
+            "high": 24943.05,
+            "low": 23770.52,
+            "chg": -3.82
+          },
+          {
+            "date": "Jan 21, 2022",
+            "price": 24951.67,
+            "open": 25356.89,
+            "high": 25356.89,
+            "low": 24806.38,
+            "chg": -2.01
+          },
+          {
+            "date": "Jan 20, 2022",
+            "price": 25464.31,
+            "open": 25514.06,
+            "high": 25600.65,
+            "low": 25365.71,
+            "chg": -0.07
+          },
+          {
+            "date": "Jan 19, 2022",
+            "price": 25482.18,
+            "open": 25556.34,
+            "high": 25559.28,
+            "low": 25247.87,
+            "chg": -0.34
+          },
+          {
+            "date": "Jan 18, 2022",
+            "price": 25569.85,
+            "open": 26229.68,
+            "high": 26281.49,
+            "low": 25495.05,
+            "chg": -2.20
+          },
+          {
+            "date": "Jan 17, 2022",
+            "price": 26144.07,
+            "open": 26149.43,
+            "high": 26197.09,
+            "low": 26090.44,
+            "chg": 0.23
+          },
+          {
+            "date": "Jan 14, 2022",
+            "price": 26085.24,
+            "open": 26004.57,
+            "high": 26120.52,
+            "low": 25891.70,
+            "chg": 0.22
+          },
+          {
+            "date": "Jan 13, 2022",
+            "price": 26027.21,
+            "open": 26015.77,
+            "high": 26057.03,
+            "low": 25822.06,
+            "chg": 0.38
+          },
+          {
+            "date": "Jan 12, 2022",
+            "price": 25929.36,
+            "open": 25807.06,
+            "high": 25954.66,
+            "low": 25742.91,
+            "chg": 1.08
+          },
+          {
+            "date": "Jan 11, 2022",
+            "price": 25651.53,
+            "open": 25649.07,
+            "high": 25748.15,
+            "low": 25587.72,
+            "chg": 0.01
+          },
+          {
+            "date": "Jan 10, 2022",
+            "price": 25649.52,
+            "open": 25578.95,
+            "high": 25676.52,
+            "low": 25548.13,
+            "chg": 0.69
+          }
+        ]
+      },
+      {
+        "instrumen": "Hang Seng",
+        "lpt": 24573.29,
+        "lt": 771.03,
+        "chg": 3.24,
+        "history": []
+      },
+      {
+        "instrumen": "Straits Times",
+        "lpt": 3331.41,
+        "lt": 81.82,
+        "chg": 2.52,
+        "history": []
+      },
+      {
+        "instrumen": "ASX 200",
+        "lpt": 7120.21,
+        "lt": 148.58,
+        "chg": 2.13,
+        "history": []
+      },
+      {
+        "instrumen": "All Ordinaries",
+        "lpt": 7418.9,
+        "lt": 150.61,
+        "chg": 2.07,
+        "history": []
+      },
+      {
+        "instrumen": "Nikkei 225",
+        "lpt": 27439.99,
+        "lt": 438.01,
+        "chg": 1.62,
+        "history": []
+      },
+      {
+        "instrumen": "KOSPI",
+        "lpt": 2750.26,
+        "lt": 42.44,
+        "chg": 1.57,
+        "history": []
+      },
+      {
+        "instrumen": "SET",
+        "lpt": 1674.22,
+        "lt": 25.41,
+        "chg": 1.54,
+        "history": []
+      },
+      {
+        "instrumen": "Jakarta Composite",
+        "lpt": 6731.39,
+        "lt": 100.24,
+        "chg": 1.51,
+        "history": []
+      },
+      {
+        "instrumen": "ATX",
+        "lpt": 3893.57,
+        "lt": 50.54,
+        "chg": 1.32,
+        "history": []
+      },
+      {
+        "instrumen": "PSE Composite",
+        "lpt": 7456.35,
+        "lt": 94.70,
+        "chg": 1.29,
+        "history": []
+      },
+      {
+        "instrumen": "BSE Sensex",
+        "lpt": 58644.82,
+        "lt": 630.65,
+        "chg": 1.09,
+        "history": []
+      },
+      {
+        "instrumen": "Nifty",
+        "lpt": 17516.3,
+        "lt": 176.45,
+        "chg": 1.02,
+        "history": []
+      },
+      {
+        "instrumen": "FTSE 100",
+        "lpt": 7516.4,
+        "lt": 52.03,
+        "chg": 0.70,
+        "history": []
+      },
+      {
+        "instrumen": "KLSE Composite",
+        "lpt": 1522.76,
+        "lt": 10.49,
+        "chg": 0.69,
+        "history": []
+      },
+      {
+        "instrumen": "Bovespa",
+        "lpt": 112244.9,
+        "lt": 101.40,
+        "chg": 0.09,
+        "history": []
+      },
+      {
+        "instrumen": "Madrid General",
+        "lpt": 856.69,
+        "lt": -0.65,
+        "chg": -0.08,
+        "history": []
+      },
+      {
+        "instrumen": "DJIA",
+        "lpt": 35089.74,
+        "lt": -42.12,
+        "chg": -0.12,
+        "history": []
+      },
+      {
+        "instrumen": "IPC",
+        "lpt": 51255.31,
+        "lt": -75.55,
+        "chg": -0.15,
+        "history": []
+      },
+      {
+        "instrumen": "S&amp;P 500",
+        "lpt": 4500.53,
+        "lt": -15.02,
+        "chg": -0.33,
+        "history": []
+      },
+      {
+        "instrumen": "S&amp;P 100",
+        "lpt": 2081.87,
+        "lt": -10.74,
+        "chg": -0.51,
+        "history": []
+      },
+      {
+        "instrumen": "CAC 40",
+        "lpt": 6951.38,
+        "lt": -47.82,
+        "chg": -0.68,
+        "history": []
+      },
+      {
+        "instrumen": "Swiss Market",
+        "lpt": 12140.25,
+        "lt": -86.45,
+        "chg": -0.71,
+        "history": []
+      },
+      {
+        "instrumen": "FTSE 250 Index",
+        "lpt": 21712.04,
+        "lt": -214.58,
+        "chg": -0.98,
+        "history": []
+      },
+      {
+        "instrumen": "Nasdaq",
+        "lpt": 14098.01,
+        "lt": -141.87,
+        "chg": -1.00,
+        "history": []
+      },
+      {
+        "instrumen": "AEX General",
+        "lpt": 747.17,
+        "lt": -8.03,
+        "chg": -1.06,
+        "history": []
+      },
+      {
+        "instrumen": "BEL-20",
+        "lpt": 4010.43,
+        "lt": -61.50,
+        "chg": -1.51,
+        "history": []
+      },
+      {
+        "instrumen": "Nasdaq 100",
+        "lpt": 14694.35,
+        "lt": -235.70,
+        "chg": -1.58,
+        "history": []
+      },
+      {
+        "instrumen": "All Share",
+        "lpt": 12762.6,
+        "lt": -246.90,
+        "chg": -1.90,
+        "history": []
+      },
+      {
+        "instrumen": "STOXX 50",
+        "lpt": 4086.58,
+        "lt": -88.02,
+        "chg": -2.11,
+        "history": []
+      },
+      {
+        "instrumen": "DAX",
+        "lpt": 15099.56,
+        "lt": -371.64,
+        "chg": -2.40,
+        "history": []
+      },
+      {
+        "instrumen": "Santiago Ind IPSA",
+        "lpt": 4425.52,
+        "lt": -122.93,
+        "chg": -2.70,
+        "history": []
+      },
+      {
+        "instrumen": "MerVal",
+        "lpt": 87934,
+        "lt": -2973.52,
+        "chg": -3.27,
+        "history": []
+      }
+    ]
+  }
+]

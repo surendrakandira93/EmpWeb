@@ -1,0 +1,75 @@
+[
+  {
+
+    "name": "Scheme 1",
+    "header": "Normally, our immune system produces proteins called antibodies that protect the body from these foreign invaders. ",
+    "result": [
+      {
+        "entryTime": "2022-02-09T09:25:16",
+        "exitTime": "2022-02-09T10:41:16",
+        "instrument": "Dell Inspiron 15 3511",
+        "qty": "50",
+        "entryPrice": 46033,
+        "exitPrice": 55970,
+        "ltp": 50,
+        "pl": 55,
+        "chg": 21.60,
+        "SL": 10.85,
+        "trgt": 15.86
+      },
+      {
+        "entryTime": "2022-02-09T09:25:16",
+        "exitTime": "2022-02-09T10:41:16",
+        "instrument": "Dell Vostro 3500",
+        "qty": 30,
+        "entryPrice": 55000,
+        "exitPrice": 65890,
+        "ltp": 50,
+        "pl": 55,
+        "chg": 21.60,
+        "SL": 10.85,
+        "trgt": 15.86
+      },
+      {
+        "entryTime": "2022-02-09T09:25:16",
+        "exitTime": "2022-02-09T10:41:16",
+        "instrument": "Dell Inspiron 14 (5410) 2-in-1",
+        "qty": 25,
+        "entryPrice": 53999,
+        "exitPrice": 5975,
+        "ltp": 37,
+        "pl": 75,
+        "chg": 22.79,
+        "SL": 15.55,
+        "trgt": 12.95
+      },
+      {
+        "entryTime": "2022-02-09T09:25:16",
+        "exitTime": "2022-02-09T10:41:16",
+        "instrument": "Dell Alienware x17 R1",
+        "qty": -25,
+        "entryPrice": 290990,
+        "exitPrice": 25950,
+        "ltp": 25,
+        "pl": -25,
+        "chg": -8.59,
+        "SL": 10.85,
+        "trgt": 15.86
+      },
+      {
+        "entryTime": "2022-02-09T09:25:16",
+        "exitTime": "2022-02-09T10:41:16",
+        "instrument": "Dell XPS 17 (9710)",
+        "qty": 0,
+        "entryPrice": 35033,
+        "exitPrice": 35033,
+        "ltp": 26,
+        "pl": -0.35,
+        "chg": 21.60,
+        "SL": 10.85,
+        "trgt": 15.86
+      }
+    ]
+  }
+  
+]
