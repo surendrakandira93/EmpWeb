@@ -12,6 +12,9 @@
             float: none;
             left: 0px;
         }
+    .table-responsive {        
+        overflow-x: initial;
+    }
 </style>
 
 
@@ -29,7 +32,7 @@
                             <div class="card">
                                 <div class="card-header" id="heading_@i">
                                     <div class="row">
-                                        <div class="col-12 col-6-12 col-md-7">
+                                        <div class="col-12 col-lg-6 col-md-7">
                                             <h5 class="mb-0">
                                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_@i" aria-expanded="true" aria-controls="collapseOne">
                                                     @item.Name
@@ -42,7 +45,7 @@
                                             <div class="row">
                                                 <div class="col-sm-6 col-md-4">
                                                     <span>
-                                                        L&P:
+                                                        Max Profit:
                                                     </span>
                                                     <br />
                                                     <span style="color:@(item.Result.Sum(s=>s.LTP)<=0?"red":"gree")">@item.Result.Sum(s => s.LTP).ToString("##.##") </span>
@@ -50,7 +53,7 @@
 
                                                 <div class="col-sm-6 col-md-4">
                                                     <span>
-                                                        Capital:
+                                                        Max Loss:
                                                         <br />
                                                         <span>15.10 L </span>
                                                     </span>
@@ -58,9 +61,9 @@
 
                                                 <div class="col-sm-6 col-md-4">
                                                     <span>
-                                                        Values (Pos):
+                                                        Number Of Trades:
                                                         <br />
-                                                        <span>-17.2 K (2) </span>
+                                                        <span>17.2 K </span>
                                                     </span>
                                                 </div>
                                             </div>
@@ -72,71 +75,174 @@
 
                                 <div id="collapse_@i" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
 
-                                                        <th>Entry Time</th>
-                                                        <th>Exit Time</th>
-                                                        <th>Instrument</th>
-                                                        <th>Qty</th>
-                                                        <th>Entry Price</th>
-                                                        <th>Exit Price</th>
-                                                        <th>LTP</th>
-                                                        <th>P&L</th>
-                                                        <th>Chg</th>
-                                                        <th>SL</th>
-                                                        <th>Trgt</th>
-                                                        <th>...</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var res in item.Result)
-                                                    {
-                                                        j++;
+                                        <div class="tab-feed st2 settingjb">
+                                            <ul>
 
-                                                    <tr>
-                                                        <td>@res.EntryTime</td>
-                                                        <td>@res.ExitTime</td>
-                                                        <td>@res.Instrument</td>
-                                                        <td>@res.Qty</td>
-                                                        <td>@res.EntryPrice</td>
-                                                        <td>@res.ExitPrice</td>
-                                                        <td>@res.LTP</td>
-                                                        <td>@res.PL</td>
-                                                        <td style="color:@(res.Chg<=0?"red":"green");">@res.Chg %</td>
-                                                        <td>@res.SL %</td>
-                                                        <td>@res.Trgt %</td>
-                                                        <td>
-                                                            <div class="ed-opts">
-                                                                <a href="javascript:void(0);" title="" class="ed-opts-open" style="background-color: #008CBA; color: white;"><i class="la la-ellipsis-h"></i></a>
-                                                                <ul class="ed-options">
-                                                                    <li><a href="javascript:void(0);" title="">Action 1</a></li>
-                                                                    <li><a href="javascript:void(0);" title="">Action 2</a></li>
-                                                                    <li><a href="javascript:void(0);" title="">Action 3</a></li>
-                                                                    <li><a href="javascript:void(0);" title="">Action 4</a></li>
-                                                                    <li><a href="javascript:void(0);" title="">Action 5</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                <li data-tab="activetab@(i)" class="active">
+                                                    <a href="#" title="">
+                                                        <span>Active</span>
+                                                    </a>
+                                                </li>
 
-                                                    }
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td> </td>
-                                                        <td>Total </td>
-                                                        <td style="color:@(item.Result.Sum(s=>s.PL)<=0?"red":"gree")">@item.Result.Sum(s => s.PL).ToString("##.##") </td>
-                                                        <td> </td>
-                                                        <td> </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
+                                                <li data-tab="nonactivetab@(i)">
+                                                    <a href="#" title="">
+
+                                                        <span>Non-active</span>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
                                         </div>
+
+                                        <div class="product-feed-tab active current animated fadeIn" id="activetab@(i)">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th>Entry Time</th>
+                                                            <th>Exit Time</th>
+                                                            <th>Instrument</th>
+                                                            <th>Qty</th>
+                                                            <th>Entry Price</th>
+                                                            <th>Exit Price</th>
+                                                            <th>LTP</th>
+                                                            <th>P&L</th>
+                                                            <th>Chg</th>
+                                                            <th>SL</th>
+                                                            <th>Trgt</th>
+                                                            <th>...</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var res in item.Result.Where(x=>x.Qty>0).ToList())
+                                                        {
+                                                            j++;
+
+                                                            <tr>
+                                                                <td>@res.EntryTime</td>
+                                                                <td>@res.ExitTime</td>
+                                                                <td>@res.Instrument</td>
+                                                                <td>@res.Qty</td>
+                                                                <td>@res.EntryPrice</td>
+                                                                <td>@res.ExitPrice</td>
+                                                                <td>@res.LTP</td>
+                                                                <td>@res.PL</td>
+                                                                <td style="color:@(res.Chg<=0?"red":"green");">@res.Chg%</td>
+                                                                <td>@res.SL%</td>
+                                                                <td>@res.Trgt%</td>
+                                                                <td>
+                                                                    <div class="ed-opts">
+                                                                        <a href="javascript:void(0);" title="" class="ed-opts-open" style="background-color: #008CBA; color: white;"><i class="la la-ellipsis-h"></i></a>
+                                                                        <ul class="ed-options">
+                                                                            <li><a href="javascript:void(0);" title="">Action 1</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 2</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 3</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 4</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 5</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                        }
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td>Total </td>
+                                                            <td style="color:@(item.Result.Sum(s=>s.PL)<=0?"red":"gree")">@item.Result.Sum(s => s.PL).ToString("##.##") </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-feed-tab" id="nonactivetab@(i)">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th>Entry Time</th>
+                                                            <th>Exit Time</th>
+                                                            <th>Instrument</th>
+                                                            <th>Qty</th>
+                                                            <th>Entry Price</th>
+                                                            <th>Exit Price</th>
+                                                            <th>LTP</th>
+                                                            <th>P&L</th>
+                                                            <th>Chg</th>
+                                                            <th>SL</th>
+                                                            <th>Trgt</th>
+                                                            <th>...</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var res in item.Result.Where(x => x.Qty <= 0).ToList())
+                                                        {
+                                                            j++;
+
+                                                            <tr>
+                                                                <td>@res.EntryTime</td>
+                                                                <td>@res.ExitTime</td>
+                                                                <td>@res.Instrument</td>
+                                                                <td>@res.Qty</td>
+                                                                <td>@res.EntryPrice</td>
+                                                                <td>@res.ExitPrice</td>
+                                                                <td>@res.LTP</td>
+                                                                <td>@res.PL</td>
+                                                                <td style="color:@(res.Chg<=0?"red":"green");">@res.Chg%</td>
+                                                                <td>@res.SL%</td>
+                                                                <td>@res.Trgt%</td>
+                                                                <td>
+                                                                    <div class="ed-opts">
+                                                                        <a href="javascript:void(0);" title="" class="ed-opts-open" style="background-color: #008CBA; color: white;"><i class="la la-ellipsis-h"></i></a>
+                                                                        <ul class="ed-options">
+                                                                            <li><a href="javascript:void(0);" title="">Action 1</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 2</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 3</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 4</a></li>
+                                                                            <li><a href="javascript:void(0);" title="">Action 5</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                        }
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td>Total </td>
+                                                            <td style="color:@(item.Result.Sum(s=>s.PL)<=0?"red":"gree")">@item.Result.Sum(s => s.PL).ToString("##.##") </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
+                                    </div>
                             </div>
                         }
 
