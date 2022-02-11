@@ -194,6 +194,7 @@ namespace EMP.Web.Controllers
                 }
 
                 var response1 = await service.ChangePasswordAsync<ResponseDto<EmployeeDto>>(CurrentUser.UserId,model.Password);
+                ShowSuccessMessage("Success","Password Change successfully",false);
             }
             else
             {

@@ -1,3 +1,33 @@
 ﻿.user-pro-img {
     margin-top: 0px;
 }
+
+
+
+@media (max-width: 408px) {
+    .breadcrumb li {
+        display: inline-block;
+        background: white;
+        padding: 5px 30px 5px 30px;
+        position: relative;
+        min-width: 40%;
+        border: 1px solid black;
+        text-decoration: none;
+        -webkit-clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+        clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+        padding-left: 20px;
+        margin-right: -13px;
+    }
+
+        .breadcrumb li#last {
+            -webkit-clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+            padding-left: 20px;
+        }
+
+    .breadcrumb {
+        background: none;
+        -webkit-filter: drop-shadow(1px 1px 0px black) drop-shadow(1px -1px 0px black) drop-shadow(-1px 1px 0px black) drop-shadow(-1px -1px 0px black);
+        filter: drop-shadow(1px 1px 0px black) drop-shadow(1px -1px 0px black) drop-shadow(-1px 1px 0px black) drop-shadow(-1px -1px 0px black);
+    }
+}

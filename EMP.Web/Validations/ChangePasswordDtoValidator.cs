@@ -12,7 +12,7 @@ namespace EMP.Web.Validations
         public ChangePasswordDtoValidator()
         {
             RuleFor(l => l.CurrentPassword).NotNull().WithMessage("*required");
-            RuleFor(l => l.Password).NotNull().WithMessage("*required").Length(5, 15);
+            RuleFor(l => l.Password).NotNull().WithMessage("*required").NotEqual(x => x.CurrentPassword).WithMessage("Current Password and new Password should be different"); ;
             RuleFor(l => l.ConfirmPassword).NotNull().WithMessage("*required").Equal(x => x.Password).WithMessage("Confirm Password not matched with Password");
         }
     }

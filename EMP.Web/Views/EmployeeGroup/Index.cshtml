@@ -34,9 +34,6 @@
             <div class="row">
                 <div class="col-lg-7">
                     <div class="forum-questions">
-
-                       
-
                     </div>
 
                     <nav aria-label="Page navigation example" class="full-pagi">
@@ -49,21 +46,21 @@
 
                 <div class="col-lg-5">
                     <div class="widget widget-user">
-                        <h3 class="title-wd">Add/Edit Employee Group</h3>
+                        <h3 class="title-wd">Add/Edit Scheme</h3>
                         <form asp-action="Create" asp-controller="EmployeeGroup" method="post" id="frm-add-group">
                             <div id="validation-summary"></div>
                             <div class="cp-field">
-                                <h5>Group Name</h5>
+                                <h5>Scheme Name</h5>
                                 <div class="cpp-fiel">
                                     <input type="hidden" name="Id" id="group_id" />
-                                    <input type="text" name="Name" id="group_name" placeholder="Group Name" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                    <input type="text" name="Name" id="group_name" placeholder="Scheme Name" class="form-control" data-msg-required="*required" data-rule-required="true">
                                 </div>
                             </div>
                             <div class="cp-field">
-                                <h5>Group Description</h5>
+                                <h5>Scheme Description</h5>
                                 <div class="cpp-fiel">
                                     <input type="hidden" name="Id" id="group_id" />
-                                    <textarea name="Description" id="group_description" placeholder="Group Description" class="form-control" data-msg-required="*required" data-rule-required="true"></textarea>
+                                    <textarea name="Description" id="group_description" placeholder="Scheme Description" class="form-control" data-msg-required="*required" data-rule-required="true"></textarea>
                                     
                                 </div>
                             </div>
@@ -82,7 +79,7 @@
                             </div>
 
                              <div class="cp-field">
-                                <h5>Group Image</h5>
+                                 <h5>Scheme Image</h5>
                                 <div class="cpp-fiel">
                                     <input type="hidden" name="imageURL" id="employee_imageURL" />
                                     <input type="file" name="ImageURLFile" id="ImageURLFile" data-msg-required="*required" data-rule-required="true">
@@ -92,7 +89,7 @@
 
                             <div class="save-stngs pd2">
                                 <ul>
-                                    <li><button type="submit">Create Group</button></li>
+                                    <li><button type="submit">Create Scheme</button></li>
 
                                 </ul>
                             </div><!--save-stngs end-->
