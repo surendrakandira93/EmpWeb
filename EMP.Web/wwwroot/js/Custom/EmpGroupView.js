@@ -28,7 +28,7 @@
             data.addColumn('date', 'X');
             data.addColumn('number', 'Equity');
             data.addRows(arr);
-
+            
             var options = {
                 hAxis: {
                     title: 'Date'

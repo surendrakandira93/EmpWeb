@@ -25,7 +25,7 @@ namespace EMP.Web.Controllers
             this.env = _env;
         }
 
-        [AllowAnonymous]
+        
         public IActionResult Index()
         {
             var response = GetData();
