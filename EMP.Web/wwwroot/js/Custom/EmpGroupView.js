@@ -4,43 +4,77 @@
 
         function initilizeForm() {
             BindGrid();
-            google.charts.load('current', { packages: ['corechart', 'line'] });
-            google.charts.setOnLoadCallback(drawBasic);
+            google.charts.load('current', { packages: ['corechart', 'line'] });            
+
+            google.load('visualization', '1.0', { 'packages': ['corechart'] });
+            google.setOnLoadCallback(drawChart);
+
 
             $("#btn_filter").on('click', function () {
-                
-                    BindGrid();
-                
+
+                BindGrid();
+
             });
 
         }
 
-        function drawBasic() {
-            var now = new Date();
-            for (var d = new Date('2021-08-01'); d <= now; d.setDate(d.getDate() + 1)) {
-                var subArr = new Array();
-                subArr.push(new Date(d));
-                subArr.push(getRandomNumberBetween());
-                arr.push(subArr);
-            }
+        function drawChart() {
 
-            var data = new google.visualization.DataTable();
-            data.addColumn('date', 'X');
-            data.addColumn('number', 'Equity');
-            data.addRows(arr);
-            
-            var options = {
-                hAxis: {
-                    title: 'Date'
-                },
-                vAxis: {
-                    title: 'Popularity'
+
+            var arrData2 = new Array();
+            arrData2.push(["Date","Profit"]);
+            $.get('/employeegroup/GetChartData', function (result) {
+                if (result.isSuccess && result.data.length > 0) {
+                    for (var i = 0; i < result.data.length; i++) {
+                        var subArr = new Array();
+                        var subArr2 = new Array();
+                        subArr.push(new Date(result.data[i].date));
+                        subArr.push(result.data[i].profit);
+                        arr.push(subArr);
+
+                        subArr2.push(new Date(result.data[i].date));                        
+                        subArr2.push(result.data[i].profit);
+                        
+                        arrData2.push(subArr2);
+                    }
+
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('date', 'X');
+                    data.addColumn('number', 'Equity');
+                    data.addRows(arr);
+                    
+                    var data2 = new google.visualization.arrayToDataTable(arrData2);
+                    
+                    var options1 = {
+                        hAxis: {
+                            title: 'Date'
+                        },
+                        vAxis: {
+                            title: 'Equity'
+                        }
+                    };
+
+                    var options2 = {
+                        title: 'Loss & Profit Chart',
+                        chartArea: { width: '100%' },
+                        vAxis: {
+                            title: 'Profit'
+                        },
+                        hAxis: {
+                            title: 'Date'
+                        }
+                    };
+
+                    var chart1 = new google.visualization.LineChart(document.getElementById('chart_div'));
+                    chart1.draw(data, options1);
+
+                    var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_bar_div'));
+                    chart2.draw(data2, options2);
+
                 }
-            };
+            })
 
-            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
-            chart.draw(data, options);
         }
 
         function BindGrid() {

@@ -140,6 +140,19 @@ namespace EMP.Web.Controllers
 
         }
 
+        public async Task<IActionResult> GetChartData()
+        {
+            var webRoot = env.WebRootPath;
+            string filePath = $"{webRoot}/js/Group_Chart.json";
+            List<GroupChartDto> dataResponse = new List<GroupChartDto>();
+            using (var sr = new StreamReader(filePath))
+            {
+                dataResponse = JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(o => o.Date).Select(x=> new GroupChartDto() { Date=x.Date,Profit=x.Profit*10}).ToList();
+            }
+            return NewtonSoftJsonResult(new RequestOutcome<List<GroupChartDto>> { Data = dataResponse, IsSuccess = true });
+
+        }
+
 
     }
 }
