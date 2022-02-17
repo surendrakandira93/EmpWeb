@@ -147,7 +147,35 @@ namespace EMP.Web.Controllers
             List<GroupChartDto> dataResponse = new List<GroupChartDto>();
             using (var sr = new StreamReader(filePath))
             {
-                dataResponse = JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(o => o.Date).Select(x=> new GroupChartDto() { Date=x.Date,Profit=x.Profit*10}).ToList();
+                dataResponse = JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(o => o.Date).ToList();
+            }
+
+            var groupByMonth = dataResponse.GroupBy(x => x.Date.ToString("MMM yy")).Select(x => new
+            {
+                Month = x.Key,
+                DailyPnL = x.Sum(s => s.DailyPnL)
+            }).ToList();
+
+            return NewtonSoftJsonResult(new RequestOutcome<dynamic>
+            {
+                Data = new
+                {
+                    Result = dataResponse,
+                    GroupResult = groupByMonth
+                },
+                IsSuccess = true
+            });
+
+        }
+
+        public async Task<IActionResult> GetChartData2()
+        {
+            var webRoot = env.WebRootPath;
+            string filePath = $"{webRoot}/js/Group_Chart2.json";
+            List<GroupChartDto> dataResponse = new List<GroupChartDto>();
+            using (var sr = new StreamReader(filePath))
+            {
+                dataResponse = JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(o => o.Date).Select(x => new GroupChartDto() { Date = x.Date, DailyPnL = x.DailyPnL }).ToList();
             }
             return NewtonSoftJsonResult(new RequestOutcome<List<GroupChartDto>> { Data = dataResponse, IsSuccess = true });
 

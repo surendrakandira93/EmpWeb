@@ -22,28 +22,20 @@
 
 
             var arrData2 = new Array();
-            arrData2.push(["Date","Profit"]);
+            arrData2.push(["Month", "Profit", { role: 'style' }]);
             $.get('/employeegroup/GetChartData', function (result) {
-                if (result.isSuccess && result.data.length > 0) {
-                    for (var i = 0; i < result.data.length; i++) {
-                        var subArr = new Array();
-                        var subArr2 = new Array();
-                        subArr.push(new Date(result.data[i].date));
-                        subArr.push(result.data[i].profit);
+                if (result.isSuccess && result.data.result.length > 0) {
+                    for (var i = 0; i < result.data.result.length; i++) {
+                        var subArr = new Array();                       
+                        subArr.push(new Date(result.data.result[i].date));
+                        subArr.push(result.data.result[i].dailyPnL);
                         arr.push(subArr);
-
-                        subArr2.push(new Date(result.data[i].date));                        
-                        subArr2.push(result.data[i].profit);
-                        
-                        arrData2.push(subArr2);
                     }
 
                     var data = new google.visualization.DataTable();
                     data.addColumn('date', 'X');
                     data.addColumn('number', 'Equity');
                     data.addRows(arr);
-                    
-                    var data2 = new google.visualization.arrayToDataTable(arrData2);
                     
                     var options1 = {
                         hAxis: {
@@ -54,6 +46,27 @@
                         }
                     };
 
+                   
+
+                    var chart1 = new google.visualization.LineChart(document.getElementById('chart_div'));
+                    chart1.draw(data, options1);
+                }
+
+                if (result.isSuccess && result.data.groupResult.length > 0) {
+                    for (var i = 0; i < result.data.groupResult.length; i++) {
+                        var subArr2 = new Array();
+                        subArr2.push(result.data.groupResult[i].month);
+                        subArr2.push(result.data.groupResult[i].dailyPnL);
+                        if (result.data.groupResult[i].dailyPnL < 0) {
+                            subArr2.push('color: #dc3912');
+                        } else {
+                            subArr2.push('color: #109618');
+                        }
+                        arrData2.push(subArr2);
+                    }
+
+                    var data2 = new google.visualization.arrayToDataTable(arrData2);
+
                     var options2 = {
                         title: 'Loss & Profit Chart',
                         chartArea: { width: '100%' },
@@ -61,12 +74,10 @@
                             title: 'Profit'
                         },
                         hAxis: {
-                            title: 'Date'
+                            title: 'Month'
                         }
                     };
 
-                    var chart1 = new google.visualization.LineChart(document.getElementById('chart_div'));
-                    chart1.draw(data, options1);
 
                     var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_bar_div'));
                     chart2.draw(data2, options2);
@@ -74,6 +85,7 @@
                 }
             })
 
+          
 
         }
 

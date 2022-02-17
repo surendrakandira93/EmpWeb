@@ -8,7 +8,9 @@ namespace EMP.Dto
 {
     public class GroupChartDto
     {
-        public double Profit { get; set; }
+        public double DailyPnL { get; set; }
         public DateTime Date { get; set; }
+        public string Day { get; set; }
+        public double AggregateSum { get; set; }
     }
 }
