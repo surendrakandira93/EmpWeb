@@ -50,4 +50,15 @@
     <Folder Include="Resources\Views\Employee\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\SchemeProfitLoss\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\SchemeProfitLoss\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

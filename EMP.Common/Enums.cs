@@ -14,6 +14,14 @@ namespace EMP.Common
         Danger,
         Info
     }
+
+    public enum ModalSize
+    {
+        Small,
+        Large,
+        Medium,
+        XLarge
+    }
     public enum InviteType
     {
         Invite = 1,

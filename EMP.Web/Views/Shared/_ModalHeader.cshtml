@@ -1,0 +1,15 @@
+﻿@model ModalHeader
+
+<style>
+    .modal-header .close {
+        padding: 0px 0px !important;
+        margin: -1rem -1rem -1rem auto !important;
+    }
+    .close {
+        position: inherit !important;
+    }
+</style>
+    <div class="modal-header">
+        <h4 class="modal-title">@Model.Heading</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>

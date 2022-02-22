@@ -1,0 +1,64 @@
+﻿@*<link rel="stylesheet" type="text/css" href="/plugins/heatmap/calendar-heatmap.min.css">*@
+<link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+<style>
+    .q1 {
+        background-color: #f85757;
+        fill: #f85757
+    }
+
+    .q2 {
+        background-color: #f09999;
+        fill: #f09999
+    }
+
+    .q3 {
+        background-color: #5fec5f;
+        fill: #5fec5f
+    }
+
+    .q4 {
+        background-color: #008000;
+        fill: #008000
+    }
+</style>
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-ws-sec">
+                        <div class="posts-section">
+                            <div class="post-bar">
+                                <div class="post-st">
+                                    <ul>
+                                        <li><a href="javascript:void(0);" style="background-color:cadetblue;" class="btn btn btn-primary year-calendar" data-year="2019"><i class="fa fa-calendar"></i> 2019</a></li>
+                                        <li><a href="javascript:void(0);" style="background-color:cadetblue;" class="btn btn btn-primary year-calendar" data-year="2020"><i class="fa fa-calendar"></i> 2020</a></li>
+                                        <li><a href="javascript:void(0);" style="background-color:cadetblue;" class="btn btn btn-primary year-calendar" data-year="2021"><i class="fa fa-calendar"></i> 2021</a></li>
+                                        <li><a href="javascript:void(0);" style="background-color:cadetblue;" class="btn btn btn-primary year-calendar" data-year="2022"><i class="fa fa-calendar"></i> 2022</a></li>
+                                        <li><a href="javascript:void(0);" style="background-color:cadetblue;" class="btn btn btn-primary year-calendar" data-year="2023"><i class="fa fa-calendar"></i> 2023</a></li>
+                                    </ul>
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="col-md-12" style="overflow: auto; overflow: auto; background-color: white;">
+                                <div id="calendar" style="position:relative;margin-top: 55px;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{   
+    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+    <script type="text/javascript" src="~/js/Custom/Heatmap_index.js"> </script>
+}

@@ -34,7 +34,7 @@
 var Global = {};
 
 Global.FormHelper = function (formElement, options, onSucccess, onError) {
-    
+
     //"use strict";
     var settings = {};
     settings = $.extend({}, settings, options);
@@ -65,7 +65,7 @@ Global.FormHelper = function (formElement, options, onSucccess, onError) {
                                     $('[data-table="grid"]').DataTable().ajax.reload();
                                 }
                             } else {
-                                                              
+
                                 window.location.href = result.redirectUrl;
                             }
                         } else {
@@ -89,7 +89,7 @@ Global.FormHelper = function (formElement, options, onSucccess, onError) {
                     if (onError !== null && onError !== undefined) {
                         onError(jqXHR, status, error);
                     } else {
-                        
+
                         var $div = $("#validation-summary");
                         $('<div/>', {
                             'class': 'validation-summary-errors',
@@ -108,7 +108,7 @@ Global.FormHelper = function (formElement, options, onSucccess, onError) {
                                 }).appendTo(this);
                             }
                         }).appendTo($div);
-                        
+
                     }
                     Global.HideLoading();
                     $(':input[type="submit"]').prop('disabled', false);
@@ -137,7 +137,7 @@ Global.UpdateFormdata = function (action, formdata, options, onSucccess, onError
         beforeSend: function () {
             if (settings.loadingElementId != null || settings.loadingElementId != undefined) {
                 $("#" + settings.loadingElementId).show();
-                
+
             }
         },
         success: function (result) {
@@ -150,7 +150,7 @@ Global.UpdateFormdata = function (action, formdata, options, onSucccess, onError
                         }
                         if (result.message)
                             Global.ToastrSuccess(result.message);
-                        
+
                     } else {
 
                         window.location.href = result.redirectUrl;
@@ -176,7 +176,7 @@ Global.UpdateFormdata = function (action, formdata, options, onSucccess, onError
                 if (settings.loadingElementId != null || settings.loadingElementId != undefined) {
                     $("#" + settings.loadingElementId).hide();
                 }
-            
+
             } else {
                 onComplete(result);
             }
@@ -244,7 +244,7 @@ Global.FormHelperWithFiles = function (formElement, options, onSucccess, onError
                                     $('[data-table="grid"]').DataTable().ajax.reload();
                                 }
                             } else {
-                                
+
                                 window.location.href = result.redirectUrl;
                             }
                         } else {
@@ -390,13 +390,13 @@ Global.FormValidationReset = function (formElement, validateOption) {
 };
 
 Global.DataTable = function (formElement) {
-   var table= $(formElement).dataTable({
+    var table = $(formElement).dataTable({
         "searching": true,
         "paging": true,
-       "ordering": true,
-       
-       "dom": 'Bfrtip',
-       "buttons": ['csv', 'excel', 'pdf', 'print'],
+        "ordering": true,
+
+        "dom": 'Bfrtip',
+        "buttons": ['csv', 'excel', 'pdf', 'print'],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
     });
     return table;
@@ -410,7 +410,7 @@ Global.DataTableWithOutPage = function (formElement) {
         "fixedHeader": true,
         "dom": 'Bfrtip',
         "buttons": ['csv', 'excel', 'pdf', 'print']
-        
+
     });
     return table;
 };
@@ -439,6 +439,23 @@ Global.DataTableWithSearchOnly = function (formElement) {
     return table;
 };
 
+Global.kFormatter = function (num) {
+    var result = num;
+    if (Math.abs(num) > 999 && Math.abs(num) < 99999) {
+        result = Math.sign(num) * ((Math.abs(num) / 1000).toFixed(2)) + 'K';
+
+    }
+    else
+        if (Math.abs(num) > 99999 && Math.abs(num) < 9999999) {
+            result = Math.sign(num) * ((Math.abs(num) / 100000).toFixed(2)) + 'L';
+        }
+        else
+            if (Math.abs(num) > 9999999) {
+                result = Math.sign(num) * ((Math.abs(num) / 10000000).toFixed(2)) + 'Cr';
+            }
+
+    return result;
+}
 
 Global.DataTable = function (formElement) {
     var table = $(formElement).dataTable({
@@ -456,7 +473,7 @@ Global.DataTableWithSearch = function (formElement) {
     var table = $(formElement).dataTable({
         "searching": true,
         "paging": false,
-        "ordering": true            
+        "ordering": true
     });
     return table;
 };
@@ -475,7 +492,7 @@ Date.prototype.isSameDateAs = function (pDate) {
 }
 
 Global.ShowLoading = function (setting) {
-   // debugger
+    // debugger
     $('.loading-common').show();
     $('.loading-overlay').show();
 
@@ -540,9 +557,9 @@ Global.ShowErrorMessage = function (message) {
     $("#notificationMessage").html($html);
 }
 
-Global.GetEmojiName =function (rating) {
+Global.GetEmojiName = function (rating) {
     if (rating) {
-        var result = $.grep(emojiArrList, function (e) { return e.Rating == rating});
+        var result = $.grep(emojiArrList, function (e) { return e.Rating == rating });
         if (result != null && result.length > 0)
             return `/DYF/${companyId}/EmojiImages/${result[0].Emoji}`;
         else
@@ -711,7 +728,7 @@ Global.IsNullOrEmptyString = function (str) {
 Global.IsNotNullOrEmptyString = function (str) { return !Global.IsNullOrEmptyString(str); };
 Global.ModelHelper = function (modelElement, onSucess, OnError) {
     $(modelElement).on('show.bs.modal', function (event) {
-        
+
         var button = $(event.relatedTarget); // Button that triggered the modal
         var url = button.attr("href");
         var modal = $(this);
@@ -725,7 +742,7 @@ Global.ModelHelper = function (modelElement, onSucess, OnError) {
                     OnError(response);
                     if (onError !== null && onError !== undefined) {
                         onError(response);
-                    } else {                        
+                    } else {
                         var $div = $("#validation-summary");
                         $('<div/>', {
                             'class': 'validation-summary-errors',
@@ -762,7 +779,7 @@ $(document).on('keypress', '.pincode', function (event) {
         event.preventDefault();
 
     }
-    
+
 });
 
 $(document).on('keypress', '.number', function (event) {
@@ -828,7 +845,7 @@ Global.StateCode = function (zipString) {
 
     let st;
     let state;
-   // debugger;
+    // debugger;
     /* Code cases alphabetized by state */
     if (zipcode >= 35000 && zipcode <= 36999) {
         st = 'AL';
@@ -994,16 +1011,16 @@ Global.StateCode = function (zipString) {
     }
 
     return st;
-   
-   
+
+
 };
 
-Global.GoogleEquityChart = function (data,divId, dataArr) {
+Global.GoogleEquityChart = function (data, divId, dataArr) {
     google.charts.load('current', { packages: ['corechart', 'line'] });
-    google.charts.setOnLoadCallback(GoogleEquityChartDrawBasic(data,divId, dataArr));
+    google.charts.setOnLoadCallback(GoogleEquityChartDrawBasic(data, divId, dataArr));
 }
 
-function GoogleEquityChartDrawBasic(data,divId, dataArr) {
+function GoogleEquityChartDrawBasic(data, divId, dataArr) {
     //var data = new google.visualization.DataTable();
     data.addColumn('date', 'X');
     data.addColumn('number', 'Equity');

@@ -1,0 +1,162 @@
+﻿@model SchemeProfitLossDto
+@using Newtonsoft.Json
+
+<script>
+    function set(value) {
+        return value;
+    }
+    var jsKeywordList = '@Model.KeywordList' == null ? "" : set(@Html.Raw(JsonConvert.SerializeObject(Model.KeywordList)));
+
+</script>
+
+<style>
+    .error {
+        color: red;
+    }
+
+    .save-stngs ul li {
+        width: auto;
+    }
+
+    .validation-summary-errors {
+        color: red;
+    }
+
+    .save-stngs ul li a {
+        display: inline-block;
+        color: #000000;
+        font-size: 16px;
+        border: 1px solid #e5e5e5;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 22px;
+        font-weight: 600;
+        background: none;
+        cursor: pointer;
+    }
+
+    .toggle-btn {
+        position: absolute;
+        top: -35px;
+        right: 21px;
+    }
+
+    .selectize-input {
+        border: 1px solid #d0d0d0;
+        padding: 8px 8px;
+        display: inline-block;
+        width: 106% !important;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        box-sizing: border-box;
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 10%);
+        border-radius: 3px;
+        top: -7px;
+        left: -13px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.css" integrity="sha512-85w5tjZHguXpvARsBrIg9NWdNy5UBK16rAL8VWgnWXK2vMtcRKCBsHWSUbmMu0qHfXW2FVUDiWr6crA+IFdd1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+                <div class="col-lg-3">
+
+                </div>
+                <div class="col-lg-6">
+
+                    <div class="widget widget-user">
+                        <h3 class="title-wd">Add/Edit Scheme Profit & Loss</h3>
+                        <form asp-action="Create" asp-controller="SchemeProfitLoss" method="post" id="frm-add-SchemeProfitLoss">
+                            <div id="validation-summary"></div>
+                            
+                            <div class="cp-field">
+                                <h5>Broker</h5>
+                                <div class="cpp-fiel">
+                                    <input type="hidden" asp-for="Id" />
+                                    <input type="hidden" asp-for="GroupId" />
+                                    <input type="date" asp-for="Date" placeholder="Date" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5>KeyWord</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" asp-for="KeyWord" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5> Profit & Loss</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" asp-for="ProfitLoss" placeholder="Profit & Loss" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5> Expense</h5>
+                                <div class="cpp-fiel">
+                                    <input type="text" asp-for="Expense" placeholder="Expense" class="form-control" data-msg-required="*required" data-rule-required="true">
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5>Comments</h5>
+                                <div class="cpp-fiel">
+                                    <textarea asp-for="Comments" placeholder="Comments" class="form-control" cols="5" rows="5"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5>No TradeDay</h5>
+                                <div class="cpp-fiel">
+                                    <div class="toggle-btn">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" asp-for="IsNoTradeDay">
+                                            <label class="custom-control-label" for="IsNoTradeDay"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cp-field">
+                                <h5>Holiday</h5>
+                                <div class="cpp-fiel">
+                                    <div class="toggle-btn">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" asp-for="IsHoliday">
+                                            <label class="custom-control-label" for="IsHoliday"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="save-stngs pd2">
+                                <ul>
+                                    <li><button type="submit" style="background-color:lightseagreen;"><i class="fa fa-save"></i> Save</button></li>
+                                    <li><a href="/SchemeProfitLoss/index?groupId=@Model.GroupId"><i class="fa fa-backward"></i> Back</a></li>
+                                </ul>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-lg-3">
+
+                </div>
+
+            </div>
+        </div><!-- main-section-data end-->
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/js/Custom/SchemeProfitLoss.js" asp-append-version="true"></script>
+}

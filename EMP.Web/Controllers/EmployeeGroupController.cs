@@ -16,12 +16,15 @@ namespace EMP.Web.Controllers
     {
         private readonly IEmployeeGroupService service;
         private readonly IEmployeeService employeeService;
+        private readonly ISchemeProfitLossService schemeProfitLossService;
         private readonly IHostingEnvironment env;
-        public EmployeeGroupController(IEmployeeGroupService _service, IEmployeeService _employeeService, IHostingEnvironment _env)
+        public EmployeeGroupController(IEmployeeGroupService _service, IEmployeeService _employeeService,
+            IHostingEnvironment _env, ISchemeProfitLossService _schemeProfitLossService)
         {
             this.service = _service;
             this.employeeService = _employeeService;
             this.env = _env;
+            this.schemeProfitLossService = _schemeProfitLossService;
         }
         public async Task<IActionResult> Index()
         {
@@ -140,46 +143,24 @@ namespace EMP.Web.Controllers
 
         }
 
-        public async Task<IActionResult> GetChartData()
+        public async Task<IActionResult> GetChartData(Guid groupId, int typeId = 1)
         {
-            var webRoot = env.WebRootPath;
-            string filePath = $"{webRoot}/js/Group_Chart.json";
-            List<GroupChartDto> dataResponse = new List<GroupChartDto>();
-            using (var sr = new StreamReader(filePath))
-            {
-                dataResponse = JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(o => o.Date).ToList();
-            }
-
-            var groupByMonth = dataResponse.GroupBy(x => x.Date.ToString("MMM yy")).Select(x => new
-            {
-                Month = x.Key,
-                DailyPnL = x.Sum(s => s.DailyPnL)
-            }).ToList();
-
-            return NewtonSoftJsonResult(new RequestOutcome<dynamic>
-            {
-                Data = new
-                {
-                    Result = dataResponse,
-                    GroupResult = groupByMonth
-                },
-                IsSuccess = true
-            });
-
+            var response = await schemeProfitLossService.GetChartAsync<ResponseDto<List<GroupChartDto>>>(groupId, typeId);
+            return NewtonSoftJsonResult(new RequestOutcome<List<GroupChartDto>> { Data = response.Result, IsSuccess = true });
         }
 
-        public async Task<IActionResult> GetChartData2()
+        public async Task<IActionResult> GetProfitLossChartData(Guid groupId, int typeId = 1)
         {
-            var webRoot = env.WebRootPath;
-            string filePath = $"{webRoot}/js/Group_Chart2.json";
-            List<GroupChartDto> dataResponse = new List<GroupChartDto>();
-            using (var sr = new StreamReader(filePath))
-            {
-                dataResponse = JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(o => o.Date).Select(x => new GroupChartDto() { Date = x.Date, DailyPnL = x.DailyPnL }).ToList();
-            }
-            return NewtonSoftJsonResult(new RequestOutcome<List<GroupChartDto>> { Data = dataResponse, IsSuccess = true });
-
+            var response = await schemeProfitLossService.GetProfitLossChartAsync<ResponseDto<List<GroupChartDto>>>(groupId, typeId);
+            return NewtonSoftJsonResult(new RequestOutcome<List<GroupChartDto>> { Data = response.Result, IsSuccess = true });
         }
+
+        public async Task<IActionResult> GetMonthlyBreaupData(Guid groupId)
+        {
+            var response = await schemeProfitLossService.GetMonthlyBreaupAsync<ResponseDto<List<GroupMontlyBreakupDto>>>(groupId);
+            return NewtonSoftJsonResult(new RequestOutcome<List<GroupMontlyBreakupDto>> { Data = response.Result, IsSuccess = true });
+        }
+
 
 
     }

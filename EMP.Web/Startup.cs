@@ -48,12 +48,15 @@ namespace EMP.Web
             services.AddHttpClient<IEmployeeService, EmployeeService>();
             services.AddHttpClient<IEmployeeGroupService, EmployeeGroupService>();
             services.AddHttpClient<IShipmentService, ShipmentService>();
+            services.AddHttpClient<ISchemeProfitLossService, SchemeProfitLossService>();
 
             SiteKeys.APIBase = Configuration["ServiceUrls:APIBase"];
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IEmployeeGroupService, EmployeeGroupService>();
             services.AddTransient<IShipmentService, ShipmentService>();
+            services.AddTransient<ISchemeProfitLossService, SchemeProfitLossService>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

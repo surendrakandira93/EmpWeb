@@ -23,7 +23,6 @@ namespace EMP.Web.Controllers
             var response = await service.GetAllAsync<ResponseDto<List<ShipmentDto>>>();
             return View(response.Result);
         }
-
         public async Task<IActionResult> Create(Guid? id)
         {
             ViewBag.brokersList = Enum.GetValues(typeof(Brokers)).Cast<Brokers>().Select(x => new SelectListItem()

@@ -1,0 +1,116 @@
+﻿@model List<SchemeProfitLossDto>
+@{ Guid groupId = ViewBag.id; }
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-ws-sec">
+                        <div class="posts-section">
+                            <div class="post-bar">
+                                <div class="post-st">
+                                    <ul>
+
+                                        <li>
+                                            <a href="/SchemeProfitLoss/Create?groupId=@groupId" style="background-color:cadetblue;" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modal-add-edit-schemeporfitloss" class="btn btn btn-primary add"><i class="fa fa-plus"></i> Add New</a>
+                                        </li>
+                                        @if (Model == null || !Model.Any())
+                                        {
+                                    <li><a href="/SchemeProfitLoss/RestoreDefault?groupId=@groupId" title="" style="background-color:cadetblue;">Restore default Data</a></li>
+}
+
+                                        <li>
+                                            <a href="/employeegroup/view/@groupId" class="btn"><i class="fa fa-backward"></i> Back</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h3 class="title-wd">Profit & Loss</h3>
+                                <table class="table table-bordered" id="schemeprofitloss_grid">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Date</th>
+                                            <th>Profit & Loss</th>
+                                            <th>Expense</th>
+                                            <th>KeyWord</th>
+                                            <th>Comments</th>
+                                            <th>IsNoTradeDay</th>
+                                            <th>IsHoliday</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                            <tr>
+                                <td>
+                                    @item.Date.Value.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.ProfitLoss
+                                </td>
+                                <td>@item.Expense</td>
+                                <td>@item.KeyWord</td>
+                                <td>@item.Comments</td>
+                                <td>
+                                    @if (item.IsNoTradeDay)
+                                    {
+                <span style="color: green; font-size: 20px; font-weight: bold;">Yes</span> }
+            else
+            {
+<span style="color: red; font-size: 20px; font-weight: bold;">No</span>}
+
+
+                                </td>
+                                <td>
+                                    @if (item.IsHoliday)
+                                    {
+                <span style="color: green; font-size: 20px; font-weight: bold;">Yes</span> }
+            else
+            {
+<span style="color: red; font-size: 20px; font-weight: bold;">No</span>}
+
+
+                                </td>
+                                <td>
+                                    <a href="/SchemeProfitLoss/create/@item.Id?groupId=@item.GroupId"><i class="fa fa-pencil"></i></a>
+                                    &ensp;&ensp;
+                                    <a href="javasript:void(0);" class="shipment-action" data-groupid="@item.GroupId" data-id="@item.Id" data-message="Are you sure want to delete !"><i class="fa fa-trash"></i></a>
+                                </td>
+
+                            </tr> }
+                                        }
+                                        else
+                                        {
+                            <tr>
+                                <td colspan="8">Data Not Found</td>
+                            </tr>
+}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div><!--main-ws-sec end-->
+                </div>
+
+            </div>
+        </div><!-- main-section-data end-->
+    </div>
+</div>
+
+
+@Html.Partial("_Modal", new Modal { ID = "modal-add-edit-schemeporfitloss", AreaLabeledId = "modal-add-edit-schemeporfitloss-label", Size = ModalSize.Medium })
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/js/Custom/SchemeProfitLoss.js" asp-append-version="true"></script>
+    <script src="~/js/Custom/SchemeProfitLoss-AddEdit.js" asp-append-version="true"></script>
+}

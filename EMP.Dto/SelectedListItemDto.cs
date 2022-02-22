@@ -11,4 +11,10 @@ namespace EMP.Dto
         public Guid Id { get; set; }
         public string Name { get; set; }
     }
+
+    public class SelectedListItemMvcDto
+    {
+        public string Value { get; set; }
+        public string Text { get; set; }
+    }
 }

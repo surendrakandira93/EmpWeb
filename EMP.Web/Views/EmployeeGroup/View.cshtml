@@ -1,8 +1,30 @@
 ﻿@model EmployeeGroupForApprovalListDto
+<style>
+    .btn_loss_profit_div .active {
+        background-color: #e44d3a;
+    }
 
+    button {
+        display: inline-block;
+        color: #000000;
+        font-size: 16px;
+        border: 1px solid #e5e5e5;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 22px;
+        font-weight: 600;
+        background: none;
+        cursor: pointer;
+    }
+
+    .table td, .table th {
+        padding: 7px;
+    }
+</style>
 
 
 <div class="main-section">
+    <input type="hidden" id="hid_groupid" value="@Model.Id"/>
     <div class="container">
         <div class="main-section-data">
             <div class="row">
@@ -13,7 +35,6 @@
                                 <img src="@(!string.IsNullOrEmpty(Model.IconImg)?"/GroupImage/"+Model.IconImg:"//images/resources/user-pro-img.jpg")" alt="">
                             </div><!--user-pro-img end-->
                             <div class="user_pro_status">
-
                                 <ul class="flw-status">
                                     <li>
                                         <span>Members</span>
@@ -22,6 +43,7 @@
                                     <li>
                                         <span>Pending</span>
                                         <b><b>@Model.Employees.Count(x => x.InviteType == (int)InviteType.Pending)</b></b>
+                                       
                                     </li>
                                 </ul>
                             </div><!--user_pro_status end-->
@@ -35,15 +57,14 @@
                             <div class="suggestions-list">
                                 @foreach (var emp in Model.Employees)
                                 {
-                                    <div class="suggestion-usd">
-                                        <img src="@(!string.IsNullOrEmpty(emp.ImageURL)?"/UserImage/"+emp.ImageURL:"/images/resources/user-pro-img.jpg")" width="35" alt="">
-                                        <div class="sgt-text">
-                                            <h4>@emp.Name</h4>
-                                            <span>@(((InviteType)emp.InviteType).ToString())</span>
-                                        </div>
+                    <div class="suggestion-usd">
+                        <img src="@(!string.IsNullOrEmpty(emp.ImageURL)?"/UserImage/"+emp.ImageURL:"/images/resources/user-pro-img.jpg")" width="35" alt="">
+                        <div class="sgt-text">
+                            <h4>@emp.Name</h4>
+                            <span>@(((InviteType)emp.InviteType).ToString())</span>
+                        </div>
 
-                                    </div>
-                                }
+                    </div>}
 
                             </div><!--suggestions-list end-->
                         </div><!--suggestions end-->
@@ -53,18 +74,64 @@
                     <div class="main-ws-sec">
                         <div class="user-tab-sec">
                             <div class="user-profile-ov">
-                                <h3>@Model.Name</h3>
+                                <h3>
+                                    @Model.Name
+                                    <a href="/SchemeProfitLoss/index?groupId=@Model.Id" class="btn btn btn-primary add"> <i class="fa fa-eye"></i> View Profit & Loss</a>
+                                    <a href="/SchemeProfitLoss/Create?groupId=@Model.Id&isRefresh=true" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modal-add-edit-schemeporfitloss" class="btn btn btn-primary add"><i class="fa fa-plus"></i> Add Profit & Loss</a>                                                            </h3>
                                 <p>@Model.Description</p>
                             </div>
                         </div>
 
                         <div class="posts-section">
-                            
-                            <div class="post-bar">
-                                <div id="chart_div"></div>
 
+                            <div class="post-bar">
+                                <div class="row btn_loss_profit_div">
+                                    <button class="btn_equity active" data-typeid="1" style="padding: 0 15px">Day</button>
+                                    <button class="btn_equity" data-typeid="2" style="padding: 0 15px">Week</button>
+                                    <button class="btn_equity" data-typeid="3" style="padding: 0 15px">Month</button>
+                                </div>
+                                <div id="chart_div"></div>
+                            </div>
+
+                            <div class="post-bar">
+                                <div class="row btn_loss_profit_div">
+                                    <button class="btn_loss_profit active" data-typeid="1" style="padding: 0 15px">Day</button>
+                                    <button class="btn_loss_profit" data-typeid="2" style="padding: 0 15px">Week</button>
+                                    <button class="btn_loss_profit" data-typeid="3" style="padding: 0 15px">Month</button>
+                                </div>
                                 <div id="chart_bar_div"></div>
                             </div>
+
+                            <div class="post-bar">
+
+                                <h3 class="title-wd">Monthly Breakups</h3>
+
+                                <table class="table table-bordered" id="monthly_grid">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Jan</th>
+                                            <th>Feb</th>
+                                            <th>Mar</th>
+                                            <th>Apr</th>
+                                            <th>May</th>
+                                            <th>Jun</th>
+                                            <th>Jul</th>
+                                            <th>Aug</th>
+                                            <th>Sep</th>
+                                            <th>Oct</th>
+                                            <th>Nov</th>
+                                            <th>Dec</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
                             <div class="post-bar">
                                 <div class="cp-field col-md-6">
                                     <h5>Entry Date</h5>
@@ -107,8 +174,12 @@
     </div>
 </div>
 
+@Html.Partial("_Modal", new Modal { ID = "modal-add-edit-schemeporfitloss", AreaLabeledId = "modal-add-edit-schemeporfitloss-label", Size = ModalSize.Medium })
+
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/js/moment.js" asp-append-version="true"></script>
     <script src="~/js/google-chart-loader.js" asp-append-version="true"></script>
     <script src="~/js/Custom/EmpGroupView.js" asp-append-version="true"></script>
+    <script src="~/js/Custom/SchemeProfitLoss-AddEdit.js" asp-append-version="true"></script>
 }

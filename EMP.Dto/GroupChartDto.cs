@@ -13,4 +13,15 @@ namespace EMP.Dto
         public string Day { get; set; }
         public double AggregateSum { get; set; }
     }
+
+    public class GroupMontlyBreakupDto
+    {
+        public GroupMontlyBreakupDto()
+        {
+            Monthly = new List<GroupChartDto>();
+        }
+        public int Year { get; set; }
+        public List<GroupChartDto> Monthly { get; set; }
+        public double Total { get; set; }
+    }
 }
