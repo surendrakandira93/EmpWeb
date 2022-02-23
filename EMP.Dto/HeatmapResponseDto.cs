@@ -9,6 +9,6 @@ namespace EMP.Dto
     public class HeatmapResponseDto
     {
         public int Date { get; set; }
-        public int Value { get; set; }
+        public double Value { get; set; }
     }
 }

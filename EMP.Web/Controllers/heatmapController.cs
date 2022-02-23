@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EMP.Web.Controllers
 {
-    public class HeatmapController : Controller
+    public class HeatmapController : BaseController
     {
         private readonly IHostingEnvironment env;
         public HeatmapController(IHostingEnvironment _env)
@@ -24,16 +24,37 @@ namespace EMP.Web.Controllers
 
         public async Task<IActionResult> GetData(DateTime start, DateTime end)
         {
+            end = end.AddDays(10);
             var response = GetData();
-            var result = response.Where(x => x.Date >= start && x.Date <= end).Select(s => new HeatmapResponseDto()
+            List<HeatmapResponseDto> result = new List<HeatmapResponseDto>();
+            DateTime d = start.Date;
+            while (d <= end.Date)
             {
-                Date = GetUnixTimestamp(s.Date),
-                Value = (int)s.DailyPnL
-            }).ToList();
+                if (response.Any(x => x.Date.Date == d))
+                {
+                    result.Add(response.Where(x => x.Date.Date == d).Select(s => new HeatmapResponseDto()
+                    {
+                        Date = GetUnixTimestamp(s.Date.Date),
+                        Value = s.DailyPnL
+                    }).FirstOrDefault());
+                }
+                else
+                {
+                    result.Add(new HeatmapResponseDto()
+                    {
+                        Date = GetUnixTimestamp(d),
+                        Value = 0
+                    });
+
+                }
+
+                d = d.AddDays(1);
+            }
+
             return Json(result);
         }
 
-       
+
 
         private List<GroupChartDto> GetData()
         {
@@ -41,7 +62,7 @@ namespace EMP.Web.Controllers
             string filePath = $"{webRoot}/js/Group_Chart.json";
             using (var sr = new StreamReader(filePath))
             {
-                return JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(x=>x.Date).ToList();
+                return JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(x => x.Date).ToList();
             }
 
         }

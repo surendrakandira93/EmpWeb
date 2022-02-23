@@ -6,7 +6,7 @@
         function initilizeForm() {
             initCalendar(new Date(2022, 0, 1));
 
-           
+
             $(".year-calendar").on("click", function (event) {
                 var year = parseInt($(this).data('year'));
                 cal = cal.destroy();
@@ -27,28 +27,35 @@
                 itemSelector: "#calendar",
                 start: date,
                 domain: "month",
-                subDomain: "x_day",
-                cellSize: 20,
+                //subDomain: "x_day",                
+                cellSize: 13,
                 range: 12,
-                displayLegend: false,
-                weekStartOnMonday: false,
+                weekStartOnMonday: true,
+                domainGutter: 10,
                 data: "/heatmap/GetData?start={{d:start}}&end={{d:end}}",
                 afterLoadData: parser,
-                subDomainTextFormat: "%d",
-                label: {
-                    position: "top",
-                    rotate: "",
-                    offset: {
-                        x: 15,
-                        y: 10
-                    }
+                //  subDomainTextFormat: "%d",
+             
+                legendHorizontalPosition: "left",
+                legendCellSize: 20,
+                legend: [-1999, 1999, 4000],
+                displayLegend: true,
+                considerMissingDataAsZero: true,
+                // legendColors: ["rgb(255,0,0)", "rgb(0,255,0)"],
+                legendColors: {
+                    min: "rgb(255,0,0)",
+                    max: "rgb(0,255,0)",
+                    empty: "rgb(237,237,237)",
                 },
-                legend: [-1999, 0, 1999, 4000],
-                tooltip: true
+                tooltip: true,
+                cellLabel: {
+                    empty: "Aucune données pour le {date}",
+                    filled: `{count} {name} at {date}`
+                }
             });
         }
 
-        $this.init = function () {         
+        $this.init = function () {
             initilizeForm();
         }
     }
