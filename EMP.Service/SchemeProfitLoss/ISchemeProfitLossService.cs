@@ -25,11 +25,15 @@ namespace EMP.Service
 
         Task<T> IsExist<T>(Guid? id, Guid groupId, DateTime date);
 
-        Task<T> GetChartAsync<T>(Guid groupId, int typeId);
+        Task<T> GetChartAsync<T>(Guid groupId, int typeId, DateTime? fromDate, DateTime? toDate);
 
-        Task<T> GetProfitLossChartAsync<T>(Guid groupId, int typeId);
+        Task<T> GetProfitLossChartAsync<T>(Guid groupId, int typeId, DateTime? fromDate, DateTime? toDate);
 
-        Task<T> GetMonthlyBreaupAsync<T>(Guid groupId);
+        Task<T> GetMonthlyBreaupAsync<T>(Guid groupId, DateTime? fromDate, DateTime? toDate);
+
+        Task<T> GetCal_HeatmapDataAsync<T>(Guid groupId, DateTime fromDate, DateTime toDate);
+
+        Task<T> GetPLSummaryAsync<T>(Guid groupId, DateTime? fromDate, DateTime? toDate);
 
     }
 }

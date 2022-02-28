@@ -1,185 +1,282 @@
 ﻿@model EmployeeGroupForApprovalListDto
-<style>
-    .btn_loss_profit_div .active {
-        background-color: #e44d3a;
-    }
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+    <style>
+        .btn_loss_profit_div .active {
+            background-color: #e44d3a;
+        }
 
-    button {
-        display: inline-block;
-        color: #000000;
-        font-size: 16px;
-        border: 1px solid #e5e5e5;
-        height: 40px;
-        line-height: 40px;
-        padding: 0 22px;
-        font-weight: 600;
-        background: none;
-        cursor: pointer;
-    }
+        button {
+            display: inline-block;
+            color: #000000;
+            font-size: 16px;
+            border: 1px solid #e5e5e5;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 22px;
+            font-weight: 600;
+            background: none;
+            cursor: pointer;
+        }
 
-    .table td, .table th {
-        padding: 7px;
-    }
-</style>
+        .table td, .table th {
+            padding: 7px;
+        }
+        .q10 {
+            fill: rgb(50,205,47);
+        }
+
+        .q9 {
+            fill: rgb(109, 214,106);
+        }
+
+        .q8 {
+            fill: rgb(122, 222,125);
+        }
+
+        .q7 {
+            fill: rgb(154, 233,153);
+        }
+
+        .q6 {
+            fill: rgb(208, 245,208);
+        }
+
+        .q5 {
+            fill: rgb(245, 187, 186);
+        }
+
+        .q4 {
+            fill: rgb(251, 133,131);
+        }
+
+        .q3 {
+            fill: rgb(254, 89,92);
+        }
+
+        .q2 {
+            fill: rgb(255, 46, 67);
+        }
+
+        .q1 {
+            fill: rgb(250, 2, 2);
+        }
+    </style>
 
 
-<div class="main-section">
-    <input type="hidden" id="hid_groupid" value="@Model.Id"/>
-    <div class="container">
-        <div class="main-section-data">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="main-left-sidebar">
-                        <div class="user_profile">
-                            <div class="user-pro-img">
-                                <img src="@(!string.IsNullOrEmpty(Model.IconImg)?"/GroupImage/"+Model.IconImg:"//images/resources/user-pro-img.jpg")" alt="">
-                            </div><!--user-pro-img end-->
-                            <div class="user_pro_status">
-                                <ul class="flw-status">
-                                    <li>
-                                        <span>Members</span>
-                                        <b>@Model.Employees.Count(x => x.InviteType == (int)InviteType.Accepted || x.InviteType == (int)InviteType.Invite)</b>
-                                    </li>
-                                    <li>
-                                        <span>Pending</span>
-                                        <b><b>@Model.Employees.Count(x => x.InviteType == (int)InviteType.Pending)</b></b>
-                                       
-                                    </li>
-                                </ul>
-                            </div><!--user_pro_status end-->
+    <div class="main-section">
+        <input type="hidden" id="hid_groupid" value="@Model.Id" />
+        <div class="container">
+            <div class="main-section-data">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="main-left-sidebar">
+                            <div class="user_profile">
+                                <div class="user-pro-img">
+                                    <img src="@(!string.IsNullOrEmpty(Model.IconImg)?"/GroupImage/"+Model.IconImg:"//images/resources/user-pro-img.jpg")" alt="">
+                                </div><!--user-pro-img end-->
+                                <div class="user_pro_status">
+                                    <ul class="flw-status">
+                                        <li>
+                                            <span>Members</span>
+                                            <b>@Model.Employees.Count(x => x.InviteType == (int)InviteType.Accepted || x.InviteType == (int)InviteType.Invite)</b>
+                                        </li>
+                                        <li>
+                                            <span>Pending</span>
+                                            <b><b>@Model.Employees.Count(x => x.InviteType == (int)InviteType.Pending)</b></b>
 
-                        </div><!--user_profile end-->
-                        <div class="suggestions full-width">
-                            <div class="sd-title">
-                                <h3>Members</h3>
-                                <i class="la la-ellipsis-v"></i>
-                            </div><!--sd-title end-->
-                            <div class="suggestions-list">
-                                @foreach (var emp in Model.Employees)
-                                {
-                    <div class="suggestion-usd">
-                        <img src="@(!string.IsNullOrEmpty(emp.ImageURL)?"/UserImage/"+emp.ImageURL:"/images/resources/user-pro-img.jpg")" width="35" alt="">
-                        <div class="sgt-text">
-                            <h4>@emp.Name</h4>
-                            <span>@(((InviteType)emp.InviteType).ToString())</span>
-                        </div>
+                                        </li>
+                                    </ul>
+                                </div><!--user_pro_status end-->
 
-                    </div>}
-
-                            </div><!--suggestions-list end-->
-                        </div><!--suggestions end-->
-                    </div><!--main-left-sidebar end-->
-                </div>
-                <div class="col-lg-9">
-                    <div class="main-ws-sec">
-                        <div class="user-tab-sec">
-                            <div class="user-profile-ov">
-                                <h3>
-                                    @Model.Name
-                                    <a href="/SchemeProfitLoss/index?groupId=@Model.Id" class="btn btn btn-primary add"> <i class="fa fa-eye"></i> View Profit & Loss</a>
-                                    <a href="/SchemeProfitLoss/Create?groupId=@Model.Id&isRefresh=true" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modal-add-edit-schemeporfitloss" class="btn btn btn-primary add"><i class="fa fa-plus"></i> Add Profit & Loss</a>                                                            </h3>
-                                <p>@Model.Description</p>
+                            </div><!--user_profile end-->
+                            <div class="suggestions full-width">
+                                <div class="sd-title">
+                                    <h3>Members</h3>
+                                    <i class="la la-ellipsis-v"></i>
+                                </div><!--sd-title end-->
+                                <div class="suggestions-list">
+                                    @foreach (var emp in Model.Employees)
+                                    {
+                        <div class="suggestion-usd">
+                            <img src="@(!string.IsNullOrEmpty(emp.ImageURL)?"/UserImage/"+emp.ImageURL:"/images/resources/user-pro-img.jpg")" width="35" alt="">
+                            <div class="sgt-text">
+                                <h4>@emp.Name</h4>
+                                <span>@(((InviteType)emp.InviteType).ToString())</span>
                             </div>
-                        </div>
 
-                        <div class="posts-section">
+                        </div>}
 
-                            <div class="post-bar">
-                                <div class="row btn_loss_profit_div">
-                                    <button class="btn_equity active" data-typeid="1" style="padding: 0 15px">Day</button>
-                                    <button class="btn_equity" data-typeid="2" style="padding: 0 15px">Week</button>
-                                    <button class="btn_equity" data-typeid="3" style="padding: 0 15px">Month</button>
+                                </div><!--suggestions-list end-->
+                            </div><!--suggestions end-->
+                        </div><!--main-left-sidebar end-->
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="main-ws-sec">
+                            <div class="user-tab-sec">
+                                <div class="user-profile-ov">
+                                    <h3>
+                                        @Model.Name
+                                        <a href="/SchemeProfitLoss/index?groupId=@Model.Id" class="btn btn btn-primary add"> <i class="fa fa-eye"></i> View Profit & Loss</a>
+                                        <a href="/SchemeProfitLoss/Create?groupId=@Model.Id&isRefresh=true" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modal-add-edit-schemeporfitloss" class="btn btn btn-primary add"><i class="fa fa-plus"></i> Add Profit & Loss</a>
+                                    </h3>
+                                    <p>@Model.Description</p>
                                 </div>
-                                <div id="chart_div"></div>
                             </div>
 
-                            <div class="post-bar">
-                                <div class="row btn_loss_profit_div">
-                                    <button class="btn_loss_profit active" data-typeid="1" style="padding: 0 15px">Day</button>
-                                    <button class="btn_loss_profit" data-typeid="2" style="padding: 0 15px">Week</button>
-                                    <button class="btn_loss_profit" data-typeid="3" style="padding: 0 15px">Month</button>
+                            <div class="posts-section">
+
+                                <div class="post-bar">
+                                    <h3 class="title-wd">Global Search</h3>
+                                    <div class="cp-field col-md-6">
+                                        <h5>From Date</h5>
+                                        <div class="cpp-fiel">
+                                            <input type="date" id="from_date" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="cp-field col-md-6">
+                                        <h5>To Date</h5>
+                                        <div class="cpp-fiel">
+                                            <input type="date" id="to_date" class="form-control" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="save-stngs pd2 col-md-6">
+                                        <ul>
+                                            <li><button type="button" id="btn_glo_filter" style="margin-top: 30px;">Filter</button></li>
+
+                                        </ul>
+                                    </div>
+
+
                                 </div>
-                                <div id="chart_bar_div"></div>
-                            </div>
 
-                            <div class="post-bar">
-
-                                <h3 class="title-wd">Monthly Breakups</h3>
-
-                                <table class="table table-bordered" id="monthly_grid">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Jan</th>
-                                            <th>Feb</th>
-                                            <th>Mar</th>
-                                            <th>Apr</th>
-                                            <th>May</th>
-                                            <th>Jun</th>
-                                            <th>Jul</th>
-                                            <th>Aug</th>
-                                            <th>Sep</th>
-                                            <th>Oct</th>
-                                            <th>Nov</th>
-                                            <th>Dec</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-
-
-                            </div>
-
-                            <div class="post-bar">
-                                <div class="cp-field col-md-6">
-                                    <h5>Entry Date</h5>
-                                    <div class="cpp-fiel">
-                                        <select id="fromdate" class="form-control" asp-items="@ViewBag.dateList">
-                                            <option value="">Select Entry Date</option>
-                                        </select>
-
+                                <div class="post-bar">
+                                    <div class="cp-field col-md-3">
+                                        <h5>Realised P&L</h5>  <br />
+                                        <span id="pl" style="font-size: larger; font-weight: 600; color: #1eb182;"></span>
+                                    </div>
+                                    <div class="cp-field col-md-3">
+                                        <h5>Charges &Aacute; Texes</h5>  <br />
+                                        <span id="cpl" style="font-size: larger; font-weight: 600;"></span>
+                                    </div>
+                                    <div class="cp-field col-md-3">
+                                        <h5>Net Realised P&L</h5>  <br />
+                                        <span id="npl" style="font-size: larger; font-weight: 600; color: #1eb182;"></span>
+                                    </div>
+                                    <div class="cp-field col-md-3">
+                                        <h5>Unrealised P&L</h5>  <br />
+                                        <span id="upl">0</span>
                                     </div>
                                 </div>
 
-                                <div class="save-stngs pd2 col-md-6">
-                                    <ul>
-                                        <li><button type="button" id="btn_filter" style="margin-top: 30px;">Filter</button></li>
-
-                                    </ul>
+                                <div class="post-bar">
+                                    <div class="row btn_loss_profit_div">
+                                        <button class="btn_equity active" data-typeid="1" style="padding: 0 15px">Day</button>
+                                        <button class="btn_equity" data-typeid="2" style="padding: 0 15px">Week</button>
+                                        <button class="btn_equity" data-typeid="3" style="padding: 0 15px">Month</button>
+                                    </div>
+                                    <div id="chart_div"></div>
                                 </div>
-                                <h3 class="title-wd">Trading History</h3>
-                                <table class="table table-bordered" id="tansction_grid">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Entry Date</th>
-                                            <th>Exit date</th>
-                                            <th>Qty</th>
-                                            <th>Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+
+                                <div class="post-bar">
+                                    <div class="row btn_loss_profit_div">
+                                        <button class="btn_loss_profit active" data-typeid="1" style="padding: 0 15px">Day</button>
+                                        <button class="btn_loss_profit" data-typeid="2" style="padding: 0 15px">Week</button>
+                                        <button class="btn_loss_profit" data-typeid="3" style="padding: 0 15px">Month</button>
+                                    </div>
+                                    <div id="chart_bar_div"></div>
+                                </div>
+
+                                <div class="post-bar">
+
+                                    <h3 class="title-wd">Monthly Breakups</h3>
+
+                                    <table class="table table-bordered" id="monthly_grid">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Jan</th>
+                                                <th>Feb</th>
+                                                <th>Mar</th>
+                                                <th>Apr</th>
+                                                <th>May</th>
+                                                <th>Jun</th>
+                                                <th>Jul</th>
+                                                <th>Aug</th>
+                                                <th>Sep</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                                <div class="post-bar">
+                                    <h3 class="title-wd">Cal Heatmap</h3>
+                                    <div class="col-md-12" style="overflow: auto; overflow: auto; background-color: white;">
+                                        <div id="calendar" style="position:relative;margin-top: 55px;margin-bottom: 25px;"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="post-bar">
+                                    <div class="cp-field col-md-6">
+                                        <h5>Entry Date</h5>
+                                        <div class="cpp-fiel">
+                                            <select id="fromdate" class="form-control" asp-items="@ViewBag.dateList">
+                                                <option value="">Select Entry Date</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="save-stngs pd2 col-md-6">
+                                        <ul>
+                                            <li><button type="button" id="btn_filter" style="margin-top: 30px;">Filter</button></li>
+
+                                        </ul>
+                                    </div>
+                                    <h3 class="title-wd">Trading History</h3>
+                                    <table class="table table-bordered" id="tansction_grid">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Entry Date</th>
+                                                <th>Exit date</th>
+                                                <th>Qty</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
 
-                    </div><!--main-ws-sec end-->
+                        </div><!--main-ws-sec end-->
+                    </div>
+
                 </div>
-
-            </div>
-        </div><!-- main-section-data end-->
+            </div><!-- main-section-data end-->
+        </div>
     </div>
-</div>
 
-@Html.Partial("_Modal", new Modal { ID = "modal-add-edit-schemeporfitloss", AreaLabeledId = "modal-add-edit-schemeporfitloss-label", Size = ModalSize.Medium })
+    @Html.Partial("_Modal", new Modal { ID = "modal-add-edit-schemeporfitloss", AreaLabeledId = "modal-add-edit-schemeporfitloss-label", Size = ModalSize.Medium })
 
-@section Scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="~/js/moment.js" asp-append-version="true"></script>
-    <script src="~/js/google-chart-loader.js" asp-append-version="true"></script>
-    <script src="~/js/Custom/EmpGroupView.js" asp-append-version="true"></script>
-    <script src="~/js/Custom/SchemeProfitLoss-AddEdit.js" asp-append-version="true"></script>
-}
+    @section Scripts{
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="~/js/moment.js" asp-append-version="true"></script>
+        
+        <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+        <script src="~/js/google-chart-loader.js" asp-append-version="true"></script>
+        <script src="~/js/Custom/EmpGroupView.js" asp-append-version="true"></script>
+        <script src="~/js/Custom/SchemeProfitLoss-AddEdit.js" asp-append-version="true"></script>
+    }

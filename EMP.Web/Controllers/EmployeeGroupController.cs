@@ -143,25 +143,35 @@ namespace EMP.Web.Controllers
 
         }
 
-        public async Task<IActionResult> GetChartData(Guid groupId, int typeId = 1)
+        public async Task<IActionResult> GetChartData(Guid groupId, DateTime? fromDate, DateTime? toDate, int typeId = 1)
         {
-            var response = await schemeProfitLossService.GetChartAsync<ResponseDto<List<GroupChartDto>>>(groupId, typeId);
+            var response = await schemeProfitLossService.GetChartAsync<ResponseDto<List<GroupChartDto>>>(groupId, typeId,fromDate,toDate);
             return NewtonSoftJsonResult(new RequestOutcome<List<GroupChartDto>> { Data = response.Result, IsSuccess = true });
         }
 
-        public async Task<IActionResult> GetProfitLossChartData(Guid groupId, int typeId = 1)
+        public async Task<IActionResult> GetProfitLossChartData(Guid groupId, DateTime? fromDate, DateTime? toDate, int typeId = 1)
         {
-            var response = await schemeProfitLossService.GetProfitLossChartAsync<ResponseDto<List<GroupChartDto>>>(groupId, typeId);
+            var response = await schemeProfitLossService.GetProfitLossChartAsync<ResponseDto<List<GroupChartDto>>>(groupId, typeId,fromDate,toDate);
             return NewtonSoftJsonResult(new RequestOutcome<List<GroupChartDto>> { Data = response.Result, IsSuccess = true });
         }
 
-        public async Task<IActionResult> GetMonthlyBreaupData(Guid groupId)
+        public async Task<IActionResult> GetMonthlyBreaupData(Guid groupId, DateTime? fromDate, DateTime? toDate)
         {
-            var response = await schemeProfitLossService.GetMonthlyBreaupAsync<ResponseDto<List<GroupMontlyBreakupDto>>>(groupId);
+            var response = await schemeProfitLossService.GetMonthlyBreaupAsync<ResponseDto<List<GroupMontlyBreakupDto>>>(groupId,fromDate,toDate);
             return NewtonSoftJsonResult(new RequestOutcome<List<GroupMontlyBreakupDto>> { Data = response.Result, IsSuccess = true });
         }
 
+        public async Task<IActionResult> GetCal_HeatmapData(Guid groupId, DateTime fromDate, DateTime toDate)
+        {
+            var response = await schemeProfitLossService.GetCal_HeatmapDataAsync<ResponseDto<List<HeatmapResponseDto>>>(groupId, fromDate, toDate);
+            return Json(response.Result);
+        }
 
+        public async Task<IActionResult> GetPLSummary(Guid groupId, DateTime? fromDate, DateTime? toDate)
+        {
+            var response = await schemeProfitLossService.GetPLSummaryAsync<ResponseDto<SchemeProfitLossSummaryDto>>(groupId, fromDate, toDate);
+            return Json(response.Result);
+        }
 
     }
 }

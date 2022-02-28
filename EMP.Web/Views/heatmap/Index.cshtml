@@ -1,24 +1,44 @@
 ﻿@*<link rel="stylesheet" type="text/css" href="/plugins/heatmap/calendar-heatmap.min.css">*@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
 <style>
-    .q1 {
-        background-color: #f85757;
-        fill: #f85757
+    .q10 {
+        fill: rgb(50,205,47);
     }
 
-    .q2 {
-        background-color: #f09999;
-        fill: #f09999
+    .q9 {
+        fill: rgb(109, 214,106);
     }
 
-    .q3 {
-        background-color: #5fec5f;
-        fill: #5fec5f
+    .q8 {
+        fill: rgb(122, 222,125);
+    }
+
+    .q7 {
+        fill: rgb(154, 233,153);
+    }
+
+    .q6 {
+        fill: rgb(208, 245,208);
+    }
+
+    .q5 {
+        fill: rgb(245, 187, 186);
     }
 
     .q4 {
-        background-color: #008000;
-        fill: #008000
+        fill: rgb(251, 133,131);
+    }
+
+    .q3 {
+        fill: rgb(254, 89,92);
+    }
+
+    .q2 {
+        fill: rgb(255, 46, 67);
+    }
+
+    .q1 {
+        fill: rgb(250, 2, 2);
     }
 </style>
 <div class="main-section">
@@ -38,12 +58,7 @@
                                         <li><a href="javascript:void(0);" style="background-color:cadetblue;" class="btn btn btn-primary year-calendar" data-year="2023"><i class="fa fa-calendar"></i> 2023</a></li>
                                     </ul>
                                 </div>
-
-
-
-
                             </div>
-
                             <div class="col-md-12" style="overflow: auto; overflow: auto; background-color: white;">
                                 <div id="calendar" style="position:relative;margin-top: 55px;margin-bottom: 25px;"></div>
                             </div>
@@ -58,6 +73,7 @@
 </div>
 
 @section Scripts{   
+<script type="text/javascript" src="~/js/moment.js"></script>
     <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
     <script type="text/javascript" src="~/js/Custom/Heatmap_index.js"> </script>

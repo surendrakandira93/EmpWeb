@@ -98,30 +98,48 @@ namespace EMP.Service
             });
         }
 
-        public async Task<T> GetChartAsync<T>(Guid groupId, int typeId)
+        public async Task<T> GetChartAsync<T>(Guid groupId, int typeId, DateTime? fromDate, DateTime? toDate)
         {
             return await this.SendAsync<T>(new ApiRequestDto()
             {
                 ApiType = SiteKeys.ApiType.GET,
-                Url = $"{baseUrl}Chart?typeId={typeId}&groupId={groupId}"
+                Url = $"{baseUrl}Chart?typeId={typeId}&groupId={groupId}&fromDate={(fromDate.HasValue? fromDate.Value.ToString("yyyy-MM-dd"):string.Empty)}&toDate={(toDate.HasValue?toDate.Value.ToString("yyyy-MM-dd"):string.Empty)}"
             });
         }
 
-        public async Task<T> GetProfitLossChartAsync<T>(Guid groupId, int typeId)
+        public async Task<T> GetProfitLossChartAsync<T>(Guid groupId, int typeId, DateTime? fromDate, DateTime? toDate)
         {
             return await this.SendAsync<T>(new ApiRequestDto()
             {
                 ApiType = SiteKeys.ApiType.GET,
-                Url = $"{baseUrl}ProfitLossChart?typeId={typeId}&groupId={groupId}"
+                Url = $"{baseUrl}ProfitLossChart?typeId={typeId}&groupId={groupId}&fromDate={(fromDate.HasValue ? fromDate.Value.ToString("yyyy-MM-dd") : string.Empty)}&toDate={(toDate.HasValue ? toDate.Value.ToString("yyyy-MM-dd") : string.Empty)}"
             });
         }
 
-        public async Task<T> GetMonthlyBreaupAsync<T>(Guid groupId)
+        public async Task<T> GetMonthlyBreaupAsync<T>(Guid groupId, DateTime? fromDate, DateTime? toDate)
         {
             return await this.SendAsync<T>(new ApiRequestDto()
             {
                 ApiType = SiteKeys.ApiType.GET,
-                Url = $"{baseUrl}MonthlyBreaup?groupId={groupId}"
+                Url = $"{baseUrl}MonthlyBreaup?groupId={groupId}&fromDate={(fromDate.HasValue ? fromDate.Value.ToString("yyyy-MM-dd") : string.Empty)}&toDate={(toDate.HasValue ? toDate.Value.ToString("yyyy-MM-dd") : string.Empty)}"
+            });
+        }
+
+        public async Task<T> GetCal_HeatmapDataAsync<T>(Guid groupId, DateTime fromDate, DateTime toDate)
+        {
+            return await this.SendAsync<T>(new ApiRequestDto()
+            {
+                ApiType = SiteKeys.ApiType.GET,
+                Url = $"{baseUrl}Cal_Heatmap?groupId={groupId}&fromDate={fromDate.ToString("yyyy-MM-dd")}&toDate={toDate.ToString("yyyy-MM-dd")}"
+            });
+        }
+
+        public async Task<T> GetPLSummaryAsync<T>(Guid groupId, DateTime? fromDate, DateTime? toDate)
+        {
+            return await this.SendAsync<T>(new ApiRequestDto()
+            {
+                ApiType = SiteKeys.ApiType.GET,
+                Url = $"{baseUrl}PLSummary?groupId={groupId}&fromDate={(fromDate.HasValue ? fromDate.Value.ToString("yyyy-MM-dd") : string.Empty)}&toDate={(toDate.HasValue ? toDate.Value.ToString("yyyy-MM-dd") : string.Empty)}"
             });
         }
 

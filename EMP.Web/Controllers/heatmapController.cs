@@ -40,11 +40,11 @@ namespace EMP.Web.Controllers
                 }
                 else
                 {
-                    result.Add(new HeatmapResponseDto()
-                    {
-                        Date = GetUnixTimestamp(d),
-                        Value = 0
-                    });
+                    //result.Add(new HeatmapResponseDto()
+                    //{
+                    //    Date = GetUnixTimestamp(d),
+                    //    Value = 0
+                    //});
 
                 }
 
