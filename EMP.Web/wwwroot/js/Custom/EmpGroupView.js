@@ -3,6 +3,7 @@
     function EmpGroupView() {
         var $this = this;
         var cal, calStartdate = new Date(2022, 0, 1), range = 12;
+        var fromDate, toDate;
 
         function initilizeForm() {
             BindGrid();
@@ -17,9 +18,50 @@
             google.setOnLoadCallback(drawChart);
 
             $("#btn_glo_filter").on('click', function () {
+                var from = $("#from_date").val();
+                var to = $("#to_date").val();
 
-                Global_Search();
+                if (from != "" && to != "") {
+                    fromDate = from;
+                    toDate = to;
+                    Global_Search();
+                } else {
+                    alert('Please select from and to date');
+                }
 
+            });
+
+            $("#select_range").on('change', function () {
+
+                var type = parseInt($(this).val());
+                var currentDate = moment(new Date());
+                var startDate = currentDate;
+                switch (type) {
+                    case 1:
+                        startDate = moment(currentDate).add(-1, 'M')
+                        break;
+                    case 2:
+                        startDate = moment(currentDate).add(-3, 'M')
+                        break;
+                    case 3:
+                        startDate = moment(currentDate).add(-6, 'M')
+                        break;
+                    case 4:
+                        startDate = moment(currentDate).add(-1, 'Y')
+                        break;
+                    case 5:
+                        startDate = moment(currentDate).add(-2, 'Y')
+                        break;
+                    case 6:
+                        startDate = moment(currentDate).add(-3, 'Y')
+                        break;
+                    default:
+                }
+                if (type > 0) {
+                    fromDate = startDate.format('MM/DD/YYYY');
+                    toDate = currentDate.format('MM/DD/YYYY');
+                    Global_Search();
+                }
             });
 
             $("#btn_filter").on('click', function () {
@@ -53,10 +95,6 @@
         }
 
         function DrawChartEquityChart(typeId) {
-
-            var from = $("#from_date").val();
-            var to = $("#to_date").val();
-
             var typeStr = "Daily";
             if (typeId == "2") {
                 typeStr = "Weekly";
@@ -65,7 +103,7 @@
             }
             var groupId = $("#hid_groupid").val();
             arr = new Array()
-            $.get(`/employeegroup/GetChartData?typeId=${typeId}&groupId=${groupId}&fromDate=${from}&toDate=${to}`, function (result) {
+            $.get(`/employeegroup/GetChartData?typeId=${typeId}&groupId=${groupId}&fromDate=${fromDate}&toDate=${toDate}`, function (result) {
 
                 if (result.isSuccess && result.data.length > 0) {
 
@@ -98,8 +136,7 @@
         }
 
         function DrawChartLossProfitChart(typeId) {
-            var from = $("#from_date").val();
-            var to = $("#to_date").val();
+          
             var typeStr = "Daily";
             if (typeId == "2") {
                 typeStr = "Weekly";
@@ -109,7 +146,7 @@
             var groupId = $("#hid_groupid").val();
             var arrData2 = new Array();
             arrData2.push(["Month", "Profit", { role: 'style' }]);
-            $.get(`/employeegroup/GetProfitLossChartData?typeId=${typeId}&groupId=${groupId}&fromDate=${from}&toDate=${to}`, function (result) {
+            $.get(`/employeegroup/GetProfitLossChartData?typeId=${typeId}&groupId=${groupId}&fromDate=${fromDate}&toDate=${toDate}`, function (result) {
 
                 if (result.isSuccess && result.data.length > 0) {
                     for (var i = 0; i < result.data.length; i++) {
@@ -189,23 +226,17 @@
 
         function Global_Search() {
 
-            var from = $("#from_date").val();
-            var to = $("#to_date").val();
-
-            if (from != "" && to != "") {
                 var typeIdChart = $(".btn_equity.active").data('typeid');
                 var typeIdProftLoss = $(".btn_loss_profit.active").data('typeid');
                 cal = cal.destroy();
                 DrawChartLossProfitChart(typeIdProftLoss);
                 DrawChartEquityChart(typeIdChart);
                 BindMonthlyBreaupGrid();
-                calStartdate = new Date(from);
-                range = monthDiff(new Date(from), new Date(to));
+                calStartdate = new Date(fromDate);
+                range = monthDiff(new Date(fromDate), new Date(toDate));
                 initCalendar();
                 BindSummary();
-            } else {
-                alert('Please select from and to date');
-            }
+            
         }
 
         function BindGrid() {
@@ -232,12 +263,9 @@
         }
 
         function BindSummary() {
-            Global.ShowLoading();
-
-            var from = $("#from_date").val();
-            var to = $("#to_date").val();
+            Global.ShowLoading();           
             var groupId = $("#hid_groupid").val();
-            $.ajax(`/EmployeeGroup/GetPLSummary?groupId=${groupId}&fromDate=${from}&toDate=${to}`, {
+            $.ajax(`/EmployeeGroup/GetPLSummary?groupId=${groupId}&fromDate=${fromDate}&toDate=${toDate}`, {
                 type: "GET",
                 success: function (result) {
                     if (result.realisedPL > 0) {
@@ -270,14 +298,11 @@
 
         function BindMonthlyBreaupGrid() {
 
-            var from = $("#from_date").val();
-            var to = $("#to_date").val();
-
             var $grid = $("#monthly_grid tbody");
             $grid.empty();
             var groupId = $("#hid_groupid").val();
 
-            $.ajax(`/EmployeeGroup/GetMonthlyBreaupData?groupId=${groupId}&fromDate=${from}&toDate=${to}`, {
+            $.ajax(`/EmployeeGroup/GetMonthlyBreaupData?groupId=${groupId}&fromDate=${fromDate}&toDate=${toDate}`, {
                 type: "GET",
                 success: function (result) {
                     if (result.data.length > 0) {
@@ -285,7 +310,7 @@
                             var pro = result.data[i];
                             var $tr = '<tr><td>' + pro.year + '</td>';
                             for (var j = 0; j < pro.monthly.length; j++) {
-                                $tr += `<td style="background-color:${pro.monthly[j].dailyPnL < 0 ? 'antiquewhite' : 'darkseagreen'};">` + Global.kFormatter(pro.monthly[j].dailyPnL) + '</td>';
+                                $tr += `<td style="background-color:${pro.monthly[j].dailyPnL < 0 ? 'antiquewhite' : '#d0f5d0'};">` + Global.kFormatter(pro.monthly[j].dailyPnL) + '</td>';
                             }
                             $tr += '<td style="color:green;">' + Global.kFormatter(pro.total) + '</td></tr>';
 

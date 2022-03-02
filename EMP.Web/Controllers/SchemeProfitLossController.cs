@@ -100,7 +100,7 @@ namespace EMP.Web.Controllers
                 dataResponse = JsonConvert.DeserializeObject<List<GroupChartDto>>(sr.ReadToEnd()).OrderBy(o => o.Date).Select(x => new SchemeProfitLossDto()
                 {
                     Date = x.Date,
-                    Expense = x.AggregateSum,
+                    Expense = 0,
                     ProfitLoss = x.DailyPnL,
                     GroupId = groupId
                 }).ToList();

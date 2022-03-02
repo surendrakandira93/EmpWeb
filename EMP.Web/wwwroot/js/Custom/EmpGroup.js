@@ -43,12 +43,12 @@
                     if (result.data.list.length > 0) {
                         for (var i = 0; i < result.data.list.length; i++) {
                             var group = result.data.list[i];
-                            var $tr = '<div class="usr-question"><div class="usr_img"><img src="' + (!group.iconImg != null ? "/GroupImage/" + group.iconImg : "/images/resources/usrr-img1.png") + '" alt=""></div><div class="usr_quest" data-id=' + group.id + '><h3>' + group.name + '</h3><ul class="quest-tags">';
+                            var $tr = '<div class="usr-question"><div class="usr_img"><img src="' + (!group.iconImg != null ? "/GroupImage/" + group.iconImg : "/images/resources/usrr-img1.png") + '" alt=""></div><div class="usr_quest"><h3>' + group.name + '&ensp;&ensp;&ensp;&ensp; <a href="javascript:void(0);" class="group_edit"  data-id=' + group.id + '><i class="fa fa-pencil"></i></a>&ensp;&ensp;<a href="javasript:void(0);" data-id=' + group.id + ' class="group_delete"><i class="fa fa-trash"></i></a></h3><ul class="quest-tags">';
 
                             for (var j = 0; j < group.employees.length; j++) {
                                 $tr += '<li><a href="/employee/view/' + group.employees[j].employeeId + '" title="">' + group.employees[j].name + '</a></li>';
                             }
-                            $tr += '</ul></div></div>';
+                            $tr += '</ul></div><p>' + group.description+'</p></div>';
                             $grid.append($tr);
                         }
 
@@ -58,9 +58,7 @@
                                 $page.append('<li class="page-item"><a class="page-link active" href="javascript:void(0);">' + page.pageNo + '</a></li>');
                             } else {
                                 $page.append('<li class="page-item"><a class="page-link page-link-click" data-no=' + page.pageNo +' href="javascript:void(0);">' + page.pageNo + '</a></li>');
-                            }
-
-                            
+                            }                            
                         }
 
                     }
@@ -68,9 +66,14 @@
                         var page = parseInt($(this).data('no'));
                         gotoPage(page);
                     });
-                    $(".usr_quest").click(function () {
+                    $(".group_delete").click(function () {
                         var id = $(this).data('id');
                         gotoDelete(id);
+                    })
+
+                    $(".group_edit").click(function () {
+                        var id = $(this).data('id');
+                        gotoEdit(id);
                     })
 
                     Global.HideLoading();
@@ -92,6 +95,7 @@
                         var empArr = new Array();
                         $("#group_id").val(result.data.id);
                         $("#group_name").val(result.data.name);
+                        $("#group_description").val(result.data.description);                        
                         for (var i = 0; i < result.data.employees.length; i++) {
                             empArr.push(result.data.employees[i].employeeId);
                         }

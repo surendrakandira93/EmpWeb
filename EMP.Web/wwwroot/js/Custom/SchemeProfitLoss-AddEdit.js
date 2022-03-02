@@ -17,7 +17,7 @@
 
                             if (result.message)
                                 Global.ToastrSuccess(result.message);
-                            debugger;
+                            
                             empGroupChart.RefreshChart();
                         } else {
 
