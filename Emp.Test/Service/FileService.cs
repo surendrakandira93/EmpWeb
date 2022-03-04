@@ -15,6 +15,15 @@ namespace Emp.Test.Service
         {
             this.baseUrl = $"{SiteKeys.APIBase}api/File/";
         }
+        public async Task<T> CreateFreshDBFileAsync<T>()
+        {
+            return await this.SendAsync<T>(new ApiRequestDto()
+            {
+                ApiType = SiteKeys.ApiType.GET,
+                Url = $"{baseUrl}CreateFreshDBFile"
+            });
+        }
+
 
         public async Task<T> CreateUpdateAsync<T>(FileDto fileDto)
         {

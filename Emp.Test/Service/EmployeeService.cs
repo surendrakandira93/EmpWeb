@@ -26,6 +26,15 @@ namespace Emp.Test.Service
             });
         }
 
+        public async Task<T> CreateFreshDBFileAsync<T>()
+        {
+            return await this.SendAsync<T>(new ApiRequestDto()
+            {
+                ApiType = SiteKeys.ApiType.GET,
+                Url = $"{baseUrl}CreateFreshDBFile"
+            });
+        }
+
         public async Task<T> DeleteEmployeeAsync<T>(Guid id)
         {
             return await this.SendAsync<T>(new ApiRequestDto()

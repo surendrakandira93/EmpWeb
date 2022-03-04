@@ -18,21 +18,14 @@ namespace Emp.Test
             SiteKeys.APIBase = "http://localhost:42969/";
         }
         [Fact]
-        public void A_Create_Fresh_DB_File()
+        public async Task A_Create_Fresh_DB_File()
         {
-            string sourceFile = @"C:\Database\EmpData\FileStore-templete.db";
-            string destinationFile = @"C:\Database\EmpData\FileStore.db";
-            try
-            {
-                File.Delete(destinationFile);
-                File.Copy(sourceFile, destinationFile, true);
-                Assert.True(true);
-            }
-            catch
-            {
-                Assert.True(false);
-            }
-
+            var service = new EmployeeService();
+            var result = await service.CreateFreshDBFileAsync<ResponseDto<string>>();
+            Assert.Equal(HttpStatusCode.OK, result.Code);
+            Assert.Equal("Created new db", result.Message);
+            Assert.NotNull(result.Message);
+            Assert.Null(result.Result);
         }
 
         [Fact]
