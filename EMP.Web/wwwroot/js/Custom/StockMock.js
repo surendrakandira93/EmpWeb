@@ -1068,18 +1068,18 @@
                     //})
                     .map(function (e) {
                         var n = "";
-                        n = [
-                            e.totalLot * lotSize[e.stock],
-                            "sell" == e.actionType ? "S" : "B",
-                            ("futures" == e.segment ? ('F::') : 'P:' + (e.strikePrice).toString() + ':' + ("call" == e.optionType ? "CE" : "PE")),
-                            "".concat("weekly" == e.expiryType ? "CW" : "CM"),
-                            "".concat(stockInShort[e.stock]),
-                            (e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value) ? "".concat(e.stopLoss.type, "_").concat("slcl" == e.stopLoss.type ? "1" : e.stopLoss.value).toUpperCase() : "null"),
-                            (e.targetProfit.status && e.targetProfit.value ? "".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "null"),
-                            (e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
-                                ? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
-                            "".concat(e.entryType)
-                        ].join(":");
+                        //n = [
+                        //    e.totalLot * lotSize[e.stock],
+                        //    "sell" == e.actionType ? "S" : "B",
+                        //    ("futures" == e.segment ? ('F::') : 'P:' + (e.strikePrice).toString() + ':' + ("call" == e.optionType ? "CE" : "PE")),
+                        //    "".concat("weekly" == e.expiryType ? "CW" : "CM"),
+                        //    "".concat(stockInShort[e.stock]),
+                        //    (e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value) ? "".concat(e.stopLoss.type, "_").concat("slcl" == e.stopLoss.type ? "1" : e.stopLoss.value).toUpperCase() : "null"),
+                        //    (e.targetProfit.status && e.targetProfit.value ? "".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "null"),
+                        //    (e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
+                        //        ? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
+                        //    "".concat(e.entryType)
+                        //].join(":");
                         //debugger;
                         return (
                             n = [
@@ -1090,8 +1090,7 @@
                                 "".concat(stockInShort[e.stock]),
                                 (e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value) ? "".concat(e.stopLoss.type, "_").concat("slcl" == e.stopLoss.type ? "1" : e.stopLoss.value).toUpperCase() : "null"),
                                 (e.targetProfit.status && e.targetProfit.value ? "".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "null"),
-                                (e.stopLoss.status && e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
-                                    ? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
+                                (e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
                                 "".concat(e.entryType)
                             ].join(":")
                         )
@@ -1200,8 +1199,8 @@
                         (seg = "F" == seg ? "futures" : "options"),
                         (ext = 'CW' == ext ? 'weekly' : 'monthly'),
                         (opt = "CE" == opt ? 'call' : 'sell'),
-                        (act = "S" == opt ? 'sell' : 'buy');
-                }
+                        (act = "S" == act ? 'sell' : 'buy');
+                }                
 
                 d = {
                     stock: s,
@@ -1220,18 +1219,18 @@
                         D = P[1];
                     if (P.length > 1) {
                         (x.status = !0),
-                            (x.type = T),
+                            (x.type = T.toLowerCase()),
                             (x.value = D);
                     }
                 }
                 var A = { status: !1, type: "tslp", xValue: "", yValue: "" };
-                if (!x.status) {
+                if (!A.status) {
                     var C = dt(trstopl.split("_"), 3),
                         N = C[0],
                         R = C[1],
                         E = C[2];
                     if (C.length > 1) {
-                        (A.status = !0), (A.type = N), (A.xValue = R), (A.yValue = E);
+                        (A.status = !0), (A.type = N.toLowerCase()), (A.xValue = R), (A.yValue = E);
                     }
                 }
                 var M = { status: !1, type: "tpp", value: "" };
@@ -1240,7 +1239,7 @@
                         O = I[0],
                         B = I[1];
                     if (I.length > 1) {
-                        (M.status = !0), (M.type = O), (M.value = B);
+                        (M.status = !0), (M.type = O.toLowerCase()), (M.value = B);
                     }
                 }
 
@@ -1256,8 +1255,8 @@
                     expiryType: ext,
                     premiumRange: [100, 200],
                     isWaitAndTrade: !1,
-                    targetProfit: M,
-                    stopLoss: x,
+                    targetProfit: x,
+                    stopLoss: M,
                     trailingStopLoss: A,
                     entryWait: { type: 'wp_%_+_↑', value: '' }
                 };

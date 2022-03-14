@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMP.Web.Controllers
 {
-    public class StockMockController : BaseController
+    public class StockMockController : Controller
     {
         public IActionResult Index()
         {
