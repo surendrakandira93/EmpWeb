@@ -1,33 +1,45 @@
-﻿@{
+﻿@model string
+@{
     Layout = "/Views/Shared/_LayoutStockMock.cshtml";
 }
 
 <br />
 <br />
 
-<div class="add__position__box">
+<div class="__page row">
 
-    <div class="row entry__type">
-        <label style="padding: 10px;" class="checkbox-container">
-            <div class="checkbox-label"><input type="radio" name="entryType" value="atm"><span class="checkbox-custom radio__type"></span></div>
-            <div class="checkbox__title">Entry by ATM</div>
-        </label>
-        <label style="padding: 10px;" class="checkbox-container">
-            <div class="checkbox-label"><input type="radio" name="entryType" value="cp"><span class="checkbox-custom radio__type"></span></div>
-            <div class="checkbox__title">
-                Entry by Closest Premium<span class="bi bi-info-circle info__icon">
 
-                </span>
-            </div>
-        </label>
+    <div class="add__position__box">
+
+        <div class="row entry__type">
+            <label style="padding: 10px;" class="checkbox-container">
+                <div class="checkbox-label"><input type="radio" name="entryType" value="atm"><span class="checkbox-custom radio__type"></span></div>
+                <div class="checkbox__title">Entry by ATM</div>
+            </label>
+            <label style="padding: 10px;" class="checkbox-container">
+                <div class="checkbox-label"><input type="radio" name="entryType" value="cp"><span class="checkbox-custom radio__type"></span></div>
+                <div class="checkbox__title">
+                    Entry by Closest Premium<span class="bi bi-info-circle info__icon">
+
+                    </span>
+                </div>
+            </label>
+        </div>
+        <div id="rowdata"></div>
+        <div class="row __botton__box"><div class="__button__control"><button class="__button" id="add_position">Add Position</button></div></div>
     </div>
-    <div id="rowdata"></div>
-    <div class="row __botton__box"><div class="__button__control"><button class="__button" id="add_position">Add Position</button></div></div>
-</div>
 
 
     <div class="__position__box__container">
 
-        
+
     </div>
-  
+
+    <div class="row __position__footer" style="display:none;">
+        <div class="__button__control __no__print"><button class="__button __full__button sharestrategy"><i class="fa fa-share-alt __share__icon"></i>Share Strategy</button></div>
+    </div>
+
+</div>
+<script>
+    var qry = '@Model';
+</script>

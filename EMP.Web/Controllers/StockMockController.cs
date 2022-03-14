@@ -10,12 +10,18 @@ namespace EMP.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            string qry = "index";
+            return View(qry);
         }
 
         public IActionResult Index1()
         {
             return View();
+        }
+
+        public IActionResult Share(string qry)
+        {
+            return View("index",qry);
         }
     }
 }

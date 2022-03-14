@@ -3,17 +3,33 @@
         var $this = this;
         var positionItems = [], stockItem = [], segmentItem = [], optionTypeItem = [], actionTypeItem = [],
             expiryTypeItem = [], selectedPosition = {}, allPositions = [], strikePrice = {}, closestPremium = {},
-            lotSize = { nifty: 75, banknifty: 20, finnifty: 40 }
+            lotSize = { nifty: 75, banknifty: 20, finnifty: 40 }, entryType = ["atm", "premium"],
+            stock = ["nifty", "banknifty"],
+            stockInShort = { nifty: "N", banknifty: "BN", finnifty: "FN" };
 
         function initilizeModel() {
+
             onChangeinput("entryType");
 
             $("#add_position").on('click', function () {
                 allPositions.push(JSON.parse(JSON.stringify(selectedPosition)));
                 $('.__position__box__container').empty();
                 addPosition();
+                $('.__position__footer').show();
             });
 
+            $(".sharestrategy").on('click', function () {
+                var url = window.location.origin + "/stockmock/share?qry=" + encodeURI(shareURL());
+                //alert(url);
+                openShareURL(url);
+            })
+            if (qry != '')
+                A(qry);
+
+            if (allPositions.length > 0) {
+                addPosition();
+                $('.__position__footer').show();
+            }
         }
 
         function onChangeinput(radioName) {
@@ -58,8 +74,11 @@
                 totalLot: 1,
                 expiryType: "weekly",
                 premiumRange: [100, 200],
+                isWaitAndTrade: !1,
                 targetProfit: { status: !1, type: "tpp", value: "" },
-                stopLoss: { status: !1, type: "slp", value: "" }
+                stopLoss: { status: !1, type: "slp", value: "" },
+                trailingStopLoss: { status: !1, xValue: '', yValue: '', type: 'tslp' },
+                entryWait: { type: 'wp_%_+_↑', value: '' }
             };
 
             strikePrice = {
@@ -450,34 +469,39 @@
                                             $("<div/>", {
                                                 class: 'add__leg__tpsl trailing__box',
                                                 html: function () {
-                                                    $('<label/>', {
-                                                        class: 'checkbox-container addinput',
-                                                        'data-name': 'trailstoploss',
-                                                        'data-index': i,
-                                                        html: function () {
-                                                            $('<div/>', {
-                                                                class: 'checkbox-label',
-                                                                html: function () {
-                                                                    $('<input/>', {
-                                                                        type: 'checkbox',
-                                                                        value: false
-                                                                    }).appendTo(this);
-                                                                    $('<span/>', {
-                                                                        class: 'fa fa-plus fa__add'
-                                                                    }).appendTo(this);
-                                                                }
+                                                    if (positionObj.trailingStopLoss.status) {
+                                                        addTrailStopLoss(this, 'trailstoploss', i);
+                                                    } else {
+                                                        $('<label/>', {
+                                                            class: 'checkbox-container addinput',
+                                                            'data-name': 'trailstoploss',
+                                                            'data-index': i,
+                                                            html: function () {
+                                                                $('<div/>', {
+                                                                    class: 'checkbox-label',
+                                                                    html: function () {
+                                                                        $('<input/>', {
+                                                                            type: 'checkbox',
+                                                                            value: false
+                                                                        }).appendTo(this);
+                                                                        $('<span/>', {
+                                                                            class: 'fa fa-plus fa__add'
+                                                                        }).appendTo(this);
+                                                                    }
 
-                                                            }).appendTo(this);
+                                                                }).appendTo(this);
 
-                                                            $('<div/>', {
-                                                                class: 'checkbox__title',
-                                                                html: 'Trail Stop Loss'
+                                                                $('<div/>', {
+                                                                    class: 'checkbox__title',
+                                                                    html: 'Trail Stop Loss'
 
-                                                            }).appendTo(this);
-                                                        }
-                                                    }).appendTo(this);
+                                                                }).appendTo(this);
+                                                            }
+                                                        }).appendTo(this);
+                                                    }
                                                 }
                                             }).appendTo(this);
+
 
                                             $('<div/>', {
                                                 class: '__input__type__radio',
@@ -721,6 +745,8 @@
                 var val = $(this).val();
                 if (name == 'targetprofit')
                     allPositions[index].targetProfit.type = val;
+                else if (name == 'trailstoploss')
+                    allPositions[index].trailingStopLoss.type = val;
                 else
                     allPositions[index].stopLoss.type = val;
             });
@@ -731,9 +757,24 @@
                 var val = $(this).val();
                 if (name == 'targetprofit')
                     allPositions[index].targetProfit.value = val;
+                else if (name == 'trailstoploss') {
+                    if ($(this).hasClass('x'))
+                        allPositions[index].trailingStopLoss.xValue = val;
+                    else
+                        allPositions[index].trailingStopLoss.yValue = val;
+                }
                 else
                     allPositions[index].stopLoss.value = val;
             });
+
+            $(document).on('click', '.closepop', function () {
+                $('.share__modal').remove();
+            });
+
+            $(document).on("success", ".__copy__button", function (t) {
+                document.getElementById("referrLink") && document.getElementById("referrLink").focus()
+            })
+
 
         }
 
@@ -922,33 +963,48 @@
         }
 
         function addTrailStopLoss($parent, name, index) {
+
+            allPositions[index].trailingStopLoss.status = true;
+            var e = allPositions[index].trailingStopLoss;
+
             $('<div/>', {
                 class: '__box__input select__box__doubleinput',
                 html: function () {
                     $('<select/>', {
+                        'class': 'targetProfitselect',
+                        'data-name': name,
+                        'data-index': index,
                         html: function () {
                             $('<option/>', {
                                 value: 'tslp',
-                                text: 'TSL %'
+                                text: 'TSL %',
+                                selected: e.type == 'tslp'
                             }).appendTo(this);
 
                             $('<option/>', {
                                 value: 'tslpn',
-                                text: 'TSL pt'
+                                text: 'TSL pt',
+                                selected: e.type == 'tslpn'
                             }).appendTo(this);
                         }
                     }).appendTo($(this));
 
                     $('<input/>', {
+                        'class': '__box__input targetProfitinput x',
+                        'data-name': name,
+                        'data-index': index,
                         type: 'number',
                         placeholder: 'X',
-                        class: '__box__input'
+                        value: e.xValue
                     }).appendTo($(this));
 
                     $('<input/>', {
+                        'class': '__box__input targetProfitinput y',
+                        'data-name': name,
+                        'data-index': index,
                         type: 'number',
                         placeholder: 'Y',
-                        class: '__box__input'
+                        value: e.yValue
                     }).appendTo($(this));
                 }
             }).appendTo($parent);
@@ -975,6 +1031,7 @@
         }
 
         function removeTrailStopLoss($parent, name, index) {
+            allPositions[index].trailingStopLoss.status = false;
             $('<label/>', {
                 class: 'checkbox-container addinput',
                 'data-name': name,
@@ -1001,6 +1058,246 @@
                     }).appendTo(this);
                 }
             }).appendTo($parent);
+        }
+
+        function shareURL() {
+            return (
+                allPositions
+                    //.filter(function (t) {
+                    //    return t.isChecked;
+                    //})
+                    .map(function (e) {
+                        var n = "";
+                        n = [
+                            e.totalLot * lotSize[e.stock],
+                            "sell" == e.actionType ? "S" : "B",
+                            ("futures" == e.segment ? ('F::') : 'P:' + (e.strikePrice).toString() + ':' + ("call" == e.optionType ? "CE" : "PE")),
+                            "".concat("weekly" == e.expiryType ? "CW" : "CM"),
+                            "".concat(stockInShort[e.stock]),
+                            (e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value) ? "".concat(e.stopLoss.type, "_").concat("slcl" == e.stopLoss.type ? "1" : e.stopLoss.value).toUpperCase() : "null"),
+                            (e.targetProfit.status && e.targetProfit.value ? "".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "null"),
+                            (e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
+                                ? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
+                            "".concat(e.entryType)
+                        ].join(":");
+                        //debugger;
+                        return (
+                            n = [
+                                e.totalLot * lotSize[e.stock],
+                                "sell" == e.actionType ? "S" : "B",
+                                ("futures" == e.segment ? ('F::') : 'P:' + ((e.entryType == 'atm' ? e.strikePrice : e.closestPremium) + ':' + ("call" == e.optionType ? "CE" : "PE"))),
+                                "".concat("weekly" == e.expiryType ? "CW" : "CM"),
+                                "".concat(stockInShort[e.stock]),
+                                (e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value) ? "".concat(e.stopLoss.type, "_").concat("slcl" == e.stopLoss.type ? "1" : e.stopLoss.value).toUpperCase() : "null"),
+                                (e.targetProfit.status && e.targetProfit.value ? "".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "null"),
+                                (e.stopLoss.status && e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
+                                    ? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
+                                "".concat(e.entryType)
+                            ].join(":")
+                        )
+                    }).toString()
+            )
+
+        }
+
+        function openShareURL(url) {
+            $('<div/>', {
+                class: 'container share__modal',
+                html: function () {
+                    $('<div/>', {
+                        class: 'modal show fade',
+                        style: "display:block",
+                        html: function () {
+                            $('<div/>', {
+                                class: 'modal-dialog modal-dialog-centered',
+                                html: function () {
+                                    $('<div/>', {
+                                        class: 'modal-content',
+                                        html: function () {
+                                            $('<div/>', {
+                                                class: 'modal-header',
+                                                html: function () {
+                                                    $('<h4/>', {
+                                                        class: 'modal-title',
+                                                        text: 'Share This Strategy'
+                                                    }).appendTo(this)
+
+                                                    $('<button/>', {
+                                                        class: 'close closepop',
+                                                        type: "button",
+                                                        html: "×"
+                                                    }).appendTo(this)
+                                                }
+                                            }).appendTo(this)
+
+                                            $('<div/>', {
+                                                class: 'modal-body',
+                                                html: function () {
+                                                    $('<input/>', {
+                                                        'calss': '__sharelink',
+                                                        'id': 'shareLink',
+                                                        value: url
+                                                    }).appendTo(this)
+
+                                                    $('<div/>', {
+                                                        class: '__link',
+                                                        html: function () {
+                                                            $('<a/>', {
+                                                                class: '__copy__button',
+                                                                "data-clipboard-target": "#shareLink",
+                                                                html: "Click to copy"
+                                                            }).appendTo(this)
+                                                        }
+                                                    }).appendTo(this)
+                                                }
+                                            }).appendTo(this)
+
+                                            $('<div/>', {
+                                                calss: 'modal-footer',
+                                                html: function () {
+                                                    $('<button/>', {
+                                                        class: '__button closepop',
+                                                        type: "button",
+                                                        html: "Close"
+                                                    }).appendTo(this)
+                                                }
+                                            }).appendTo(this)
+                                        }
+                                    }).appendTo(this)
+                                }
+                            }).appendTo(this)
+                        }
+                    }).appendTo(this)
+
+                    $('<div/>', {
+                        class: 'modal-backdrop show'
+                    }).appendTo(this)
+                }
+            }).appendTo('.__page');
+            new ClipboardJS('.__copy__button');
+        }
+
+        function A(e) {
+
+            var i = e.split(",");
+
+            i.forEach(function (e) {
+                var s, seg, opt, act, sp, tl, ent, closestPremium, tagpr, stopl, trstopl, ext
+                if (e.indexOf(":") > -1) {
+                    var v = dt(e.split(":"), 9);
+                    (tl = v[0]),
+                        (act = v[1]),
+                        (seg = v[2]),
+                        (sp = v[3]),
+                        (opt = v[4]),
+                        (ext = v[5]),
+                        (s = v[6]),
+                        (stopl = v[7]),
+                        (tagpr = v[8]),
+                        (trstopl = v[9]),
+                        (ent = v[10]),
+                        (s = "BN" == s ? "banknifty" : "N" == s ? "nifty" : "finnifty"),
+                        (seg = "F" == seg ? "futures" : "options"),
+                        (ext = 'CW' == ext ? 'weekly' : 'monthly'),
+                        (opt = "CE" == opt ? 'call' : 'sell'),
+                        (act = "S" == opt ? 'sell' : 'buy');
+                }
+
+                d = {
+                    stock: s,
+                    segment: seg,
+                    optionType: opt,
+                    actionType: act,
+                    strikePrice: sp,
+                    totalLot: tl / lotSize[s],
+                    closestPremium: sp,
+                };
+
+                var x = { status: !1, type: "slp", value: "" };
+                if (!x.status) {
+                    var P = dt(tagpr.split("_"), 2),
+                        T = P[0],
+                        D = P[1];
+                    if (P.length > 1) {
+                        (x.status = !0),
+                            (x.type = T),
+                            (x.value = D);
+                    }
+                }
+                var A = { status: !1, type: "tslp", xValue: "", yValue: "" };
+                if (!x.status) {
+                    var C = dt(trstopl.split("_"), 3),
+                        N = C[0],
+                        R = C[1],
+                        E = C[2];
+                    if (C.length > 1) {
+                        (A.status = !0), (A.type = N), (A.xValue = R), (A.yValue = E);
+                    }
+                }
+                var M = { status: !1, type: "tpp", value: "" };
+                if (!M.status) {
+                    var I = dt(stopl.split("_"), 2),
+                        O = I[0],
+                        B = I[1];
+                    if (I.length > 1) {
+                        (M.status = !0), (M.type = O), (M.value = B);
+                    }
+                }
+
+                var newselectedPosition = {
+                    entryType: ent,
+                    stock: d.stock,
+                    segment: d.segment,
+                    optionType: d.optionType,
+                    actionType: d.actionType,
+                    strikePrice: d.strikePrice,
+                    closestPremium: d.closestPremium,
+                    totalLot: d.totalLot,
+                    expiryType: ext,
+                    premiumRange: [100, 200],
+                    isWaitAndTrade: !1,
+                    targetProfit: M,
+                    stopLoss: x,
+                    trailingStopLoss: A,
+                    entryWait: { type: 'wp_%_+_↑', value: '' }
+                };
+                debugger;
+                allPositions.push(newselectedPosition);
+            });
+        }
+
+        function dt(t, e) {
+            return (
+                (function (t) {
+                    if (Array.isArray(t)) return t;
+                })(t) ||
+                (function (t, e) {
+                    var n = null == t ? null : ("undefined" != typeof Symbol && t[Symbol.iterator]) || t["@@iterator"];
+                    if (null != n) {
+                        var r,
+                            a,
+                            i = [],
+                            o = !0,
+                            s = !1;
+                        try {
+                            for (n = n.call(t); !(o = (r = n.next()).done) && (i.push(r.value), !e || i.length !== e); o = !0);
+                        } catch (t) {
+                            (s = !0), (a = t);
+                        } finally {
+                            try {
+                                o || null == n.return || n.return();
+                            } finally {
+                                if (s) throw a;
+                            }
+                        }
+                        return i;
+                    }
+                })(t, e) ||
+                mt(t, e) ||
+                (function () {
+                    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                })()
+            );
         }
 
         $this.init = function () {

@@ -37119,7 +37119,7 @@
                     function g(e) {
                         var n = !(arguments.length > 1 && void 0 !== arguments[1]) || arguments[1],
                             r = Object.assign(gt({}, t.selectedPosition), e);
-                        e || t.allPositions.length < t.allPositionsLengthLimit
+                        e || t.allPosi-tions.length < t.allPositionsLengthLimit
                             ? +r.totalLot > 0
                                 ? ((r.isChecked = !0),
                                   r.entryType || (r.entryType = t.selectedPosition.entryType),
