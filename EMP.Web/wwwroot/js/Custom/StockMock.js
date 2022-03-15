@@ -1,11 +1,51 @@
 ﻿(function ($) {
     function StockMock() {
         var $this = this;
-        var positionItems = [], stockItem = [], segmentItem = [], optionTypeItem = [], actionTypeItem = [],
-            expiryTypeItem = [], selectedPosition = {}, allPositions = [], strikePrice = {}, closestPremium = {},
-            lotSize = { nifty: 75, banknifty: 20, finnifty: 40 }, entryType = ["atm", "premium"],
-            stock = ["nifty", "banknifty"],
-            stockInShort = { nifty: "N", banknifty: "BN", finnifty: "FN" };
+
+        var positionItems,
+            stockIte,
+            segmentItem,
+            optionTypeItem,
+            actionTypeItem,
+            expiryTypeItem,
+            selectedPosition,
+            allPositions = [],
+            strikePrice,
+            closestPremium,
+            targetProfitTypeItem,
+            stopLossTypeItem,
+            trailingStopLossTypeItem,
+            entryWaitTypeItem,
+            lotSize,
+            stockInShort,
+            squareOffItems,
+            squareOff,
+            isWaitAndTrade,
+            isCTC,
+            isReEntry,
+            entryTime,
+            exitTime,
+            minHour,
+            minMinute,
+            maxHour,
+            maxMinute,
+            selectedTrb,
+            selectedStrategy,
+            shownResultStrategy,
+            selectedStrategyStatus,
+            selectedEntryTime,
+            selectedEntryEndTime,
+            selectedExitTime,
+            entryExitDayType,
+            entryDay,
+            exitDay,
+            allPositionsLengthLimit,
+            resStrategiesResult,
+            strategiesResult,
+            combinedResult;
+
+
+
 
         function initilizeModel() {
 
@@ -14,6 +54,9 @@
             $("#add_position").on('click', function () {
                 allPositions.push(JSON.parse(JSON.stringify(selectedPosition)));
                 $('.__position__box__container').empty();
+
+                addPositionHeader();
+
                 addPosition();
                 $('.__position__footer').show();
             });
@@ -63,24 +106,26 @@
 
         function BindData() {
 
-            selectedPosition = {
-                entryType: "atm",
-                stock: "banknifty",
-                segment: "futures",
-                optionType: "call",
-                actionType: "buy",
-                strikePrice: 0,
-                closestPremium: 25,
-                totalLot: 1,
-                expiryType: "weekly",
-                premiumRange: [100, 200],
-                isWaitAndTrade: !1,
-                targetProfit: { status: !1, type: "tpp", value: "" },
-                stopLoss: { status: !1, type: "slp", value: "" },
-                trailingStopLoss: { status: !1, xValue: '', yValue: '', type: 'tslp' },
-                entryWait: { type: 'wp_%_+_↑', value: '' }
-            };
+            isWaitAndTrade = !1;
+            isCTC = !1;
+            isReEntry = !1;
+            selectedTrb = { h: "09", m: "31" };
+            selectedStrategy = "intraday";
+            shownResultStrategy = "intraday";
+            selectedStrategyStatus = "t";
+            selectedEntryTime = { h: 9, m: 30 };
+            selectedEntryEndTime = { h: 10, m: 30 };
+            selectedExitTime = { h: 14, m: 30 };
+            entryExitDayType = "weekly";
+            entryDay = 1;
+            exitDay = 0;
+            allPositionsLengthLimit = 10;
 
+
+            lotSize = { nifty: 75, banknifty: 20, finnifty: 40 };
+            stockInShort = { nifty: "N", banknifty: "BN", finnifty: "FN", N: "nifty", BN: "banknifty", FN: "finnifty" };
+            squareOffItems = ['leg', 'all'];
+            squareOff = squareOffItems[0];
             strikePrice = {
                 nifty: [-500, -450, -400, -350, -300, -250, -200, -150, -100, -50, 0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500],
                 banknifty: [-1e3, -900, -800, -700, -600, -500, -400, -300, -200, -100, 0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1e3],
@@ -93,16 +138,53 @@
                 finnifty: [5, 10, 20, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500],
             };
 
+            entryTime = {
+                h: [9, 10, 11, 12, 13, 14, 15],
+                m: Array.from({ length: 60 }, function (t, e) {
+                    return e.toString().padStart(2, "0");
+                }),
+            };
+            exitTime = {
+                h: [9, 10, 11, 12, 13, 14, 15],
+                m: Array.from({ length: 60 }, function (t, e) {
+                    return e.toString().padStart(2, "0");
+                }),
+            };
+            minHour = 9;
+            minMinute = 16;
+            maxHour = 15;
+            maxMinute = 29;
 
             stockItem = ['nifty', 'banknifty'];
-
             segmentItem = ['futures', 'options'];
-
             optionTypeItem = ['call', 'put'];
-
             actionTypeItem = ['buy', 'sell'];
-
             expiryTypeItem = ['weekly', 'monthly'];
+            targetProfitTypeItem = [{ value: 'tpp', text: 'TP %' }, { value: 'tppn', text: 'TP pt' }];
+            stopLossTypeItem = [{ value: 'slp', text: 'SL %' }, { value: 'slpn', text: 'SL pt' }];
+            trailingStopLossTypeItem = [{ value: 'tslp', text: 'TSL %' }, { value: 'tslpn', text: 'TSL pt' }];
+            entryWaitTypeItem = [{ value: 'wp_+', text: '🧭  % ↑' }, { value: 'wp_-', text: '🧭  % ↓' }, { value: 'wpn_+', text: '🧭  pt ↑' }, { value: 'wpn_-', text: '🧭  pt ↓' }];
+
+            selectedPosition = {
+                entryType: "atm",
+                isChecked: !0,
+                stock: stockItem[1],
+                segment: segmentItem[0],
+                optionType: optionTypeItem[0],
+                actionType: actionTypeItem[0],
+                strikePrice: 0,
+                closestPremium: 25,
+                totalLot: 1,
+                expiryType: expiryTypeItem[0],
+                premiumRange: [100, 200],
+                isWaitAndTrade: !1,
+                targetProfit: { status: !1, type: targetProfitTypeItem[0].value, value: "" },
+                stopLoss: { status: !1, type: stopLossTypeItem[0].value, value: "" },
+                trailingStopLoss: { status: !1, xValue: '', yValue: '', type: trailingStopLossTypeItem[0].value },
+                entryWait: { type: entryWaitTypeItem[0].value, value: '' },
+                trb: { h: "", m: "" },
+                reEntry: { status: !1, value: 1 },
+            };
 
             positionItems = [
                 { parent: ['atm', 'cp'], title: 'Select Index', name: 'stock', type: 'radio', items: stockItem },
@@ -228,6 +310,154 @@
             BindScheme();
         }
 
+        function addPositionHeader() {
+
+            $('<div/>', {
+                class: 'squar__off__type',
+                html: function () {
+
+                    $('<div/>', {
+                        html: function () {
+                            $('<label/>', {
+                                'class': 'checkbox-container',
+                                html: function () {
+                                    $('<div/>', {
+                                        class: 'checkbox-label',
+                                        html: function () {
+                                            $('<input/>', {
+                                                type: 'radio',
+                                                name: 'squareOff',
+                                                value: 'leg',
+                                                checked: squareOff =='leg'
+                                            }).appendTo(this)
+                                            $('<span/>', {
+                                                class: 'checkbox-custom radio__type'
+                                            }).appendTo(this);
+                                        }
+                                    }).appendTo(this);
+
+                                    $('<div/>', {
+                                        class: 'checkbox__title',
+                                        html: 'Square Off One Leg'
+                                    }).appendTo(this);
+                                }
+                            }).appendTo(this);
+
+                            $('<label/>', {
+                                'class': 'checkbox-container',
+                                html: function () {
+                                    $('<div/>', {
+                                        class: 'checkbox-label',
+                                        html: function () {
+                                            $('<input/>', {
+                                                type: 'radio',
+                                                name: 'squareOff',
+                                                value: 'all',
+                                                checked: squareOff =='all'
+                                            }).appendTo(this)
+                                            $('<span/>', {
+                                                class: 'checkbox-custom radio__type'
+                                            }).appendTo(this)
+                                        }
+                                    }).appendTo(this);
+
+                                    $('<div/>', {
+                                        class: 'checkbox__title',
+                                        html: 'Square Off All Legs'
+                                    }).appendTo(this);
+                                }
+                            }).appendTo(this);
+                        }
+                    }).appendTo(this);
+
+                    
+                }
+            }).appendTo('.__position__box__container');
+
+            $('<div/>', {
+                class: 'squar__off__type entry_condition',
+                html: function () {
+                    $('<div/>', {
+                        html: function () {
+                            $('<label/>', {
+                                'class': 'checkbox-container',
+                                html: function () {
+                                    $('<div/>', {
+                                        class: 'checkbox-label',
+                                        html: function () {
+                                            $('<input/>', {
+                                                type: 'checkbox',
+                                                name: 'isWaitAndTrade',
+                                                checked: isWaitAndTrade
+                                            }).appendTo(this)
+                                            $('<span/>', {
+                                                class: 'checkbox-custom'
+                                            }).appendTo(this)
+                                        }
+                                    }).appendTo(this);
+
+                                    $('<div/>', {
+                                        class: 'checkbox__title',
+                                        html: 'Wait & Trade'
+                                    }).appendTo(this);
+                                }
+                            }).appendTo(this);
+
+                            $('<label/>', {
+                                'class': 'checkbox-container',
+                                html: function () {
+                                    $('<div/>', {
+                                        class: 'checkbox-label',
+                                        html: function () {
+                                            $('<input/>', {
+                                                type: 'checkbox',
+                                                name: 'isCTC',
+                                                checked: isCTC
+                                            }).appendTo(this)
+                                            $('<span/>', {
+                                                class: 'checkbox-custom'
+                                            }).appendTo(this)
+                                        }
+                                    }).appendTo(this);
+
+                                    $('<div/>', {
+                                        class: 'checkbox__title',
+                                        html: 'Move SL to Cost'
+                                    }).appendTo(this);
+                                }
+                            }).appendTo(this);
+
+                            $('<label/>', {
+                                'class': 'checkbox-container',
+                                html: function () {
+                                    $('<div/>', {
+                                        class: 'checkbox-label',
+                                        html: function () {
+                                            $('<input/>', {
+                                                type: 'checkbox',
+                                                name: 'isReEntry',
+                                                checked: isReEntry
+                                            }).appendTo(this)
+                                            $('<span/>', {
+                                                class: 'checkbox-custom'
+                                            }).appendTo(this);
+                                        }
+                                    }).appendTo(this);
+
+                                    $('<div/>', {
+                                        class: 'checkbox__title',
+                                        html: 'Re-Entry'
+                                    }).appendTo(this);
+                                }
+                            }).appendTo(this);
+                        }
+                    }).appendTo(this);
+
+                    
+                }
+            }).appendTo('.__position__box__container');
+        }
+
         function addPosition() {
             allPositions.map(function (p, i) {
                 addPositionRow(p, i);
@@ -256,6 +486,10 @@
                                         html: function () {
                                             $("<input/>", {
                                                 type: 'checkbox',
+                                                value: positionObj.isChecked,
+                                                class: 'poss_check',
+                                                'data-index': i,
+                                                checked: positionObj.isChecked
                                             }).appendTo(this);
                                             $("<span/>", {
                                                 class: 'checkbox-custom',
@@ -394,6 +628,40 @@
                                     $("<div/>", {
                                         class: '__right__align__leginfo',
                                         html: function () {
+
+                                            if (isWaitAndTrade) {
+                                                $('<div/>', {
+                                                    'class': '__box__input select__box__input large__select',
+                                                    html: function () {
+                                                        $('<select/>', {
+                                                            class: 'targetProfitselect',
+                                                            'data-name': 'entryWait',
+                                                            'data-index': i,
+                                                            html: function () {
+                                                                for (var i = 0; i < entryWaitTypeItem.length; i++) {
+                                                                    var wItem = entryWaitTypeItem[i];
+                                                                    $('<option/>', {
+                                                                        value: wItem.value,
+                                                                        text: wItem.text,
+                                                                        selected: positionObj.entryWait.type == wItem.value
+                                                                    }).appendTo(this);
+                                                                }
+                                                            }
+                                                        }).appendTo(this);
+
+                                                        $('<input/>', {
+                                                            type: 'number',
+                                                            'placeholder': '0',
+                                                            class: '__box__input targetProfitinput',
+                                                            'data-name': 'entryWait',
+                                                            'data-index': i,
+                                                            value: positionObj.entryWait.value
+                                                        }).appendTo(this);
+
+                                                    }
+                                                }).appendTo(this);
+                                            }
+
                                             $("<div/>", {
                                                 class: 'add__leg__tpsl',
                                                 html: function () {
@@ -581,6 +849,8 @@
                     }).appendTo(this);
                 }
             }).appendTo('.__position__box__container');
+
+
         }
 
         function editPosition(e) {
@@ -638,6 +908,8 @@
         }
 
         function AddNewevents() {
+
+
 
             $(document).off('click').on('click', '.rowarrow', function () {
                 var $parent = $(this).parent().parent();
@@ -747,6 +1019,8 @@
                     allPositions[index].targetProfit.type = val;
                 else if (name == 'trailstoploss')
                     allPositions[index].trailingStopLoss.type = val;
+                else if (name == 'entryWait')
+                    allPositions[index].entryWait.type = val;
                 else
                     allPositions[index].stopLoss.type = val;
             });
@@ -763,6 +1037,8 @@
                     else
                         allPositions[index].trailingStopLoss.yValue = val;
                 }
+                else if (name == 'entryWait')
+                    allPositions[index].entryWait.value = val;
                 else
                     allPositions[index].stopLoss.value = val;
             });
@@ -775,7 +1051,18 @@
                 document.getElementById("referrLink") && document.getElementById("referrLink").focus()
             })
 
+            $(document).on('click', '.poss_check', function () {
 
+                $(this).val($(this).is(':checked'));
+                var index = parseInt($(this).data('index'));
+                allPositions[index].isChecked = $(this).is(':checked');
+                if ($(this).is(':checked')) {
+                    $('#po_row_' + index).find('.__position__details').removeClass('__inactive');
+                } else {
+                    $('#po_row_' + index).find('.__position__details').addClass('__inactive');
+                }
+
+            });
         }
 
         function dynamicRadioChange(i) {
@@ -1090,13 +1377,98 @@
                                 "".concat(stockInShort[e.stock]),
                                 (e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value) ? "".concat(e.stopLoss.type, "_").concat("slcl" == e.stopLoss.type ? "1" : e.stopLoss.value).toUpperCase() : "null"),
                                 (e.targetProfit.status && e.targetProfit.value ? "".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "null"),
-                                (e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
+                                (e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue ? "".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase() : "null"),
                                 "".concat(e.entryType)
                             ].join(":")
                         )
                     }).toString()
             )
 
+        }
+
+        function N(t, e) {
+            var n =
+                "p=".concat(L(t)) +
+                "&et=".concat(t.selectedEntryTime.h, ":").concat(t.selectedEntryTime.m, ":00,").concat(t.selectedExitTime.h, ":").concat(t.selectedExitTime.m, ":00") +
+                "&s=".concat(t.selectedStrategy).concat("expiry" == t.selectedStrategy ? "_".concat(t.entryExitDayType) : "") +
+                (e ? "" : "&ed=".concat(t.entryDay, ",").concat(t.exitDay)) +
+                (e ? "" : "&sfd=".concat(+t.selectedFromDate)) +
+                (e ? "" : "&std=".concat(+t.selectedToDate));
+            if (t.isAddStopLoss && t.stopLossMTMPrice) {
+                var r = "premium" == t.stopLossMTMType ? "slpm" : "sl";
+                n += "&".concat(r, "=").concat(-t.stopLossMTMPrice);
+            }
+            if (t.isAddTargetProfit && t.targetProfitMTMPrice) {
+                var a = "premium" == t.targetProfitMTMType ? "tpm" : "tp";
+                n += "&".concat(a, "=").concat(t.targetProfitMTMPrice);
+            }
+            t.isAddTrailingTargetProfit && (n += "&ttp=".concat([t.selectedTrailProfitTypeIndex, t.trailTriggerPrice, t.trailFirstFixedProfit, t.trailMTMX, t.trailMTMY].toString())),
+                (n += "&so=".concat(t.squareOff)),
+                "pr" == t.selectedPosition.entryType && ((n += "&pr=".concat(t.selectedPosition.premiumRange.toString())), (n += "&ete=".concat(t.selectedEntryEndTime.h, ":").concat(t.selectedEntryEndTime.m, ":00"))),
+                "intraday" == t.selectedStrategy && (n += "&rollover=".concat(!!t.isRollover)),
+                t.isEventDaysStrategy && (n += "&eds=".concat(t.eventDaysOption[t.selectedEventIndex].hash)),
+                t.isCTC && (n += "&ctc=".concat(t.isCTC)),
+                t.isWaitAndTrade && (n += "&wat=".concat(t.isWaitAndTrade)),
+                t.isTRB && (n += "&trb=".concat(t.selectedTrb.h, "_").concat(t.selectedTrb.m)),
+                t.isReEntry && (n += "&re=".concat(t.maxReEntryValue > 0 ? t.maxReEntryValue : 0));
+            var i = "premium" == t.selectedPosition.entryType ? "pr" : t.selectedPosition.entryType;
+            return n + "&set=".concat(i);
+        }
+
+        function L(t) {
+            return (
+             
+                allPositions
+                    .filter(function (t) {
+                        return t.isChecked;
+                    })
+                    .map(function (e) {
+                        var n = "";
+                        return (
+                            (n =
+                                "futures" == e.segment
+                                    ? ["".concat(t.stockInShort[e.stock], "::F"), "sell" == e.actionType ? "S" : "B", e.totalLot * t.lotSize[e.stock]].join("_")
+                                    : [
+                                        "cp" == e.entryType
+                                            ? "".concat(t.stockInShort[e.stock], "::CP") + "".concat(e.closestPremium)
+                                            : "".concat(t.stockInShort[e.stock], "::") + "".concat("atm" == e.entryType ? e.strikePrice : "".concat(t.selectedPosition.premiumRange.join(";"))),
+                                        "sell" == e.actionType ? "S" : "B",
+                                        "call" == e.optionType ? "CE" : "PE",
+                                        e.totalLot * t.lotSize[e.stock],
+                                    ].join("_")),
+                            (n +=
+                                e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value)
+                                    ? "::"
+                                        .concat(e.stopLoss.type, "_")
+                                        .concat("slcl" == e.stopLoss.type ? "1" : e.stopLoss.value)
+                                        .toUpperCase()
+                                    : "::null"),
+                            (n += e.targetProfit.status && e.targetProfit.value ? "::".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "::null"),
+                            (n += "::".concat("weekly" == e.expiryType ? "CW" : "CM")),
+                            (n +=
+                                !t.isReEntry && "intraday" == t.selectedStrategy && e.stopLoss.status && e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
+                                    ? "::".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase()
+                                    : "::null"),
+                            (n +=
+                                t.isWaitAndTrade && e.entryWait.value
+                                    ? "::"
+                                        .concat(e.entryWait.type, "_")
+                                        .concat("-" == e.entryWait.premium ? "-" : "")
+                                        .concat(e.entryWait.value)
+                                        .toUpperCase()
+                                    : "::null"),
+                            (n += "::".concat(e.entryType)),
+                            (n +=
+                                t.selectedStrategy.includes("intraday") && t.isTRB && t.selectedTrb.h && t.selectedTrb.m
+                                    ? "::"
+                                        .concat("sell" == e.actionType ? "Lo" : "Hi", "_")
+                                        .concat(t.selectedTrb.h.toString().padStart(2, 0), ":")
+                                        .concat(t.selectedTrb.m.toString().padStart(2, 0), ":00")
+                                    : "::null") + (t.isReEntry && e.reEntry.status && e.reEntry.value > 0 ? "::RE_".concat(e.reEntry.value) : "::null")
+                        );
+                    })
+                    .toString()
+            );
         }
 
         function openShareURL(url) {
@@ -1200,7 +1572,7 @@
                         (ext = 'CW' == ext ? 'weekly' : 'monthly'),
                         (opt = "CE" == opt ? 'call' : 'sell'),
                         (act = "S" == act ? 'sell' : 'buy');
-                }                
+                }
 
                 d = {
                     stock: s,
