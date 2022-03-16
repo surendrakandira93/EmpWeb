@@ -37701,6 +37701,8 @@
                                 })
                                 .map(function (e) {
                                     var n = "";
+                                    //BN::F_B_60
+                                    // BN::CP100_B_PE_120
                                     return (
                                         (n =
                                             "futures" == e.segment

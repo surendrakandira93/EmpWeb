@@ -42,20 +42,66 @@
             allPositionsLengthLimit,
             resStrategiesResult,
             strategiesResult,
-            combinedResult;
+            combinedResult,
+            isTRB = !1,
+            useFuturesAsBase = !1,
+            selectedFromDate = new Date("2017-01-01"),
+            selectedToDate = new Date(),
+            selectedFromDateNode = "",
+            selectedToDateNode = "",
+            defaultFromDate = new Date("2017-01-01"),
+            defaultNiftyFromDate = new Date("2019-02-15"),
+            defaultFinNiftyFromDate = new Date("2021-01-11"),
+            defaulToDate = new Date(),
+            getOnlyWeekData = !0,
+            isAddStopLoss = !1,
+            stopLossPrice = "",
+            stopLossPerLegType = "percent",
+            stopLossMTMPrice = "",
+            stopLossMTMType = "amount",
+            isAddTargetProfit = !1,
+            targetProfitPrice = "",
+            targetProfitPerLegType = "percent",
+            targetProfitMTMPrice = "",
+            targetProfitMTMType = "amount",
+            isAddTrailingTargetProfit = !1,
+            trailTriggerPrice = 1e3,
+            trailFirstFixedProfit = 0,
+            trailMTMX = 1e3,
+            trailMTMY = 500,
+            squareOff = "leg",
+            allDonations = [],
+            donationAmmount = "",
+            isPaymentProceed = !1,
+            payemntStatus = !1,
+            heartBeatsSortBy = [],
+            heartBeatsSortByOrder = ["increase", "decrease"],
+            selectedHeartBeatsSortBy = "avgDayProfit",
+            selectedHeartBeatsSortByOrder = "decrease",
+            heartBeatsResults = [],
+            heartBeatsStateType = "latest",
+            ignoredDates = {},
+            isRollover = !1,
+            isShowEventDayOfferPopup = !1,
+            isEventDaysStrategy = !1,
+            isBudgetDaysStrategy = !1,
+            maxReEntryValue = "";
 
 
 
 
         function initilizeModel() {
 
+
+
+
             onChangeinput("entryType");
 
             $("#add_position").on('click', function () {
                 allPositions.push(JSON.parse(JSON.stringify(selectedPosition)));
-                $('.__position__box__container').empty();
 
-                addPositionHeader();
+                if (allPositions.length == 1)
+                    addPositionHeader();
 
                 addPosition();
                 $('.__position__footer').show();
@@ -63,11 +109,21 @@
 
             $(".sharestrategy").on('click', function () {
                 var url = window.location.origin + "/stockmock/share?qry=" + encodeURI(shareURL());
+                url = window.location.origin + "/stockmock/share?" + encodeURI(N());
                 //alert(url);
                 openShareURL(url);
             })
-            if (qry != '')
-                A(qry);
+
+            var urlArr = window.location.href.split('?');
+            if (urlArr.length > 1) {
+
+                var querystr = getUrlVars();
+                A1(querystr);
+                addPositionHeader();
+            }
+
+            //if (qry != '')
+            //    A(qry);
 
             if (allPositions.length > 0) {
                 addPosition();
@@ -311,6 +367,7 @@
         }
 
         function addPositionHeader() {
+            $('#header_header').empty();
 
             $('<div/>', {
                 class: 'squar__off__type',
@@ -328,7 +385,7 @@
                                                 type: 'radio',
                                                 name: 'squareOff',
                                                 value: 'leg',
-                                                checked: squareOff =='leg'
+                                                checked: squareOff == 'leg'
                                             }).appendTo(this)
                                             $('<span/>', {
                                                 class: 'checkbox-custom radio__type'
@@ -353,7 +410,7 @@
                                                 type: 'radio',
                                                 name: 'squareOff',
                                                 value: 'all',
-                                                checked: squareOff =='all'
+                                                checked: squareOff == 'all'
                                             }).appendTo(this)
                                             $('<span/>', {
                                                 class: 'checkbox-custom radio__type'
@@ -370,9 +427,9 @@
                         }
                     }).appendTo(this);
 
-                    
+
                 }
-            }).appendTo('.__position__box__container');
+            }).appendTo('#header_header');
 
             $('<div/>', {
                 class: 'squar__off__type entry_condition',
@@ -453,12 +510,14 @@
                         }
                     }).appendTo(this);
 
-                    
+
                 }
-            }).appendTo('.__position__box__container');
+            }).appendTo('#header_header');
         }
 
         function addPosition() {
+            $('#header_row').empty();
+
             allPositions.map(function (p, i) {
                 addPositionRow(p, i);
                 $(`input[name=leg_stock_${i}][value='${p.stock}']`).prop("checked", true);
@@ -668,32 +727,7 @@
                                                     if (positionObj.targetProfit.status) {
                                                         addTargetProfit(this, 'targetprofit', i);
                                                     } else {
-                                                        $('<label/>', {
-                                                            class: 'checkbox-container addinput',
-                                                            'data-name': 'targetprofit',
-                                                            'data-index': i,
-                                                            html: function () {
-                                                                $('<div/>', {
-                                                                    class: 'checkbox-label',
-                                                                    html: function () {
-                                                                        $('<input/>', {
-                                                                            type: 'checkbox',
-                                                                            value: false
-                                                                        }).appendTo(this);
-                                                                        $('<span/>', {
-                                                                            class: 'fa fa-plus fa__add'
-                                                                        }).appendTo(this);
-                                                                    }
-
-                                                                }).appendTo(this);
-
-                                                                $('<div/>', {
-                                                                    class: 'checkbox__title',
-                                                                    html: 'Target Profit'
-
-                                                                }).appendTo(this);
-                                                            }
-                                                        }).appendTo(this);
+                                                        removeTargetProfit(this, 'targetprofit', i);
                                                     }
                                                 }
                                             }).appendTo(this);
@@ -702,34 +736,9 @@
                                                 class: 'add__leg__tpsl',
                                                 html: function () {
                                                     if (positionObj.stopLoss.status) {
-                                                        addStopLoss(this, 'targetprofit', i);
+                                                        addStopLoss(this, 'stoploss', i);
                                                     } else {
-                                                        $('<label/>', {
-                                                            class: 'checkbox-container addinput',
-                                                            'data-name': 'stoploss',
-                                                            'data-index': i,
-                                                            html: function () {
-                                                                $('<div/>', {
-                                                                    class: 'checkbox-label',
-                                                                    html: function () {
-                                                                        $('<input/>', {
-                                                                            type: 'checkbox',
-                                                                            value: false
-                                                                        }).appendTo(this);
-                                                                        $('<span/>', {
-                                                                            class: 'fa fa-plus fa__add'
-                                                                        }).appendTo(this);
-                                                                    }
-
-                                                                }).appendTo(this);
-
-                                                                $('<div/>', {
-                                                                    class: 'checkbox__title',
-                                                                    html: 'Stop Loss'
-
-                                                                }).appendTo(this);
-                                                            }
-                                                        }).appendTo(this);
+                                                        removeStopLoss(this, 'stoploss', i);
                                                     }
                                                 }
                                             }).appendTo(this);
@@ -737,35 +746,18 @@
                                             $("<div/>", {
                                                 class: 'add__leg__tpsl trailing__box',
                                                 html: function () {
-                                                    if (positionObj.trailingStopLoss.status) {
-                                                        addTrailStopLoss(this, 'trailstoploss', i);
+                                                    if (!isReEntry) {
+                                                        if (positionObj.trailingStopLoss.status) {
+                                                            addTrailStopLoss(this, 'trailstoploss', i);
+                                                        } else {
+                                                            removeTrailStopLoss(this, 'trailstoploss', i);
+                                                        }
                                                     } else {
-                                                        $('<label/>', {
-                                                            class: 'checkbox-container addinput',
-                                                            'data-name': 'trailstoploss',
-                                                            'data-index': i,
-                                                            html: function () {
-                                                                $('<div/>', {
-                                                                    class: 'checkbox-label',
-                                                                    html: function () {
-                                                                        $('<input/>', {
-                                                                            type: 'checkbox',
-                                                                            value: false
-                                                                        }).appendTo(this);
-                                                                        $('<span/>', {
-                                                                            class: 'fa fa-plus fa__add'
-                                                                        }).appendTo(this);
-                                                                    }
-
-                                                                }).appendTo(this);
-
-                                                                $('<div/>', {
-                                                                    class: 'checkbox__title',
-                                                                    html: 'Trail Stop Loss'
-
-                                                                }).appendTo(this);
-                                                            }
-                                                        }).appendTo(this);
+                                                        if (positionObj.reEntry.status) {
+                                                            addReEntry(this, 'reEntry', i);
+                                                        } else {
+                                                            removeReEntry(this, 'reEntry', i)
+                                                        }
                                                     }
                                                 }
                                             }).appendTo(this);
@@ -848,7 +840,7 @@
                         }
                     }).appendTo(this);
                 }
-            }).appendTo('.__position__box__container');
+            }).appendTo('#header_row');
 
 
         }
@@ -988,6 +980,9 @@
                     case 'trailstoploss':
                         addTrailStopLoss($parent, name, index);
                         break;
+                    case 'reEntry':
+                        addReEntry($parent, name, index);
+                        break;
                 }
 
             });
@@ -1007,6 +1002,9 @@
                     case 'trailstoploss':
                         removeTrailStopLoss($parent, name, index);
                         break;
+                    case 'reEntry':
+                        removeReEntry($parent, name, index);
+                        break;
                 }
 
             });
@@ -1021,6 +1019,8 @@
                     allPositions[index].trailingStopLoss.type = val;
                 else if (name == 'entryWait')
                     allPositions[index].entryWait.type = val;
+                else if (name == 'reEntry')
+                    allPositions[index].reEntry.value = parseInt(val);
                 else
                     allPositions[index].stopLoss.type = val;
             });
@@ -1063,6 +1063,27 @@
                 }
 
             });
+
+            $(document).on('change', 'input[name=isWaitAndTrade]', function () {
+                isWaitAndTrade = $(this).is(':checked');
+                addPosition();
+            });
+
+            $(document).on('change', 'input[name=isCTC]', function () {
+                isCTC = $(this).is(':checked');
+                isReEntry = false;
+                $('input[name=isReEntry]').prop("checked", false);
+                addPosition();
+            });
+
+            $(document).on('change', 'input[name=isReEntry]', function () {
+                isReEntry = $(this).is(':checked');
+                isCTC = false
+                $('input[name=isCTC]').prop("checked", false);
+                addPosition();
+            });
+
+
         }
 
         function dynamicRadioChange(i) {
@@ -1220,7 +1241,7 @@
         }
 
         function removeStopLoss($parent, name, index) {
-            allPositions[index].stopLoss.status = true;
+            allPositions[index].stopLoss.status = false;
             $('<label/>', {
                 class: 'checkbox-container addinput',
                 'data-name': name,
@@ -1340,7 +1361,102 @@
 
                     $('<div/>', {
                         class: 'checkbox__title',
-                        html: 'Stop Loss'
+                        html: 'Trail Stop Loss'
+
+                    }).appendTo(this);
+                }
+            }).appendTo($parent);
+        }
+
+        function addReEntry($parent, name, index) {
+
+            allPositions[index].reEntry.status = true;
+            var e = allPositions[index].reEntry;
+
+            $('<div/>', {
+                class: '__box__input label_group',
+                html: function () {
+                    $('<div/>', {
+                        'class': 'label',
+                        html: 'Re-entry'
+                    }).appendTo(this);
+                    $('<select/>', {
+                        'class': 'targetProfitselect',
+                        'data-name': name,
+                        'data-index': index,
+                        html: function () {
+                            $('<option/>', {
+                                value: '1',
+                                text: '1',
+                                selected: e.value == 1
+                            }).appendTo(this);
+
+                            $('<option/>', {
+                                value: '2',
+                                text: '2',
+                                selected: e.value == 2
+                            }).appendTo(this);
+
+                            $('<option/>', {
+                                value: '3',
+                                text: '3',
+                                selected: e.value == 3
+                            }).appendTo(this);
+                            $('<option/>', {
+                                value: '4',
+                                text: '4',
+                                selected: e.value == 4
+                            }).appendTo(this);
+                            $('<option/>', {
+                                value: '5',
+                                text: '5',
+                                selected: e.value == 5
+                            }).appendTo(this);
+
+                        }
+                    }).appendTo($(this));
+
+
+                }
+            }).appendTo($parent);
+
+            $('<div/>', {
+                class: '__close__icon',
+                html: function () {
+                    $('<label/>', {
+                        class: 'checkbox-container removeinput',
+                        'data-name': name,
+                        'data-index': index,
+                        html: function () {
+                            $('<span>', {
+                                class: 'fa fa-close fa__remove'
+                            }).appendTo(this);
+                        }
+                    }).appendTo($(this));
+                }
+            }).appendTo($parent);
+        }
+
+        function removeReEntry($parent, name, index) {
+            allPositions[index].trailingStopLoss.status = false;
+            $('<label/>', {
+                class: 'checkbox-container addinput',
+                'data-name': name,
+                'data-index': index,
+                html: function () {
+                    $('<div/>', {
+                        class: 'checkbox-label',
+                        html: function () {
+                            $('<span/>', {
+                                class: 'fa fa-plus fa__add'
+                            }).appendTo(this);
+                        }
+
+                    }).appendTo(this);
+
+                    $('<div/>', {
+                        class: 'checkbox__title',
+                        html: 'Re-entry'
 
                     }).appendTo(this);
                 }
@@ -1386,38 +1502,38 @@
 
         }
 
-        function N(t, e) {
+        function N(e) {
             var n =
-                "p=".concat(L(t)) +
-                "&et=".concat(t.selectedEntryTime.h, ":").concat(t.selectedEntryTime.m, ":00,").concat(t.selectedExitTime.h, ":").concat(t.selectedExitTime.m, ":00") +
-                "&s=".concat(t.selectedStrategy).concat("expiry" == t.selectedStrategy ? "_".concat(t.entryExitDayType) : "") +
-                (e ? "" : "&ed=".concat(t.entryDay, ",").concat(t.exitDay)) +
-                (e ? "" : "&sfd=".concat(+t.selectedFromDate)) +
-                (e ? "" : "&std=".concat(+t.selectedToDate));
-            if (t.isAddStopLoss && t.stopLossMTMPrice) {
-                var r = "premium" == t.stopLossMTMType ? "slpm" : "sl";
-                n += "&".concat(r, "=").concat(-t.stopLossMTMPrice);
+                "p=".concat(L()) +
+                "&et=".concat(selectedEntryTime.h, ":").concat(selectedEntryTime.m, ":00,").concat(selectedExitTime.h, ":").concat(selectedExitTime.m, ":00") +
+                "&s=".concat(selectedStrategy).concat("expiry" == selectedStrategy ? "_".concat(entryExitDayType) : "") +
+                (e ? "" : "&ed=".concat(entryDay, ",").concat(exitDay)) +
+                (e ? "" : "&sfd=".concat(+selectedFromDate)) +
+                (e ? "" : "&std=".concat(+selectedToDate));
+            if (isAddStopLoss && stopLossMTMPrice) {
+                var r = "premium" == stopLossMTMType ? "slpm" : "sl";
+                n += "&".concat(r, "=").concat(-stopLossMTMPrice);
             }
-            if (t.isAddTargetProfit && t.targetProfitMTMPrice) {
-                var a = "premium" == t.targetProfitMTMType ? "tpm" : "tp";
-                n += "&".concat(a, "=").concat(t.targetProfitMTMPrice);
+            if (isAddTargetProfit && targetProfitMTMPrice) {
+                var a = "premium" == targetProfitMTMType ? "tpm" : "tp";
+                n += "&".concat(a, "=").concat(targetProfitMTMPrice);
             }
-            t.isAddTrailingTargetProfit && (n += "&ttp=".concat([t.selectedTrailProfitTypeIndex, t.trailTriggerPrice, t.trailFirstFixedProfit, t.trailMTMX, t.trailMTMY].toString())),
-                (n += "&so=".concat(t.squareOff)),
-                "pr" == t.selectedPosition.entryType && ((n += "&pr=".concat(t.selectedPosition.premiumRange.toString())), (n += "&ete=".concat(t.selectedEntryEndTime.h, ":").concat(t.selectedEntryEndTime.m, ":00"))),
-                "intraday" == t.selectedStrategy && (n += "&rollover=".concat(!!t.isRollover)),
-                t.isEventDaysStrategy && (n += "&eds=".concat(t.eventDaysOption[t.selectedEventIndex].hash)),
-                t.isCTC && (n += "&ctc=".concat(t.isCTC)),
-                t.isWaitAndTrade && (n += "&wat=".concat(t.isWaitAndTrade)),
-                t.isTRB && (n += "&trb=".concat(t.selectedTrb.h, "_").concat(t.selectedTrb.m)),
-                t.isReEntry && (n += "&re=".concat(t.maxReEntryValue > 0 ? t.maxReEntryValue : 0));
-            var i = "premium" == t.selectedPosition.entryType ? "pr" : t.selectedPosition.entryType;
+            isAddTrailingTargetProfit && (n += "&ttp=".concat([selectedTrailProfitTypeIndex, trailTriggerPrice, trailFirstFixedProfit, trailMTMX, trailMTMY].toString())),
+                (n += "&so=".concat(squareOff)),
+                "pr" == selectedPosition.entryType && ((n += "&pr=".concat(selectedPosition.premiumRange.toString())), (n += "&ete=".concat(selectedEntryEndTime.h, ":").concat(selectedEntryEndTime.m, ":00"))),
+                "intraday" == selectedStrategy && (n += "&rollover=".concat(!!isRollover)),
+                isEventDaysStrategy && (n += "&eds=".concat(eventDaysOption[selectedEventIndex].hash)),
+                isCTC && (n += "&ctc=".concat(isCTC)),
+                isWaitAndTrade && (n += "&wat=".concat(isWaitAndTrade)),
+                isTRB && (n += "&trb=".concat(selectedTrb.h, "_").concat(selectedTrb.m)),
+                isReEntry && (n += "&re=".concat(maxReEntryValue > 0 ? maxReEntryValue : 0));
+            var i = "premium" == selectedPosition.entryType ? "pr" : selectedPosition.entryType;
             return n + "&set=".concat(i);
         }
 
-        function L(t) {
+        function L() {
             return (
-             
+
                 allPositions
                     .filter(function (t) {
                         return t.isChecked;
@@ -1427,14 +1543,14 @@
                         return (
                             (n =
                                 "futures" == e.segment
-                                    ? ["".concat(t.stockInShort[e.stock], "::F"), "sell" == e.actionType ? "S" : "B", e.totalLot * t.lotSize[e.stock]].join("_")
+                                    ? ["".concat(stockInShort[e.stock], "::F"), "sell" == e.actionType ? "S" : "B", e.totalLot * lotSize[e.stock]].join("_")
                                     : [
                                         "cp" == e.entryType
-                                            ? "".concat(t.stockInShort[e.stock], "::CP") + "".concat(e.closestPremium)
-                                            : "".concat(t.stockInShort[e.stock], "::") + "".concat("atm" == e.entryType ? e.strikePrice : "".concat(t.selectedPosition.premiumRange.join(";"))),
+                                            ? "".concat(stockInShort[e.stock], "::CP") + "".concat(e.closestPremium)
+                                            : "".concat(stockInShort[e.stock], "::") + "".concat("atm" == e.entryType ? e.strikePrice : "".concat(selectedPosition.premiumRange.join(";"))),
                                         "sell" == e.actionType ? "S" : "B",
                                         "call" == e.optionType ? "CE" : "PE",
-                                        e.totalLot * t.lotSize[e.stock],
+                                        e.totalLot * lotSize[e.stock],
                                     ].join("_")),
                             (n +=
                                 e.stopLoss.status && ("slcl" == e.stopLoss.type || e.stopLoss.value)
@@ -1446,11 +1562,11 @@
                             (n += e.targetProfit.status && e.targetProfit.value ? "::".concat(e.targetProfit.type, "_").concat(e.targetProfit.value).toUpperCase() : "::null"),
                             (n += "::".concat("weekly" == e.expiryType ? "CW" : "CM")),
                             (n +=
-                                !t.isReEntry && "intraday" == t.selectedStrategy && e.stopLoss.status && e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
+                                !isReEntry && "intraday" == selectedStrategy && e.stopLoss.status && e.trailingStopLoss.status && e.trailingStopLoss.xValue && e.trailingStopLoss.yValue
                                     ? "::".concat(e.trailingStopLoss.type, "_").concat(e.trailingStopLoss.xValue, "_").concat(e.trailingStopLoss.yValue).toUpperCase()
                                     : "::null"),
                             (n +=
-                                t.isWaitAndTrade && e.entryWait.value
+                                isWaitAndTrade && e.entryWait.value
                                     ? "::"
                                         .concat(e.entryWait.type, "_")
                                         .concat("-" == e.entryWait.premium ? "-" : "")
@@ -1459,12 +1575,12 @@
                                     : "::null"),
                             (n += "::".concat(e.entryType)),
                             (n +=
-                                t.selectedStrategy.includes("intraday") && t.isTRB && t.selectedTrb.h && t.selectedTrb.m
+                                selectedStrategy.includes("intraday") && isTRB && selectedTrb.h && selectedTrb.m
                                     ? "::"
                                         .concat("sell" == e.actionType ? "Lo" : "Hi", "_")
-                                        .concat(t.selectedTrb.h.toString().padStart(2, 0), ":")
-                                        .concat(t.selectedTrb.m.toString().padStart(2, 0), ":00")
-                                    : "::null") + (t.isReEntry && e.reEntry.status && e.reEntry.value > 0 ? "::RE_".concat(e.reEntry.value) : "::null")
+                                        .concat(selectedTrb.h.toString().padStart(2, 0), ":")
+                                        .concat(selectedTrb.m.toString().padStart(2, 0), ":00")
+                                    : "::null") + (isReEntry && e.reEntry.status && e.reEntry.value > 0 ? "::RE_".concat(e.reEntry.value) : "::null")
                         );
                     })
                     .toString()
@@ -1632,7 +1748,7 @@
                     trailingStopLoss: A,
                     entryWait: { type: 'wp_%_+_↑', value: '' }
                 };
-                debugger;
+
                 allPositions.push(newselectedPosition);
             });
         }
@@ -1669,6 +1785,150 @@
                     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
                 })()
             );
+        }
+
+        function A1(qry) {
+
+
+            var i = qry.p.split(",");
+
+            i.forEach(function (e) {
+                var s, seg, opt, act, sp, tl, ent, closestPremium, tagpr, stopl, trstopl, ext, waitAndTrade, reentry;
+                if (e.indexOf(":") > -1) {
+                    var v = dt(e.split(":"), 9);
+
+                    (s = v[0]),
+                        (ext = v[8]),
+                        (stopl = v[4]),
+                        (tagpr = v[6]),
+                        (trstopl = v[10]),
+                        (waitAndTrade = v[12]),
+                        (reentry = v[18]),
+                        (s = "BN" == v[0] ? "banknifty" : "N" == s ? "nifty" : "finnifty"),
+                        (seg = "F" == v[2] ? "futures" : "options"),
+                        (ext = 'CW' == ext ? 'weekly' : 'monthly'),
+                        (opt = "CE" == opt ? 'call' : 'sell'),
+                        (act = "S" == act ? 'sell' : 'buy');
+                }
+
+
+                if ("F" == v[2].split("_")[0]) {
+
+                    var w = dt(v[2].split("_"), 3);
+                    act = "B" == (i = w[1]) ? "buy" : "sell";
+                    tl = (l = w[2]) ? l / lotSize[s] : 1;
+                    seg = "futures";
+                    ent = "atm";
+                    (d = { stock: s, segment: "futures", actionType: "B" == (i = w[1]) ? "buy" : "sell", totalLot: (l = w[2]) ? l / lotSize[s] : 1 });
+                } else {
+                    ent = v[2].split("_")[0].startsWith('CP') ? "cp" : "atm";
+                    seg = "options";
+                    var S = dt(v[2].split("_"), 5);
+                    sp = ent == 'cp' ? S[0].split('CP')[1] : S[0];
+                    act = "S" == S[1] ? 'sell' : 'buy';
+                    opt = "CE" == S[2] ? "call" : "put";
+                    tl = S[3] / lotSize[s];
+
+                }
+
+
+                d = {
+                    stock: s,
+                    segment: seg,
+                    optionType: opt,
+                    actionType: act,
+                    strikePrice: sp,
+                    totalLot: tl,
+                    closestPremium: sp,
+                };
+
+                var x = { status: !1, type: "slp", value: "" };
+                if (!x.status) {
+                    var P = dt(tagpr.split("_"), 2),
+                        T = P[0],
+                        D = P[1];
+                    if (P.length > 1) {
+                        (x.status = !0),
+                            (x.type = T.toLowerCase()),
+                            (x.value = D);
+                    }
+                }
+                var A = { status: !1, type: "tslp", xValue: "", yValue: "" };
+                if (!A.status) {
+                    var C = dt(trstopl.split("_"), 3),
+                        N = C[0],
+                        R = C[1],
+                        E = C[2];
+                    if (C.length > 1) {
+                        (A.status = !0), (A.type = N.toLowerCase()), (A.xValue = R), (A.yValue = E);
+                    }
+                }
+
+                var M = { status: !1, type: "tpp", value: "" };
+                if (!M.status) {
+                    var I = dt(stopl.split("_"), 2),
+                        O = I[0],
+                        B = I[1];
+                    if (I.length > 1) {
+                        (M.status = !0), (M.type = O.toLowerCase()), (M.value = B);
+                    }
+                }
+
+
+                var F = { status: isWaitAndTrade, type: "wp", premium: "+", value: "" };
+                if (waitAndTrade && "null" != waitAndTrade.toLowerCase()) {
+                    isWaitAndTrade = !0;
+                    var j = dt(waitAndTrade.split("_"), 3),
+                        q = j[0],
+                        W = j[1],
+                        z = j[2];
+                    (F.status = isWaitAndTrade), (F.type = q), (F.premium = W), (F.value = z);
+                }
+
+                var U = { status: !1, value: 1 };
+                if (reentry && "null" != reentry.toLowerCase()) {
+                    U.status = !0;
+                    U.value = reentry.split('_')[1];
+                    isReEntry = !0;
+                }
+
+                var newselectedPosition = {
+                    isChecked:!0,
+                    entryType: ent,
+                    stock: d.stock,
+                    segment: d.segment,
+                    optionType: d.optionType,
+                    actionType: d.actionType,
+                    strikePrice: d.strikePrice,
+                    closestPremium: d.closestPremium,
+                    totalLot: d.totalLot,
+                    expiryType: ext,
+                    premiumRange: [100, 200],
+                    isWaitAndTrade: !1,
+                    targetProfit: x,
+                    stopLoss: M,
+                    trailingStopLoss: A,
+                    entryWait: F,
+                    trb: { h: "", m: "" },
+                    reEntry: U,
+                };
+
+                allPositions.push(newselectedPosition);
+            });
+
+
+
+        }
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
         }
 
         $this.init = function () {
