@@ -1,116 +1,220 @@
 ﻿
-<!doctype html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.84.0">
-    <title>Sidebars · Bootstrap v5.0</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+    <title>Stock Mock | Backtest Index Strategies</title>
+    <link rel='shortcut icon' type='image/x-icon' href='./images/favicon.ico' />
+    <!-- <link rel="manifest" href="./manifest.json"> -->
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Stock Mock | Backtest Index Strategies">
+    <meta name="description"
+          content="Welcome to the world of backtesting nifty and banknifty futures & options strategies">
+    <meta name="keywords"
+          content="stockmock, STOCKMOCK, StockMock, Stock Mock, stock mock, STOCK MOCK, backtest tool, backtesting tool, stock backtest tool, stock backtesting tool, backtest tool">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.stockmock.in/">
+    <meta property="og:title" content="Stock Mock | Backtest Index Strategies">
+    <meta property="og:description"
+          content="Welcome to the world of backtesting nifty and banknifty futures & options strategies">
+    <meta property="og:image" content="https://www.stockmock.in/images/logo/black-logo-bg.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="https://www.stockmock.in/images/logo/black-logo-bg.jpg">
+    <meta property="twitter:url" content="https://www.stockmock.in/">
+    <meta property="twitter:title" content="Stock Mock | Backtest Index Strategies">
+    <meta property="twitter:description"
+          content="Welcome to the world of backtesting nifty and banknifty futures & options strategies">
+    <meta property="twitter:image" content="https://www.stockmock.in/images/logo/black-logo-bg.jpg">
 
 
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
 
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/bs4.css">
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/main-new.css">
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/tablet.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" src="https://unpkg.com/css-tooltip" />
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/balloons.css">
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/fireworks.css">
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/invoice.css">
+    <link rel="stylesheet" type="text/css" href="https://www.stockmock.in/css/new_css.css">
+    <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
+    <!-- Owl Carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+            integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+          integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+          integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link href="/bootstrap-5.0.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="/bootstrap-5.0.2/css/main.css" rel="stylesheet" />
-    <link href="/bootstrap-5.0.2/css/main.css" rel="stylesheet" />
-    <link href="/bootstrap-5.0.2/css/main-new.css" rel="stylesheet" />
-    @*<link href="/css/StockMock.css" rel="stylesheet" />*@
+    <!-- <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"
+            integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA=="
+            crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script> -->
+
+    <script>
+        if (
+            window.location.host == "www.stockmock.in"
+            && window.location.protocol != 'https:'
+        ) {
+            location.href = location.href.replace("http://", "https://");
+        }
+    </script>
+
+    <script src="./js/mithril.js"></script>
+    <script src="./js/mithril-datepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/mithril-datepicker@0.9.3/src/style.css">
+
+    <script type='text/javascript'
+            src='https://platform-api.sharethis.com/js/sharethis.js#property=5ebd86ae5c19d000124b6e67&product=custom-share-buttons'
+            async='async'></script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <meta name="theme-color" content="#7952b3">
+    <script src="https://arthurclemens.github.io/assets/polythene/standalone/polythene-css/polythene-css-standalone.js"></script>
 
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data-2012-2022.min.js"></script>
 
-
-
-    <!-- Custom styles for this template -->
-    <link href="sidebars.css" rel="stylesheet">
 </head>
 <body>
-
-
-
-    <main>
-
-        <div class="container">
-            <div class="row">
-                @*<div class="col-md-2">
-                    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
-                        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap" /></svg>
-                            <span class="fs-4">Sidebar</span>
-                        </a>
-                        <hr>
-                        <ul class="nav nav-pills flex-column mb-auto">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link active" aria-current="page">
-                                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#home" /></svg>
-                                    Home
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link link-dark">
-                                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2" /></svg>
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link link-dark">
-                                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#table" /></svg>
-                                    Orders
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link link-dark">
-                                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid" /></svg>
-                                    Products
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link link-dark">
-                                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle" /></svg>
-                                    Customers
-                                </a>
-                            </li>
-                        </ul>
-                        <hr>
-                        <div class="dropdown">
-                            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                                <strong>mdo</strong>
-                            </a>
-                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <li><a class="dropdown-item" href="#">New project...</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Sign out</a></li>
-                            </ul>
+    <div id="root">
+        <div class="app_header __no__print">
+            <div class="navbar-brand"><img src="images/logo/StockMock.svg" alt="logo"></div>
+            <div class="header-nav">
+                <div class="header-nav-link-container ">
+                    <a class="header_nav_link nav_user_name">
+                        <span class="tool__tip">
+                            Hi Surendra...
+                            <div class="tool__tip__text">Surendra Kandira</div>
+                        </span><div class="__credit__count tool__tip new_icon free__credit">
+                            20<div class="tool__tip__text">
+                                Free Credits left (Result Will Be limited to Latest 1 Months Data Only).
+                            </div>
                         </div>
-                    </div>
-                </div>*@
-
-                <div class="col-md-12">
+                    </a><div class="header-nav-seprator"></div><a class="header_nav_link __active">
+                        <div class="new_icon">
+                        </div><span>Home</span>
+                    </a><a class="header_nav_link ">
+                        <div class="new_icon"></div>
+                        <div class="new_icon highlight__nav"><div class="fa fa-star"></div></div><span>Basket</span>
+                    </a><a class="header_nav_link ">
+                        <div class="new_icon">New</div><span>Simulator</span>
+                    </a><a class="header_nav_link ">
+                        <div class="new_icon"></div>
+                        <span>Education</span>
+                    </a><a class="header_nav_link "><div class="new_icon"></div><span>Feedback</span></a>
+                    <a class="header_nav_link "><div class="new_icon"></div><span>Profile</span></a><button style="margin: 0px 8px;" class="__button web__only __donate__button">
+                        <img src="./images/money.svg"><span>Buy Credits</span>
+                    </button><div class="header-nav-seprator"></div><a class="header_nav_link"><i style="font-size: 16px;" class="fa fa-sign-out"></i></a>
+                </div><div class="mobile_nav_button">
+                    <button class="__button __donate__button">
+                        <img src="./images/money.svg">
+                        <span>Buy Credits</span>
+                    </button><button style="width: 30px; background: inherit; border: 0px none; margin-left: 8px;" type="button" class="toggle_icon ">
+                        <div class="icon-burger">
+                            <span class="icon-burger__bar"></span><span class="icon-burger__bar"></span><span class="icon-burger__bar"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="navbarBg" class="navbar__bg "></div>
+        <div class="__page row">
+            <div class="__container __main__box __famous__strategies col-lg-2 col-md-3 col-sm-12">
+                <div class="__position__header __title__header">
+                    <div>Strategies</div>
+                </div><select class="__box__input mobile__only">
+                    <option value="0">
+                        <span class="fa fa-sliders"></span>
+                        <div>Custom</div>
+                    </option>
+                    <option value="1" disabled=""><span class="fa fa-sliders"></span><div>Default Strategies</div></option>
+                    <option value="2">
+                        <span class="fa fa-compress"></span><div>Short Strangle</div>
+                    </option>
+                    <option value="3"><span class="fa fa-compress"></span><div>Short Straddle</div></option>
+                    <option value="4"><span class="fa fa-long-arrow-right "></span><div>Long Strangle</div></option>
+                    <option value="5"><span class="fa fa-long-arrow-right "></span><div>Long Straddle</div></option>
+                    <option value="6"><span class="fa fa-gift"></span><div>Iron Butterfly</div></option>
+                    <option value="7"><span class="fa fa-gift"></span><div>Iron Condor</div></option>
+                    <option value="8"><span class="fa fa-beer"></span><div>Bear Call Spread</div></option>
+                    <option value="9"><span class="fa fa-beer"></span><div>Bear Put Spread</div></option>
+                    <option value="10"><span class="fa fa-bullseye"></span><div>Bull Call Spread</div></option>
+                    <option value="11"><span class="fa fa-bullseye"></span><div>Bull Put Spread</div></option>
+                </select><ul class="web__only">
+                    <li class="__active__nav"><span class="fa fa-sliders"></span><div>Custom</div></li>
+                    <li class="strategy__group ">
+                        <div>Default Strategies</div>
+                        <span class="fa fa-chevron-up"></span>
+                    </li>
+                    <li class=""><span class="fa fa-compress"></span><div>Short Strangle</div></li>
+                    <li class="">
+                        <span class="fa fa-compress"></span>
+                        <div>Short Straddle</div>
+                    </li>
+                    <li class=""><span class="fa fa-long-arrow-right "></span><div>Long Strangle</div></li>
+                    <li class="">
+                        <span class="fa fa-long-arrow-right "></span>
+                        <div>Long Straddle</div>
+                    </li>
+                    <li class=""><span class="fa fa-gift"></span><div>Iron Butterfly</div></li>
+                    <li class=""><span class="fa fa-gift"></span><div>Iron Condor</div></li>
+                    <li class=""><span class="fa fa-beer"></span><div>Bear Call Spread</div></li>
+                    <li class=""><span class="fa fa-beer"></span><div>Bear Put Spread</div></li>
+                    <li class=""><span class="fa fa-bullseye"></span><div>Bull Call Spread</div></li>
+                    <li class=""><span class="fa fa-bullseye"></span><div>Bull Put Spread</div></li>
+                </ul>
+            </div>
+            <div id="mainViewPort" class="__container __main__box col-lg-10 col-md-9 col-sm-12">
+                <div class="main__view__container">
                     @RenderBody()
                 </div>
 
             </div>
         </div>
 
+    </div>
 
-    </main>
+
+
+
+
+
+
+
+
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/bootstrap-5.0.2/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://clipboardjs.com/dist/clipboard.min.js"></script>
     <script src="~/js/Custom/StockMock.js?v=@(DateTime.Now.Ticks)"></script>
-    
+
 
 </body>
 </html>

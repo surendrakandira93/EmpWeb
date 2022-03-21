@@ -64,12 +64,12 @@
             targetProfitPerLegType = "percent",
             targetProfitMTMPrice = "",
             targetProfitMTMType = "amount",
-            isAddTrailingTargetProfit = !1,
-            trailTriggerPrice = 1e3,
-            trailFirstFixedProfit = 0,
-            trailMTMX = 1e3,
-            trailMTMY = 500,
-            squareOff = "leg",
+            isAddTrailingTargetProfit,
+            trailTriggerPrice,
+            trailFirstFixedProfit,
+            trailMTMX,
+            trailMTMY,
+            squareOff,
             allDonations = [],
             donationAmmount = "",
             isPaymentProceed = !1,
@@ -92,8 +92,7 @@
 
         function initilizeModel() {
 
-
-
+            $('.entryTimeRange').hide();
 
             onChangeinput("entryType");
 
@@ -104,15 +103,20 @@
                     addPositionHeader();
 
                 addPosition();
-                $('.__position__footer').show();
+                $('.positionOptionShow').show();
             });
 
             $(".sharestrategy").on('click', function () {
-                var url = window.location.origin + "/stockmock/share?qry=" + encodeURI(shareURL());
                 url = window.location.origin + "/stockmock/share?" + encodeURI(N());
                 //alert(url);
                 openShareURL(url);
             })
+
+            $(".sharestrategstockmocky").on('click', function () {
+                url = "https://www.stockmock.in/#!/home/share?" + encodeURI(N());
+                openShareURL(url);
+            })
+
 
             var urlArr = window.location.href.split('?');
             if (urlArr.length > 1) {
@@ -120,15 +124,256 @@
                 var querystr = getUrlVars();
                 A1(querystr);
                 addPositionHeader();
+                isTRB ? $('.entryTimeRange').show() : $('.entryTimeRange').hide();
+                if (isTRB) {
+                    $(`input[name=entryTimeRange]`).prop("checked", true);
+                }
+                $('select[name=selectedEntryTime_h]').val(selectedEntryTime.h);
+                $('select[name=selectedEntryTime_m]').val(selectedEntryTime.m);
+                $('select[name=selectedTrb_h]').val(selectedTrb.h);
+                $('select[name=selectedTrb_m]').val(selectedTrb.m);
+
+                if (isAddTargetProfit) {
+                    $('.addedAddTargetProfit').show();
+                    $('.addAddTargetProfit').hide();
+                    $('select[name=targetProfitMTMType]').val(targetProfitMTMType);
+                    $('input[name=targetProfitMTMPrice]').val(targetProfitMTMPrice);
+                    var $parent = $('select[name=targetProfitMTMType]').parent().parent();
+                    switch (targetProfitMTMType) {
+                        case 'amount':
+                            $parent.find('.__sign__box').html('<div class="fa fa-inr"> </div>');
+                            break;
+                        case 'premium':
+                            $parent.find('.__sign__box').html('%');
+                            break;
+                    }
+                }
+                else {
+                    $('.addedAddTargetProfit').hide();
+                    $('.addAddTargetProfit').show();
+                }
+
+                if (isAddStopLoss) {
+                    $('.addedAddStopLoss').show();
+                    $('.addAddStopLoss').hide();
+                    $('select[name=stopLossMTMType]').val(stopLossMTMType);
+                    $('input[name=stopLossMTMPrice]').val(stopLossMTMPrice);
+                    var $parent = $('select[name=stopLossMTMType]').parent().parent();
+                    switch (stopLossMTMType) {
+                        case 'amount':
+                            $parent.find('.__sign__box').html('-<div class="fa fa-inr"> </div>');
+                            break;
+                        case 'premium':
+                            $parent.find('.__sign__box').html('%');
+                            break;
+                    }
+                }
+                else {
+                    $('.addedAddStopLoss').hide();
+                    $('.addAddStopLoss').show();
+                }
+
+                if (isAddTrailingTargetProfit) {
+                    $('.addedAddTrailingTargetProfit').show();
+                    $('.addAddTrailingTargetProfit').hide();
+                    $(`input[name=selectedTrailProfitTypeIndex][value=${selectedTrailProfitTypeIndex}]`).prop("checked", true);
+                    $(`input[name=trailTriggerPrice]`).val(trailTriggerPrice);
+                    $(`input[name=trailFirstFixedProfit]`).val(trailFirstFixedProfit);
+                    $(`input[name=trailMTMX]`).val(trailMTMX);
+                    $(`input[name=trailMTMY]`).val(trailMTMY);
+                    $('.selectedTrailProfitTypeIndex').hide();
+                    $(`.selectedTrailProfitTypeIndex_${selectedTrailProfitTypeIndex}`).show();
+                }
+                else {
+                    $('.addedAddTrailingTargetProfit').hide();
+                    $('.addAddTrailingTargetProfit').show();
+                }
+                debugger;
+                switch (selectedStrategy) {
+
+                    case 'intraday':
+                        $('.expiry_hide').show();
+                        $('.expiry_show').hide();
+                        break;
+
+                    case 'expiry':
+                        $('.expiry_hide').hide();
+                        $('.expiry_show').show();
+
+                        $('.span_entrydate').text(entryDay);
+                        $('.span_exitdate').text(exitDay);
+
+                        $('input[name=entryDay]').val(entryDay);
+                        $('input[name=exitDay]').val(exitDay);
+
+                        break;
+                }
+
+                
             }
 
-            //if (qry != '')
-            //    A(qry);
 
             if (allPositions.length > 0) {
                 addPosition();
-                $('.__position__footer').show();
+                $('.positionOptionShow').show();
             }
+
+            $(`input[name=entryTimeRange]`).on('change', function () {
+                isTRB = $(this).is(':checked');
+                isTRB ? $('.entryTimeRange').show() : $('.entryTimeRange').hide();
+            });
+
+            $('.timeChange').on('change', function () {
+                var name = $(this).attr('name');
+                switch (name) {
+                    case 'selectedEntryTime_h':
+                        selectedEntryTime.h = parseInt($(this).val());
+                        break;
+                    case 'selectedEntryTime_m':
+                        selectedEntryTime.m = parseInt($(this).val());
+                        break;
+                    case 'selectedTrb_h':
+                        selectedTrb.h = parseInt($(this).val());
+                        break;
+                    case 'selectedTrb_m':
+                        selectedTrb.m = parseInt($(this).val());
+                        break;
+                }
+
+            });
+
+            $(`.addwizard`).on('click', function () {
+                var val = $(this).data('val');
+                var divShow = $(this).data('show');
+                var divhide = $(this).data('hide');
+
+                switch (val) {
+                    case 'isAddTargetProfit':
+                        isAddTargetProfit = !0;
+                        break;
+
+                    case 'isAddStopLoss':
+                        isAddStopLoss = !0;
+                        break;
+
+                    case 'isAddTrailingTargetProfit':
+                        isAddTrailingTargetProfit = !0;
+                        break;
+                }
+
+                $(`.${divShow}`).show();
+                $(`.${divhide}`).hide();
+
+            });
+
+
+            $(`.removewizard`).on('click', function () {
+                var val = $(this).data('val');
+                var divShow = $(this).data('show');
+                var divhide = $(this).data('hide');
+
+                switch (val) {
+                    case 'isAddTargetProfit':
+                        isAddTargetProfit = !1;
+                        break;
+                    case 'isAddStopLoss':
+                        isAddStopLoss = !1;
+                        break;
+                    case 'isAddTrailingTargetProfit':
+                        isAddTargetProfit = !1;
+                        break;
+                }
+
+                $(`.${divShow}`).show();
+                $(`.${divhide}`).hide();
+
+            });
+
+            $('.selectprofit').on('change', function () {
+                var isLoss = $(this).hasClass('selectloss');
+                var val = $(this).val();
+                var $parent = $(this).parent().parent();
+                switch (val) {
+                    case 'amount':
+                        $parent.find('.__sign__box').html((isLoss ? "-" : "") + '<div class="fa fa-inr"> </div>');
+                        if (isLoss)
+                            stopLossMTMType = 'amount';
+                        else
+                            targetProfitMTMType = 'amount'
+                        break;
+                    case 'premium':
+                        $parent.find('.__sign__box').html('%');
+                        if (isLoss)
+                            stopLossMTMType = 'premium';
+                        else
+                            targetProfitMTMType = 'premium'
+                        break;
+                }
+            });
+
+            $('.inputprofit').on('change', function () {
+                var isLoss = $(this).hasClass('inputloss');
+                var val = $(this).val();
+                if (!isLoss)
+                    targetProfitMTMPrice = val;
+                else
+                    stopLossMTMPrice = val
+            });
+
+            $(`input[name=selectedTrailProfitTypeIndex]`).on('change', function () {
+                selectedTrailProfitTypeIndex = parseInt($(this).val());
+                $('.selectedTrailProfitTypeIndex').hide();
+                $(`.selectedTrailProfitTypeIndex_${selectedTrailProfitTypeIndex}`).show();
+            });
+
+            $('.inputTrailProfitTypeIndex').on('change', function () {
+                var name = $(this).attr('name');
+                var val = parseInt($(this).val());
+
+                switch (name) {
+
+                    case 'trailTriggerPrice':
+                        trailTriggerPrice = val;
+                        break;
+                    case 'trailFirstFixedProfit':
+                        trailFirstFixedProfit = val;
+                        break;
+                    case 'trailMTMX':
+                        trailMTMX = val;
+                        break;
+                    case 'trailMTMY':
+                        trailMTMY = val;
+                        break;
+                }
+            });
+
+            $(`input[name=selectedStrategy]`).on('change', function () {
+                selectedStrategy = $(this).val();
+                switch (selectedStrategy) {
+
+                    case 'intraday':
+                        $('.expiry_hide').show();
+                        $('.expiry_show').hide();
+                        break;
+
+                    case 'expiry':
+                        $('.expiry_hide').hide();
+                        $('.expiry_show').show();
+                        break;
+                }
+            });
+
+            $('.input_entrydate').on('change', function () {
+                $('.span_entrydate').text($(this).val());
+                entryDay = $(this).val();
+            });
+
+
+            $('.input_exitdate').on('change', function () {
+                $('.span_exitdate').text($(this).val());
+                exitDay = $(this).val();
+            });
+
         }
 
         function onChangeinput(radioName) {
@@ -176,6 +421,14 @@
             entryDay = 1;
             exitDay = 0;
             allPositionsLengthLimit = 10;
+
+            isAddTrailingTargetProfit = !1;
+            trailTriggerPrice = 0;
+            trailFirstFixedProfit = 0;
+            trailMTMX = 0;
+            trailMTMY = 0;
+            squareOff = "leg";
+
 
 
             lotSize = { nifty: 75, banknifty: 20, finnifty: 40 };
@@ -842,7 +1095,6 @@
                 }
             }).appendTo('#header_row');
 
-
         }
 
         function editPosition(e) {
@@ -1081,6 +1333,10 @@
                 isCTC = false
                 $('input[name=isCTC]').prop("checked", false);
                 addPosition();
+            });
+
+            $(document).on('change', 'input[name=squareOff]', function () {
+                squareOff = $(this).val();
             });
 
 
@@ -1503,6 +1759,7 @@
         }
 
         function N(e) {
+
             var n =
                 "p=".concat(L()) +
                 "&et=".concat(selectedEntryTime.h, ":").concat(selectedEntryTime.m, ":00,").concat(selectedExitTime.h, ":").concat(selectedExitTime.m, ":00") +
@@ -1789,30 +2046,107 @@
 
         function A1(qry) {
 
+            var et = qry.et;
+            var _et = et.split(",");
+            var _entryTime = _et[0].split(":");
+            var _exitTime = _et[1].split(":");
+            selectedEntryTime.h = _entryTime[0];
+            selectedEntryTime.m = _entryTime[1];
+            selectedExitTime.h = _exitTime[0];
+            selectedExitTime.m = _exitTime[1];
+
+            var tpm = qry.tpm;
+            var tp = qry.tp;
+
+            if (tpm || tp) {
+
+                isAddTargetProfit = !0;
+                if (tpm) {
+                    targetProfitMTMType = 'premium';
+                    targetProfitMTMPrice = tpm;
+                } else {
+                    targetProfitMTMType = 'amount';
+                    targetProfitMTMPrice = tp;
+                }
+            }
+
+
+            var slpm = qry.slpm;
+            var sl = qry.sl;
+
+            if (slpm || sl) {
+
+                isAddStopLoss = !0;
+                if (slpm) {
+                    stopLossMTMType = 'premium';
+                    stopLossMTMPrice = slpm;
+                } else {
+                    stopLossMTMType = 'amount';
+                    stopLossMTMPrice = sl;                    
+                }
+                stopLossMTMPrice = stopLossMTMPrice < 0 ? stopLossMTMPrice * -1 : stopLossMTMPrice
+            }
+
+            var ttp = qry.ttp;
+            if (ttp) {
+
+                var ttpArr = ttp.split(',');
+                isAddTrailingTargetProfit = !0;
+                selectedTrailProfitTypeIndex = ttpArr[0];
+                trailTriggerPrice = ttpArr[1];
+                trailFirstFixedProfit = ttpArr[2];
+                trailMTMX = ttpArr[3];
+                trailMTMY = ttpArr[4];
+            }
+
+            squareOff = qry.so;
+
+            var s = qry.s;
+            if (s) {
+                selectedStrategy = s.split('_')[0];
+            }
+
+            var ed = qry.ed;
+            if (ed) {
+                var edArr = ed.split(',');
+                entryDay = edArr[0];
+                exitDay = edArr[1]
+            }
 
             var i = qry.p.split(",");
 
             i.forEach(function (e) {
-                var s, seg, opt, act, sp, tl, ent, closestPremium, tagpr, stopl, trstopl, ext, waitAndTrade, reentry;
+                var s, seg, opt, act, sp, tl, ent, closestPremium, tagpr, stopl, trstopl, ext, waitAndTrade, reentry, rtbrow;
                 if (e.indexOf(":") > -1) {
-                    var v = dt(e.split(":"), 9);
+                    var v = dt(e.split("::"), 9);
+
 
                     (s = v[0]),
-                        (ext = v[8]),
-                        (stopl = v[4]),
-                        (tagpr = v[6]),
-                        (trstopl = v[10]),
-                        (waitAndTrade = v[12]),
-                        (reentry = v[18]),
+                        (ext = v[4]),
+                        (stopl = v[2]),
+                        (tagpr = v[3]),
+                        (trstopl = v[5]),
+                        (waitAndTrade = v[6]),
+                        (rtbrow = v[8]),
+                        (reentry = v[9]),
                         (s = "BN" == v[0] ? "banknifty" : "N" == s ? "nifty" : "finnifty"),
-                        (seg = "F" == v[2] ? "futures" : "options"),
+                        //(seg = "F" == v[2] ? "futures" : "options"),
                         (ext = 'CW' == ext ? 'weekly' : 'monthly'),
                         (opt = "CE" == opt ? 'call' : 'sell'),
                         (act = "S" == act ? 'sell' : 'buy');
                 }
 
+                if (rtbrow && rtbrow != 'null') {
 
-                if ("F" == v[2].split("_")[0]) {
+                    var _rtbrow = rtbrow.split('_');
+                    var _rtbrowTime = _rtbrow[1].split(':');
+                    selectedTrb.h = _rtbrowTime[0];
+                    selectedTrb.m = _rtbrowTime[1];
+                    isTRB = !0;
+                }
+
+
+                if ("F" == v[1].split("_")[0]) {
 
                     var w = dt(v[2].split("_"), 3);
                     act = "B" == (i = w[1]) ? "buy" : "sell";
@@ -1893,7 +2227,7 @@
                 }
 
                 var newselectedPosition = {
-                    isChecked:!0,
+                    isChecked: !0,
                     entryType: ent,
                     stock: d.stock,
                     segment: d.segment,
@@ -1915,8 +2249,6 @@
 
                 allPositions.push(newselectedPosition);
             });
-
-
 
         }
 
