@@ -2119,8 +2119,8 @@
                 var s, seg, opt, act, sp, tl, ent, closestPremium, tagpr, stopl, trstopl, ext, waitAndTrade, reentry, rtbrow;
                 if (e.indexOf(":") > -1) {
                     var v = dt(e.split("::"), 9);
-
-
+                    debugger;
+                    
                     (s = v[0]),
                         (ext = v[4]),
                         (stopl = v[2]),
@@ -2148,16 +2148,16 @@
 
                 if ("F" == v[1].split("_")[0]) {
 
-                    var w = dt(v[2].split("_"), 3);
+                    var w = dt(v[1].split("_"), 3);
                     act = "B" == (i = w[1]) ? "buy" : "sell";
-                    tl = (l = w[2]) ? l / lotSize[s] : 1;
+                    tl = w[2]/ lotSize[s];
                     seg = "futures";
                     ent = "atm";
                     (d = { stock: s, segment: "futures", actionType: "B" == (i = w[1]) ? "buy" : "sell", totalLot: (l = w[2]) ? l / lotSize[s] : 1 });
                 } else {
-                    ent = v[2].split("_")[0].startsWith('CP') ? "cp" : "atm";
+                    ent = v[1].split("_")[0].startsWith('CP') ? "cp" : "atm";
                     seg = "options";
-                    var S = dt(v[2].split("_"), 5);
+                    var S = dt(v[1].split("_"), 5);
                     sp = ent == 'cp' ? S[0].split('CP')[1] : S[0];
                     act = "S" == S[1] ? 'sell' : 'buy';
                     opt = "CE" == S[2] ? "call" : "put";
@@ -2216,7 +2216,7 @@
                         q = j[0],
                         W = j[1],
                         z = j[2];
-                    (F.status = isWaitAndTrade), (F.type = q), (F.premium = W), (F.value = z);
+                    (F.status = isWaitAndTrade), (F.type = q), (F.premium = W), (F.value = W);
                 }
 
                 var U = { status: !1, value: 1 };

@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = "/Views/Shared/_LayoutStockMock.cshtml";
+    Layout = "/Views/Shared/_LayoutSMK.cshtml";
 }
 
 <div class="__position__header __title__header "><div>Positions</div><div style="text-transform: none;"></div></div>
@@ -575,3 +575,9 @@
     </div>
 
 </div>
+
+
+@section Scripts{
+    <script src="~/js/Custom/StockMock.js?v=@(DateTime.Now.Ticks)"></script>
+}
+

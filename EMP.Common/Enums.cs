@@ -43,4 +43,5 @@ namespace EMP.Common
         [Display(Name = "Religare Online")]
         RelianceOnline = 5
     }
+
 }

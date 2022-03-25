@@ -48,6 +48,7 @@
   <ItemGroup>
     <Folder Include="Resources\Controllers\" />
     <Folder Include="Resources\Views\Employee\" />
+    <Folder Include="wwwroot\SMK\" />
   </ItemGroup>
 
   <ItemGroup>
