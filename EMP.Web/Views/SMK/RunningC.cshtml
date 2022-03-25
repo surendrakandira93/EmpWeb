@@ -20,11 +20,11 @@
                     <div class="checkbox-label">
                         @if (Model.SquareOff == "leg")
                         {
-                            <input type="radio" name="squareOff" value="leg" checked="checked">
+                            <input type="radio" name="squareOff" value="leg" checked="checked" disabled>
                         }
                         else
                         {
-                            <input type="radio" name="squareOff" value="leg">
+                            <input type="radio" name="squareOff" value="leg" disabled>
                         }
 
                         <span class="checkbox-custom radio__type"></span>
@@ -36,11 +36,11 @@
                     <div class="checkbox-label">
                         @if (Model.SquareOff == "all")
                         {
-                            <input type="radio" name="squareOff" value="all" checked="checked" readonly>
+                            <input type="radio" name="squareOff" value="all" checked="checked" disabled>
                         }
                         else
                         {
-                            <input type="radio" name="squareOff" value="all" readonly>
+                            <input type="radio" name="squareOff" value="all" disabled>
                         }
                         <span class="checkbox-custom radio__type"></span>
                     </div>
@@ -55,11 +55,11 @@
                     <div class="checkbox-label">
                         @if (Model.IsWaitAndTrade)
                         {
-                            <input type="checkbox" name="isWaitAndTrade" value="true" checked="checked" readonly>
+                            <input type="checkbox" name="isWaitAndTrade" value="true" checked="checked" disabled>
                         }
                         else
                         {
-                            <input type="checkbox" name="isWaitAndTrade" value="false" readonly>
+                            <input type="checkbox" name="isWaitAndTrade" value="false" disabled>
                         }
 
                         <span class="checkbox-custom"></span>
@@ -69,13 +69,13 @@
 
                 <label class="checkbox-container">
                     <div class="checkbox-label">
-                        @if (Model.IsWaitAndTrade)
+                        @if (Model.IsCTC)
                         {
-                            <input type="checkbox" name="isCTC" checked="checked" value="true" readonly>
+                            <input type="checkbox" name="isCTC" checked="checked" value="true" disabled>
                         }
                         else
                         {
-                            <input type="checkbox" name="isCTC" value="false">
+                            <input type="checkbox" name="isCTC" value="false" disabled>
                         }
 
 
@@ -85,13 +85,13 @@
                 </label>
                 <label class="checkbox-container">
                     <div class="checkbox-label">
-                        @if (Model.IsWaitAndTrade)
+                        @if (Model.IsReEntry)
                         {
-                            <input type="checkbox" name="isReEntry" checked="checked" value="true" readonly>
+                            <input type="checkbox" name="isReEntry" checked="checked" value="true" disabled>
                         }
                         else
                         {
-                            <input type="checkbox" name="isReEntry" value="false">
+                            <input type="checkbox" name="isReEntry" value="false" disabled>
                         }
                         <span class="checkbox-custom"></span>
                     </div>
@@ -164,44 +164,33 @@
 
                             @if (Model.IsWaitAndTrade)
                             {
-                                <div class="__box__input select__box__input large__select">
+                                <div class="add__leg__tpsl trailing__box">
+                                    <div class="__box__input label_group">
 
-
-
-                                    <select class="targetProfitselect" data-name="entryWait" data-index="0">
                                         @if (row.EntryWait.Type == "wp_+")
                                         {
-                                            <option value="wp_+" selected>🧭  % ↑</option>
-                                            <option value="wp_-">🧭  % ↓</option>
-                                            <option value="wpn_+">🧭  pt ↑</option>
-                                            <option value="wpn_-">🧭  pt ↓</option>
+                                            <div class="label">🧭  % ↑</div>
                                         }
                                         else if (row.EntryWait.Type == "wp_-")
                                         {
-                                            <option value="wp_+">🧭  % ↑</option>
-                                            <option value="wp_-" selected>🧭  % ↓</option>
-                                            <option value="wpn_+">🧭  pt ↑</option>
-                                            <option value="wpn_-">🧭  pt ↓</option>
+                                            <div class="label">🧭  % ↓</div>
                                         }
                                         else if (row.EntryWait.Type == "wpn_+")
                                         {
-                                            <option value="wp_+">🧭  % ↑</option>
-                                            <option value="wp_-">🧭  % ↓</option>
-                                            <option value="wpn_+" selected>🧭  pt ↑</option>
-                                            <option value="wpn_-">🧭  pt ↓</option>
+                                            <div class="label">🧭  pt ↑</div>
                                         }
                                         else
                                         {
-                                            <option value="wp_+">🧭  % ↑</option>
-                                            <option value="wp_-">🧭  % ↓</option>
-                                            <option value="wpn_+">🧭  pt ↑</option>
-                                            <option value="wpn_-" selected>🧭  pt ↓</option>
+                                            <div class="label">🧭  pt ↓</div>
+
                                         }
-
-                                    </select>
-
-                                    <input type="number" placeholder="0" class="__box__input targetProfitinput" value="@row.EntryWait.Value">
+                                        <input type="number" placeholder="0" class="__box__input targetProfitinput" value="@row.EntryWait.Value">
+                                    </div>
                                 </div>
+                            }
+                            else
+                            {
+                                <div class="add__leg__tpsl"></div>
                             }
 
 
@@ -231,6 +220,7 @@
                             }
                             else
                             {
+                                <div class="add__leg__tpsl"></div>
                                 <input type="hidden" name="model[@row.Id].TargetProfit.Type" value="@row.TargetProfit.Type" />
                                 <input type="hidden" name="model[@row.Id].TargetProfit.Value" value="@row.TargetProfit.Value" />
                             }
@@ -262,6 +252,7 @@
                             }
                             else
                             {
+                                <div class="add__leg__tpsl"></div>
                                 <input type="hidden" name="model[@row.Id].StopLoss.Type" value="@row.StopLoss.Type" />
                                 <input type="hidden" name="model[@row.Id].StopLoss.Value" value="@row.StopLoss.Value" />
                             }
@@ -356,6 +347,10 @@
 
                                     </div>
                                 }
+                                else
+                                {
+                                    <div class="add__leg__tpsl"></div>
+                                }
                             }
 
 
@@ -388,32 +383,38 @@
     </div>
 </div>
 
-<div class="row __position__datetime positionOptionShow" style="display:none;">
+<div class="row __position__datetime">
     <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="__datetime__box">
             <div class="__time__box">
                 <div class="col-4"><span class="__input__label">Entry Time: </span></div>
                 <div class="col-8 __time__input__box">
                     <div class="row">
-                        <div class="col-md-12 col-12 exit_time_box expiry_hide">
-                            <label style="padding: 10px;" class="checkbox-container">
-                                <div class="checkbox-label">
-                                    <input type="checkbox" name="entryTimeRange"><span class="checkbox-custom"></span>
-                                </div>
-                                <div class="checkbox__title">Range Breakout</div>
-                            </label>
-
-                        </div>
+                        @if (Model.SelectedStrategy == "intraday")
+                        {
+                            <div class="col-md-12 col-12 exit_time_box">
+                                <label style="padding: 10px;" class="checkbox-container">
+                                    <div class="checkbox-label">
+                                        <input type="checkbox" name="IsTRB" @(Model.IsTRB ? "checked" : "") disabled><span class="checkbox-custom"></span>
+                                    </div>
+                                    <div class="checkbox__title">Range Breakout</div>
+                                </label>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-lg col-md col-sm-12">
-                                <select class="__box__input timeChange" name="selectedEntryTime_h">
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                    <option value="14">14</option>
-                                    <option value="15">15</option>
+                                <select class="__box__input" name="SelectedEntryTime.H">
+                                    @for (int i = 9; i <= 15; i++)
+                                    {
+                                        if (Model.SelectedEntryTime.H == i)
+                                        {
+                                            <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                             <div class="col-lg col-md col-sm-12 time_minut ">
@@ -434,74 +435,50 @@
                                     <option value="13" disabled="">13</option>
                                     <option value="14" disabled="">14</option>
                                     <option value="15" disabled="">15</option>
-                                    <option value="16">16</option>
-                                    <option value="17">17</option>
-                                    <option value="18">18</option>
-                                    <option value="19">19</option>
-                                    <option value="20">20</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="23">23</option>
-                                    <option value="24">24</option>
-                                    <option value="25">25</option>
-                                    <option value="26">26</option>
-                                    <option value="27">27</option>
-                                    <option value="28">28</option>
-                                    <option value="29">29</option>
-                                    <option value="30">30</option>
-                                    <option value="31">31</option>
-                                    <option value="32">32</option>
-                                    <option value="33">33</option>
-                                    <option value="34">34</option>
-                                    <option value="35">35</option>
-                                    <option value="36">36</option>
-                                    <option value="37">37</option>
-                                    <option value="38">38</option>
-                                    <option value="39">39</option>
-                                    <option value="40">40</option>
-                                    <option value="41">41</option>
-                                    <option value="42">42</option>
-                                    <option value="43">43</option>
-                                    <option value="44">44</option>
-                                    <option value="45">45</option>
-                                    <option value="46">46</option>
-                                    <option value="47">47</option>
-                                    <option value="48">48</option>
-                                    <option value="49">49</option>
-                                    <option value="50">50</option>
-                                    <option value="51">51</option>
-                                    <option value="52">52</option>
-                                    <option value="53">53</option>
-                                    <option value="54">54</option>
-                                    <option value="55">55</option>
-                                    <option value="56">56</option>
-                                    <option value="57">57</option>
-                                    <option value="58">58</option>
-                                    <option value="59">59</option>
+
+                                    @for (int i = 16; i <= 59; i++)
+                                    {
+                                        if (Model.SelectedEntryTime.M == i)
+                                        {
+                                            <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                        }
+                                    }
+
                                 </select>
                             </div>
                             <div class="col-lg col-md col-sm-12 time_minut">
                                 <select class="__box__input">
-                                    <option disabled="">00</option>
+                                    <option>00</option>
                                 </select>
                             </div>
                         </div>
+
+                        @if(Model.IsTRB)
+                        {
                         <div style="padding: 0px;" class="col-12 entryTimeRange">
                             <label>Until</label>
                         </div>
-                        <div class="col-lg col-md col-sm-12 entryTimeRange">
-                            <select class="__box__input timeChange" name="selectedTrb_h">
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                        <div class="col-lg col-md col-sm-12">
+                            <select class="__box__input timeChange" name="SelectedTrb.H">
+                                @for (int i = 9; i <= 15; i++)
+                                {
+                                    if (Model.SelectedTrb.H == i)
+                                    {
+                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                    }
+                                }
                             </select>
                         </div>
-                        <div class="col-lg col-md col-sm-12 time_minut entryTimeRange">
-                            <select class="__box__input timeChange" name="selectedTrb_m">
+                        <div class="col-lg col-md col-sm-12 time_minut">
+                            <select class="__box__input timeChange" name="SelectedTrb.M">
                                 <option value="00" disabled="">00</option>
                                 <option value="01" disabled="">01</option>
                                 <option value="02" disabled="">02</option>
@@ -519,73 +496,45 @@
                                 <option value="14" disabled="">14</option>
                                 <option value="15" disabled="">15</option>
                                 <option value="16" disabled="">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
-                                <option value="32">32</option>
-                                <option value="33">33</option>
-                                <option value="34">34</option>
-                                <option value="35">35</option>
-                                <option value="36">36</option>
-                                <option value="37">37</option>
-                                <option value="38">38</option>
-                                <option value="39">39</option>
-                                <option value="40">40</option>
-                                <option value="41">41</option>
-                                <option value="42">42</option>
-                                <option value="43">43</option>
-                                <option value="44">44</option>
-                                <option value="45">45</option>
-                                <option value="46">46</option>
-                                <option value="47">47</option>
-                                <option value="48">48</option>
-                                <option value="49">49</option>
-                                <option value="50">50</option>
-                                <option value="51">51</option>
-                                <option value="52">52</option>
-                                <option value="53">53</option>
-                                <option value="54">54</option>
-                                <option value="55">55</option>
-                                <option value="56">56</option>
-                                <option value="57">57</option>
-                                <option value="58">58</option>
-                                <option value="59">59</option>
+
+                                @for (int i = 17; i <= 59; i++)
+                                {
+                                    if (Model.SelectedTrb.M == i)
+                                    {
+                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                    }
+                                }
                             </select>
                         </div>
                         <div class="col-lg col-md col-sm-12 time_minut entryTimeRange">
                             <select class="__box__input">
-                                <option disabled="">00</option>
+                                <option>00</option>
                             </select>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (Model.SelectedStrategy == "expiry")
+            {
+                <div class="__date__box expiry_show">
+                    <div class="col-4">
+                        <span class="__input__label">Entry Date: </span>
+                    </div>
+                    <div class="col-8 __slider__box">
+                        <label><span class="span_entrydate">@Model.EntryDay</span> trading days before monthly expiry(excluding holidays)</label>
+                        <div class="slidecontainer">
+                            <div class="__range__start">24</div>
+                            <div class="__range__end">0</div>
+                            <input min="0" max="24" value="@Model.EntryDay" type="range" name="EntryDay" class="slider input_entrydate">
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="__date__box expiry_show" style="display:none;">
-                <div class="col-4">
-                    <span class="__input__label">Entry Date: </span>
-                </div>
-                <div class="col-8 __slider__box">
-                    <label><span class="span_entrydate">16</span> trading days before monthly expiry(excluding holidays)</label>
-                    <div class="slidecontainer">
-                        <div class="__range__start">24</div>
-                        <div class="__range__end">0</div>
-                        <input min="0" max="24" type="range" name="entryDay" class="slider input_entrydate">
-                    </div>
-                </div>
-            </div>
+            }
 
         </div>
     </div>
@@ -595,94 +544,55 @@
                 <div class="col-4"><span class="__input__label">Exit Time: </span></div>
                 <div class="col-8 __time__input__box">
                     <div class="row">
-                        <div class="col-md-12 col-12 exit_time_box expiry_hide">
-                            <label style="padding: 10px;" class="checkbox-container">
+                        @if (Model.SelectedStrategy == "intraday")
+                        {
+                            <div class="col-md-12 col-12 exit_time_box">
+                                <label style="padding: 10px;" class="checkbox-container">
 
-                                <div class="checkbox__title"></div>
-                            </label>
-                            <label style="padding: 10px;" class="checkbox-container">
-                                <div class="checkbox-label"> </div>
-                                <div class="checkbox__title"></div>
-                            </label>
-                        </div>
+                                    <div class="checkbox__title"></div>
+                                </label>
+                                <label style="padding: 10px;" class="checkbox-container">
+                                    <div class="checkbox-label"> </div>
+                                    <div class="checkbox__title"></div>
+                                </label>
+                            </div>
+                        }
                         <div class="col-lg col-md col-sm-12">
-                            <select class="__box__input timeChange" name="selectedExitTime_h">
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                            <select class="__box__input timeChange" name="SelectedExitTime.H">
+                                @for (int i = 9; i <= 15; i++)
+                                {
+                                    if (Model.SelectedExitTime.M == i)
+                                    {
+                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
+
+                                    }
+                                }
                             </select>
                         </div>
                         <div class="col-lg col-md col-sm-12 time_minut">
-                            <select class="__box__input timeChange" name="selectedExitTime_m">
-                                <option value="00">00</option>
-                                <option value="01">01</option>
-                                <option value="02">02</option>
-                                <option value="03">03</option>
-                                <option value="04">04</option>
-                                <option value="05">05</option>
-                                <option value="06">06</option>
-                                <option value="07">07</option>
-                                <option value="08">08</option>
-                                <option value="09">09</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-                                <option value="29">29</option>
-                                <option value="30">30</option>
-                                <option value="31">31</option>
-                                <option value="32">32</option>
-                                <option value="33">33</option>
-                                <option value="34">34</option>
-                                <option value="35">35</option>
-                                <option value="36">36</option>
-                                <option value="37">37</option>
-                                <option value="38">38</option>
-                                <option value="39">39</option>
-                                <option value="40">40</option>
-                                <option value="41">41</option>
-                                <option value="42">42</option>
-                                <option value="43">43</option>
-                                <option value="44">44</option>
-                                <option value="45">45</option>
-                                <option value="46">46</option>
-                                <option value="47">47</option>
-                                <option value="48">48</option>
-                                <option value="49">49</option>
-                                <option value="50">50</option>
-                                <option value="51">51</option>
-                                <option value="52">52</option>
-                                <option value="53">53</option>
-                                <option value="54">54</option>
-                                <option value="55">55</option>
-                                <option value="56">56</option>
-                                <option value="57">57</option>
-                                <option value="58">58</option>
-                                <option value="59">59</option>
+                            <select class="__box__input timeChange" name="SelectedExitTime.M">
+                                @for (int i = 0; i <= 59; i++)
+                                {
+                                    if (Model.SelectedExitTime.M == i)
+                                    {
+                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
+
+                                    }
+                                }
                             </select>
                         </div>
+
                         <div class="col-lg col-md col-sm-12 time_minut">
                             <select class="__box__input">
-                                <option disabled="">00</option>
+                                <option>00</option>
                             </select>
                         </div>
                     </div>
@@ -690,62 +600,60 @@
 
             </div>
 
-            <div class="__date__box expiry_show" style="display:none;">
-                <div class="col-4">
-                    <span class="__input__label">Exit Date: </span>
-                </div>
-                <div class="col-8 __slider__box">
-                    <label><span class="span_exitdate">14</span> trading days before monthly expiry(excluding holidays)</label>
-                    <div class="slidecontainer">
-                        <div class="__range__start">24</div>
-                        <div class="__range__end">0</div>
-                        <input min="0" max="24" type="range" name="exitDay" class="slider input_exitdate">
+            @if (Model.SelectedStrategy == "expiry")
+            {
+                <div class="__date__box expiry_show">
+                    <div class="col-4">
+                        <span class="__input__label">Exit Date: </span>
+                    </div>
+                    <div class="col-8 __slider__box">
+                        <label><span class="span_exitdate">@Model.ExitDay</span> trading days before monthly expiry(excluding holidays)</label>
+                        <div class="slidecontainer">
+                            <div class="__range__start">24</div>
+                            <div class="__range__end">0</div>
+                            <input min="0" max="24" value="@Model.ExitDay" type="range" name="ExitDay" class="slider input_exitdate">
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>
 
-<div class="row __position__target__profit__loss positionOptionShow" style="display:none;">
+<div class="row __position__target__profit__loss">
 
     <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="__datetime__box">
-            <div class="__time__box addAddTargetProfit">
-                <div class="col-12">
-                    <label class="checkbox-container addwizard" data-val="isAddTargetProfit" data-show="addedAddTargetProfit" data-hide="addAddTargetProfit">
-                        <div class="checkbox-label"><span class="fa fa-plus fa__add"></span></div>
-                        <div class="checkbox__title">Strategy Target Profit</div>
-                    </label>
-                </div>
-            </div>
 
-            <div class="__time__box addedAddTargetProfit" style="display:none;">
+            <div class="__time__box">
                 <div class="col-4">
                     <span class="__input__label">Target Profit: </span>
                 </div>
                 <div class="col-7 __time__input__box">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <select class="__box__input selectprofit" name="targetProfitMTMType">
-                                <option value="amount">Total MTM</option>
-                                <option value="premium">Combined Premium %</option>
+                            <select class="__box__input" name="TargetProfitMTMType">
+                                @if (Model.TargetProfitMTMType == "amount")
+                                {
+                                    <option value="amount" selected>Total MTM</option>
+                                    <option value="premium">Combined Premium %</option>
+                                }
+                                else
+                                {
+                                    <option value="amount">Total MTM</option>
+                                    <option value="premium" selected>Combined Premium %</option>
+                                }
+
                             </select>
                         </div><div class="col-md-6 col-sm-12">
                             <div class="__sign__box">
                                 <div class="fa fa-inr"></div>
                             </div>
-                            <input type="number" placeholder="0" min="1" class="__box__input inputprofit" name="targetProfitMTMPrice">
+                            <input type="number" placeholder="0" min="1" class="__box__input" value="@Model.TargetProfitMTMPrice" name="targetProfitMTMPrice">
                         </div>
                     </div>
-                </div><div class="col-1 __close__icon">
-                    <label class="checkbox-container removewizard" data-val="isAddTargetProfit" data-hide="addedAddTargetProfit" data-show="addAddTargetProfit">
-                        <div class="checkbox-label">
-                            <input type="checkbox" value="true">
-                            <span class="fa fa-close fa__remove"></span>
-                        </div>
-                    </label>
                 </div>
+
             </div>
 
         </div>
@@ -753,19 +661,8 @@
 
     <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="__datetime__box">
-            <div class="__time__box addAddStopLoss">
-                <div class="col-12">
-                    <label class="checkbox-container  addwizard" data-val="isAddStopLoss" data-show="addedAddStopLoss" data-hide="addAddStopLoss">
-                        <div class="checkbox-label">
-                            <input type="checkbox" name="isAddStopLoss" value="false">
-                            <span class="fa fa-plus fa__add"></span>
-                        </div>
-                        <div class="checkbox__title">Strategy Stop Loss</div>
-                    </label>
-                </div>
-            </div>
 
-            <div class="__time__box addedAddStopLoss" style="display:none;">
+            <div class="__time__box">
                 <div class="col-4">
                     <span class="__input__label">Stop Loss: </span>
                 </div>
@@ -773,25 +670,27 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <select class="__box__input selectprofit selectloss" name="stopLossMTMType">
-                                <option value="amount">Total MTM</option>
-                                <option value="premium">Combined Premium %</option>
+                                @if (Model.StopLossMTMType == "amount")
+                                {
+                                    <option value="amount" selected>Total MTM</option>
+                                    <option value="premium">Combined Premium %</option>
+                                }
+                                else
+                                {
+                                    <option value="amount">Total MTM</option>
+                                    <option value="premium" selected>Combined Premium %</option>
+                                }
                             </select>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="__sign__box">
                                 -<div class="fa fa-inr"> </div>
                             </div>
-                            <input type="number" placeholder="0" min="1" class="__box__input inputprofit inputloss" name="stopLossMTMPrice">
+                            <input type="number" placeholder="0" min="1" value="@Model.StopLossMTMPrice" class="__box__input" name="StopLossMTMPrice">
                         </div>
                     </div>
                 </div>
-                <div class="col-1 __close__icon">
-                    <label class="checkbox-container removewizard" data-val="isAddStopLoss" data-hide="addedAddStopLoss" data-show="addAddStopLoss">
-                        <div class="checkbox-label">
-                            <input type="checkbox" value="true"><span class="fa fa-close fa__remove"></span>
-                        </div>
-                    </label>
-                </div>
+
             </div>
 
         </div>
@@ -800,20 +699,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="__datetime__box">
 
-            <div class="__time__box row addAddTrailingTargetProfit">
-                <div class="col-12">
-                    <label class="checkbox-container addwizard" data-val="isAddTrailingTargetProfit" data-show="addedAddTrailingTargetProfit" data-hide="addAddTrailingTargetProfit">
-                        <div class="checkbox-label">
-                            <span class="fa fa-plus fa__add"></span>
-                        </div>
-                        <div class="checkbox__title">
-                            Protect The Profits
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <div class="__time__box row addedAddTrailingTargetProfit" style="display:none;">
+            <div class="__time__box row">
                 <div class="col-md-2 col-sm-12">
                     <span class="__input__label">Protect The Profits: </span>
                 </div>
@@ -822,81 +708,81 @@
                         <div class="row trail__profit__type">
                             <label style="padding: 10px;" class="checkbox-container">
                                 <div class="checkbox-label">
-                                    <input type="radio" checked name="selectedTrailProfitTypeIndex" value="0">
+                                    <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 0 ? "checked" : "") disabled name="SelectedTrailProfitTypeIndex" value="0">
                                     <span class="checkbox-custom radio__type"></span>
                                 </div>
                                 <div class="checkbox__title">Lock Minimum Profit</div>
                             </label>
                             <label style="padding: 10px;" class="checkbox-container">
                                 <div class="checkbox-label">
-                                    <input type="radio" name="selectedTrailProfitTypeIndex" value="1">
+                                    <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 1 ? "checked" : "") disabled name="SelectedTrailProfitTypeIndex" value="1">
                                     <span class="checkbox-custom radio__type"></span>
                                 </div>
                                 <div class="checkbox__title">Trail Profits</div>
                             </label>
                             <label style="padding: 10px;" class="checkbox-container">
                                 <div class="checkbox-label">
-                                    <input type="radio" name="selectedTrailProfitTypeIndex" value="2">
+                                    <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 2 ? "checked" : "") disabled name="SelectedTrailProfitTypeIndex" value="2">
                                     <span class="checkbox-custom radio__type"></span>
                                 </div>
                                 <div class="checkbox__title">Lock &amp; Trail Profits</div>
                             </label>
                         </div>
 
-                        <div class="row selectedTrailProfitTypeIndex selectedTrailProfitTypeIndex_0 selectedTrailProfitTypeIndex_2">
-                            <div class="col-md-4 col-sm-12">
-                                <input type="text" disabled="" class="__box__input __no__border __no__bg" value="If Profit Reaches">
-                            </div>
-                            <div class="col-md-2 col-sm-12 ">
-                                <div class="__sign__box">
-                                    <div class="fa fa-inr"></div>
+                        @if (Model.SelectedTrailProfitTypeIndex == 0 || Model.SelectedTrailProfitTypeIndex == 2)
+                        {
+
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="If Profit Reaches">
                                 </div>
-                                <input type="number" placeholder="" step="1" min="100" class="__box__input inputTrailProfitTypeIndex" name="trailTriggerPrice">
-                                <div class="__input__label __gray">(Minimum ₹100)</div>
-                            </div>
-                            <div class="col-md-4 col-sm-12">
-                                <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Lock Minimum Profit At">
-                            </div>
-                            <div class="col-md-2 col-sm-12 ">
-                                <div class="__sign__box"><div class="fa fa-inr"></div></div>
-                                <input type="number" placeholder="" step="1" class="__box__input inputTrailProfitTypeIndex" name="trailFirstFixedProfit">
-                            </div>
-                        </div>
-
-                        <div class="row selectedTrailProfitTypeIndex selectedTrailProfitTypeIndex_1 selectedTrailProfitTypeIndex_2" style="display:none;">
-
-                            <div class="col-md-4 col-sm-12">
-                                <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Then For Every Increase In Profit By">
-                            </div>
-                            <div class="col-md-2 col-sm-12 ">
-                                <div class="__sign__box">
-                                    <div class="fa fa-inr"></div>
+                                <div class="col-md-2 col-sm-12 ">
+                                    <div class="__sign__box">
+                                        <div class="fa fa-inr"></div>
+                                    </div>
+                                    <input type="number" placeholder="" step="1" min="100" class="__box__input" value="@Model.TrailTriggerPrice" name="TrailTriggerPrice">
+                                    <div class="__input__label __gray">(Minimum ₹100)</div>
                                 </div>
-                                <input type="number" placeholder="" step="1" min="100" class="__box__input inputTrailProfitTypeIndex" name="trailMTMX">
-                                <div class="__input__label __gray">(Minimum ₹100)</div>
-                            </div>
-                            <div class="col-md-4 col-sm-12">
-                                <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Trail Minimum Profit By">
-                            </div>
-                            <div class="col-md-2 col-sm-12 ">
-                                <div class="__sign__box">
-                                    <div class="fa fa-inr"></div>
+                                <div class="col-md-4 col-sm-12">
+                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Lock Minimum Profit At">
                                 </div>
-                                <input type="number" placeholder="" step="1" class="__box__input inputTrailProfitTypeIndex" name="trailMTMY">
+                                <div class="col-md-2 col-sm-12 ">
+                                    <div class="__sign__box"><div class="fa fa-inr"></div></div>
+                                    <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailFirstFixedProfit" name="TrailFirstFixedProfit">
+                                </div>
                             </div>
 
-                        </div>
+                        }
+                        @if (Model.SelectedTrailProfitTypeIndex == 0 || Model.SelectedTrailProfitTypeIndex == 2)
+                        {
+                            <div class="row">
 
+                                <div class="col-md-4 col-sm-12">
+                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Then For Every Increase In Profit By">
+                                </div>
+                                <div class="col-md-2 col-sm-12 ">
+                                    <div class="__sign__box">
+                                        <div class="fa fa-inr"></div>
+                                    </div>
+                                    <input type="number" placeholder="" step="1" min="100" class="__box__input" value="@Model.TrailMTMX" name="trailMTMX">
+                                    <div class="__input__label __gray">(Minimum ₹100)</div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Trail Minimum Profit By">
+                                </div>
+                                <div class="col-md-2 col-sm-12 ">
+                                    <div class="__sign__box">
+                                        <div class="fa fa-inr"></div>
+                                    </div>
+                                    <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailMTMY" name="TrailMTMY">
+                                </div>
+
+                            </div>
+                        }
                     </div>
-                </div>
-                <div class="col-md-1 col-sm-12 __close__icon">
-                    <label class="checkbox-container removewizard" data-val="isAddTrailingTargetProfit" data-hide="addedAddTrailingTargetProfit" data-show="addAddTrailingTargetProfit">
-                        <div class="checkbox-label">
-                            <input type="checkbox" value="true">
-                            <span class="fa fa-close fa__remove"></span>
-                        </div>
-                    </label>
-                </div>
+                </div>                
+
             </div>
 
         </div>

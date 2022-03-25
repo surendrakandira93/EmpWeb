@@ -194,6 +194,7 @@ namespace EMP.Web.Controllers
                     string N = C[0], R = C[1], E = C[2];
                     if (C.Count() > 1)
                     {
+                        response.IsCTC = true;
                         A = new TrailingStopLoss { Status = true, Type = N.ToLower(), XValue = int.Parse(R), YValue = int.Parse(E) };
                     }
                 }
@@ -225,7 +226,7 @@ namespace EMP.Web.Controllers
                     {
                         q = val >= 0 ? "wpn_+" : "wpn_-";
                     }
-                   F= new TargetProfit { Status = true, Type = q, Value = val };
+                    F = new TargetProfit { Status = true, Type = q, Value = val };
                 }
 
 

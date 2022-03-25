@@ -12,6 +12,9 @@ namespace EMP.Dto
         {
             this.SelectedPosition = new List<StockMockPositionDto>();
             Id = Guid.NewGuid();
+            this.SelectedTrb = new EntryTime();
+            this.SelectedEntryTime = new EntryTime();
+            this.SelectedExitTime = new EntryTime();
         }
         public Guid Id { get; set; }
         public string SquareOff { get; set; }
@@ -24,6 +27,7 @@ namespace EMP.Dto
         public bool IsTRB { get; set; }
         public bool IsReEntry { get; set; }
         public bool IsWaitAndTrade { get; set; }
+        public bool IsCTC { get; set; }
         public bool IsAddTargetProfit { get; set; }
         public string TargetProfitMTMType { get; set; }
         public int TargetProfitMTMPrice { get; set; }
