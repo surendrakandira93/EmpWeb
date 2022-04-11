@@ -1,349 +1,300 @@
-﻿@model StockMockParentDto
+﻿@model StockMockPositionFormDto
 @{
 }
 
 
 @{
     Layout = "/Views/Shared/_LayoutSMK.cshtml";
+    int index = 0;
 }
+
+<style>
+    .__position__target__profit__loss1 input {
+        padding-left: 0px;        
+    }
+    .__position__details .position__button1 {
+       
+        background: #efefef;
+    }
+</style>
 
 <div class="__position__header __title__header "><div>Positions</div><div style="text-transform: none;"></div></div>
 
+<form asp-controller="SMK" asp-action="RunningC" method="post" autocomplete="off">
 
-<div class="__position__box__container">
+    <div class="__position__box__container">
 
-    <div>
-        <div class="squar__off__type">
-            <div>
+        <input type="hidden" name="squareOff" value="@Model.SquareOff">
+        <input type="hidden" name="Id" value="@Model.Id">
+        <input type="hidden" name="isWaitAndTrade" value="@Model.IsWaitAndTrade.ToString()">
+        <input type="hidden" name="isCTC" value="@Model.IsCTC.ToString()">
+        <input type="hidden" name="isReEntry" value="@Model.IsReEntry.ToString()">
+        <input type="hidden" name="selectedTrailProfitTypeIndex" value="@Model.SelectedTrailProfitTypeIndex">
+        <input type="hidden" name="selectedStrategy" value="@Model.SelectedStrategy">
+        <input type="hidden" name="isTRB" value="@Model.IsTRB.ToString()">
 
-                <label class="checkbox-container">
-                    <div class="checkbox-label">
-                        @if (Model.SquareOff == "leg")
-                        {
-                            <input type="radio" name="squareOff" value="leg" checked="checked" disabled>
-                        }
-                        else
-                        {
-                            <input type="radio" name="squareOff" value="leg" disabled>
-                        }
+        <div>
+            <div class="squar__off__type">
+                <div>
 
-                        <span class="checkbox-custom radio__type"></span>
-                    </div>
-                    <div class="checkbox__title">Square Off One Leg</div>
-                </label>
-
-                <label class="checkbox-container">
-                    <div class="checkbox-label">
-                        @if (Model.SquareOff == "all")
-                        {
-                            <input type="radio" name="squareOff" value="all" checked="checked" disabled>
-                        }
-                        else
-                        {
-                            <input type="radio" name="squareOff" value="all" disabled>
-                        }
-                        <span class="checkbox-custom radio__type"></span>
-                    </div>
-                    <div class="checkbox__title">Square Off All Legs</div>
-                </label>
-            </div>
-        </div>
-
-        <div class="squar__off__type entry_condition">
-            <div>
-                <label class="checkbox-container">
-                    <div class="checkbox-label">
-                        @if (Model.IsWaitAndTrade)
-                        {
-                            <input type="checkbox" name="isWaitAndTrade" value="true" checked="checked" disabled>
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="isWaitAndTrade" value="false" disabled>
-                        }
-
-                        <span class="checkbox-custom"></span>
-                    </div>
-                    <div class="checkbox__title">Wait &amp; Trade</div>
-                </label>
-
-                <label class="checkbox-container">
-                    <div class="checkbox-label">
-                        @if (Model.IsCTC)
-                        {
-                            <input type="checkbox" name="isCTC" checked="checked" value="true" disabled>
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="isCTC" value="false" disabled>
-                        }
-
-
-                        <span class="checkbox-custom"></span>
-                    </div>
-                    <div class="checkbox__title">Move SL to Cost</div>
-                </label>
-                <label class="checkbox-container">
-                    <div class="checkbox-label">
-                        @if (Model.IsReEntry)
-                        {
-                            <input type="checkbox" name="isReEntry" checked="checked" value="true" disabled>
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="isReEntry" value="false" disabled>
-                        }
-                        <span class="checkbox-custom"></span>
-                    </div>
-                    <div class="checkbox__title">Re-Entry</div>
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        @foreach (var row in Model.SelectedPosition)
-        {
-            <div class="__position__box row" id="po_row_@row.Id">
-                <div class="col">
                     <label class="checkbox-container">
                         <div class="checkbox-label">
-                            <input type="checkbox" value="true" name="model[@row.Id].IsChecked" class="poss_check" data-index="0" checked="checked" readonly>
-                            <span class="checkbox-custom"></span>
+                            @if (Model.SquareOff == "leg")
+                            {
+                                <input type="radio" name="squareOff" value="leg" checked="checked" disabled>
+                            }
+                            else
+                            {
+                                <input type="radio" name="squareOff" value="leg" disabled>
+                            }
+
+                            <span class="checkbox-custom radio__type"></span>
                         </div>
+                        <div class="checkbox__title">Square Off One Leg</div>
+                    </label>
+
+                    <label class="checkbox-container">
+                        <div class="checkbox-label">
+                            @if (Model.SquareOff == "all")
+                            {
+                                <input type="radio" name="squareOff" value="all" checked="checked" disabled>
+                            }
+                            else
+                            {
+                                <input type="radio" name="squareOff" value="all" disabled>
+                            }
+                            <span class="checkbox-custom radio__type"></span>
+                        </div>
+                        <div class="checkbox__title">Square Off All Legs</div>
                     </label>
                 </div>
+            </div>
 
-                <div class="col">
-                    <div class="__position__details">
-                        <div class="__left__align__leginfo">
-                            <div class="total_lot" data-val="sp_total_lot" data-index="0" data-name="totalLot" style="text-transform: lowercase; padding: 0px;">
-                                <input type="hidden" name="model[@row.Id].TotalLot" value="@row.TotalLot" />
-                                <span class="sp_total_lot">@row.TotalLot</span>
-                                <span style="padding: 2.5px 0px 0px 3px; transform: rotate(45deg); font-size: 14px; text-transform: capitalize;">Lots</span>
-                            </div>
-                            <div title="Click to change" class="position__button">
-                                <input type="hidden" name="model[@row.Id].ActionType" value="@row.ActionType" />
-                                @row.ActionType
-                            </div>
-
-                            <div class="strike_price">
-                                <input type="hidden" name="model[@row.Id].StrikePrice" value="@row.StrikePrice" />
-                                <input type="hidden" name="model[@row.Id].ClosestPremium" value="@row.ClosestPremium" />
-                                @if (row.Segment == "options")
-                                {
-                                    <span class="sp_strikePrice">
-                                        ~@row.ClosestPremium pt
-                                    </span>
-                                }
-                                else if (row.EntryType == "cp")
-                                {
-                                    <span class="sp_strikePrice">
-                                        @(row.StrikePrice == 0 ? "ATM" : (row.StrikePrice > 0 ? "ATM+" + row.StrikePrice : "ATM" + row.StrikePrice)) ATM+900
-                                    </span>
-
-                                }
-                                else
-                                {
-                                    <div class="sp_strikePrice"> @row.Segment</div>
-                                }
-
-
-                            </div>
-                            <div title="Click to change" class="position__button">
-                                <input type="hidden" name="model[@row.Id].OptionType" value="@row.OptionType" />
-                                @row.OptionType
-                            </div>
-                        </div>
-
-
-                        <div class="__right__align__leginfo">
-
-                            <input type="hidden" name="model[@row.Id].EntryWait.Type" value="@row.EntryWait.Type" />
-                            <input type="hidden" name="model[@row.Id].EntryWait.Value" value="@row.EntryWait.Value" />
-
+            <div class="squar__off__type entry_condition">
+                <div>
+                    <label class="checkbox-container">
+                        <div class="checkbox-label">
                             @if (Model.IsWaitAndTrade)
                             {
-                                <div class="add__leg__tpsl trailing__box">
-                                    <div class="__box__input label_group">
+                                <input type="checkbox" checked="checked" disabled>
+                            }
+                            else
+                            {
+                                <input type="checkbox" disabled>
+                            }
 
-                                        @if (row.EntryWait.Type == "wp_+")
+                            <span class="checkbox-custom"></span>
+                        </div>
+                        <div class="checkbox__title">Wait &amp; Trade</div>
+                    </label>
+
+                    <label class="checkbox-container">
+                        <div class="checkbox-label">
+                            @if (Model.IsCTC)
+                            {
+                                <input type="checkbox" disabled>
+                            }
+                            else
+                            {
+                                <input type="checkbox" disabled>
+                            }
+
+
+                            <span class="checkbox-custom"></span>
+                        </div>
+                        <div class="checkbox__title">Move SL to Cost</div>
+                    </label>
+
+                    <label class="checkbox-container">
+                        <div class="checkbox-label">
+                            @if (Model.IsReEntry)
+                            {
+                                <input type="checkbox" checked="checked" disabled>
+                            }
+                            else
+                            {
+                                <input type="checkbox" disabled>
+                            }
+                            <span class="checkbox-custom"></span>
+                        </div>
+                        <div class="checkbox__title">Re-Entry</div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            @foreach (var row in Model.SelectedPosition)
+            {
+
+                <input type="hidden" name="selectedPosition[@index].isChecked" value="true">
+                <input type="hidden" name="selectedPosition[@index].index" value="@index">
+                <input type="hidden" name="selectedPosition[@index].id" value="@row.Id">
+                <input type="hidden" name="selectedPosition[@index].totalLot" value="@row.TotalLot" />
+                <input type="hidden" name="selectedPosition[@index].actionType" value="@row.ActionType" />
+                <input type="hidden" name="selectedPosition[@index].strikePrice" value="@row.StrikePrice" />
+                <input type="hidden" name="selectedPosition[@index].closestPremium" value="@row.ClosestPremium" />
+                <input type="hidden" name="selectedPosition[@index].optionType" value="@row.OptionType" />
+                <input type="hidden" name="selectedPosition[@index].entryWait.type" value="@row.EntryWait.Type.ToString()" />
+                <input type="hidden" name="selectedPosition[@index].targetProfit.status" value="@row.TargetProfit.Status.ToString()" />
+                <input type="hidden" name="SelectedPosition[@index].stopLoss.status" value="@row.StopLoss.Status.ToString()" />
+                <input type="hidden" name="selectedPosition[@index].trailingStopLoss.status" value="@row.TrailingStopLoss.Status.ToString()" />
+                <input type="hidden" name="selectedPosition[@index].stock" value="@row.Stock">
+                <input type="hidden" name="selectedPosition[@index].expiryType" value="@row.ExpiryType">
+                <input type="hidden" name="selectedPosition[@index].segment" value="@row.Segment">
+                <input type="hidden" name="selectedPosition[@index].entryType" value="@row.EntryType">
+
+
+                <div class="__position__box row" id="po_row_@index">
+                    <div class="col">
+                        <label class="checkbox-container">
+                            <div class="checkbox-label">
+                                <input type="checkbox" value="true" name="SelectedPosition[@index].IsChecked" class="poss_check" data-index="0" checked="checked" readonly>
+                                <span class="checkbox-custom"></span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="col">
+                        <div class="__position__details">
+                            <div class="__left__align__leginfo">
+                                <div class="total_lot" data-val="sp_total_lot" style="text-transform: lowercase; padding: 0px;">
+                                    <span class="sp_total_lot">@row.TotalLot</span>
+                                    <span style="padding: 2.5px 0px 0px 3px; transform: rotate(45deg); font-size: 14px; text-transform: capitalize;">Lots</span>
+                                </div>
+
+                                <div title="Click to change" class="position__button">
+
+                                    @row.ActionType
+                                </div>
+
+                                <div class="strike_price">
+
+                                    @if (row.Segment == "options")
+                                    {
+                                        @if (row.EntryType == "cp")
                                         {
-                                            <div class="label">🧭  % ↑</div>
-                                        }
-                                        else if (row.EntryWait.Type == "wp_-")
-                                        {
-                                            <div class="label">🧭  % ↓</div>
-                                        }
-                                        else if (row.EntryWait.Type == "wpn_+")
-                                        {
-                                            <div class="label">🧭  pt ↑</div>
+                                            <span class="sp_strikePrice">
+                                                ~@row.ClosestPremium pt
+                                            </span>
                                         }
                                         else
                                         {
-                                            <div class="label">🧭  pt ↓</div>
-
+                                            <span class="sp_strikePrice">
+                                                @(row.StrikePrice == 0 ? "ATM" : (row.StrikePrice > 0 ? "ATM+" + row.StrikePrice : "ATM" + row.StrikePrice))
+                                            </span>
                                         }
-                                        <input type="number" placeholder="0" class="__box__input targetProfitinput" value="@row.EntryWait.Value">
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="add__leg__tpsl"></div>
-                            }
+                                    }
+                                    else if (row.EntryType == "cp")
+                                    {
+                                        <span class="sp_strikePrice">
+                                            @(row.StrikePrice == 0 ? "ATM" : (row.StrikePrice > 0 ? "ATM+" + row.StrikePrice : "ATM" + row.StrikePrice))
+                                        </span>
 
+                                    }
+                                    else
+                                    {
+                                        <div class="sp_strikePrice"> @row.Segment</div>
+                                    }
 
-                            <input type="hidden" name="model[@row.Id].TargetProfit.Status" value="@row.TargetProfit.Status" />
-
-                            @if (row.TargetProfit.Status)
-                            {
-                                <div class="add__leg__tpsl">
-                                    <div class="__box__input select__box__input">
-                                        <select name="model[@row.Id].TargetProfit.Type">
-                                            @if (row.TargetProfit.Type == "tpp")
-                                            {
-                                                <option value="tpp" selected="selected">TP %</option>
-                                                <option value="tppn">TP pt</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="tpp">TP %</option>
-                                                <option value="tppn" selected="selected">TP pt</option>
-
-                                            }
-
-                                        </select>
-                                        <input class="__box__input" name="model[@row.Id].TargetProfit.Value" placeholder="0" value="@row.TargetProfit.Value">
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="add__leg__tpsl"></div>
-                                <input type="hidden" name="model[@row.Id].TargetProfit.Type" value="@row.TargetProfit.Type" />
-                                <input type="hidden" name="model[@row.Id].TargetProfit.Value" value="@row.TargetProfit.Value" />
-                            }
-
-
-                            <input type="hidden" name="model[@row.Id].StopLoss.Status" value="@row.StopLoss.Status" />
-                            @if (row.StopLoss.Status)
-                            {
-                                <div class="add__leg__tpsl">
-                                    <div class="__box__input select__box__input large__select">
-                                        <select name="model[@row.Id].StopLoss.Type">
-                                            @if (row.TargetProfit.Type == "tpp")
-                                            {
-                                                <option value="slp" selected="selected">SL %</option>
-                                                <option value="slpn">SL pt</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="slp">SL %</option>
-                                                <option value="slpn" selected="selected">SL pt</option>
-
-                                            }
-
-                                        </select>
-                                        <input class="__box__input" type="number" name="model[@row.Id].StopLoss.Value" placeholder="0" value="@row.StopLoss.Value">
-                                    </div>
 
                                 </div>
-                            }
-                            else
-                            {
-                                <div class="add__leg__tpsl"></div>
-                                <input type="hidden" name="model[@row.Id].StopLoss.Type" value="@row.StopLoss.Type" />
-                                <input type="hidden" name="model[@row.Id].StopLoss.Value" value="@row.StopLoss.Value" />
-                            }
-
-                            <input type="hidden" name="model[@row.Id].TrailingStopLoss.Status" value="@row.TrailingStopLoss.Status" />
-                            <input type="hidden" name="model[@row.Id].TrailingStopLoss.Type" value="@row.TrailingStopLoss.Type" />
-                            <input type="hidden" name="model[@row.Id].TrailingStopLoss.XValue" value="@row.TrailingStopLoss.XValue" />
-                            <input type="hidden" name="model[@row.Id].TrailingStopLoss.YValue" value="@row.TrailingStopLoss.YValue" />
-
-
-                            @if (Model.IsReEntry)
-                            {
-                                <div class="add__leg__tpsl trailing__box">
-                                    <div class="__box__input label_group">
-                                        <div class="label">
-                                            Re-entry
-                                        </div>
-                                        <select name="model[@row.Id].TrailingStopLoss.Type">
-                                            @if (row.ReEntry.Value == 1)
-                                            {
-                                                <option value="1" selected>1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            }
-                                            else if (row.ReEntry.Value == 2)
-                                            {
-                                                <option value="1">1</option>
-                                                <option value="2" selected>2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            }
-                                            else if (row.ReEntry.Value == 3)
-                                            {
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3" selected>3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            }
-                                            else if (row.ReEntry.Value == 4)
-                                            {
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4" selected>4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                            }
-                                            else if (row.ReEntry.Value == 5)
-                                            {
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5" selected>5</option>
-                                                <option value="6">6</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6" selected>6</option>
-                                            }
-
-                                        </select>
+                                @if (row.Segment == "options")
+                                {
+                                    <div title="Click to change" class="position__button">
+                                        @row.OptionType
                                     </div>
+                                }
+                                else
+                                {
+                            <div title="Click to change" class="position__button" style=" visibility: hidden;">
+                                
+                            </div>
+                                }
 
-                                </div>
-                            }
-                            else
-                            {
-                                @if (row.TrailingStopLoss.Status)
+                            </div>
+
+
+                            <div class="__right__align__leginfo">
+
+
+
+                                @if (Model.IsWaitAndTrade)
                                 {
                                     <div class="add__leg__tpsl trailing__box">
-                                        <div class="__box__input select__box__doubleinput">
-                                            <select name="model[@row.Id].TrailingStopLoss.Type">
-                                                <option value="tslp" selected="selected">TSL %</option>
-                                                <option value="tslpn">TSL pt</option>
-                                            </select>
-                                            <input class="__box__input" type="number" name="model[@row.Id].TrailingStopLoss.XValue" placeholder="X" value="@row.TrailingStopLoss.XValue">
-                                            <input class="__box__input" type="number" name="model[@row.Id].TrailingStopLoss.YValue" placeholder="Y" value="@row.TrailingStopLoss.YValue">
-                                        </div>
+
+
+
+
+                                        @if (Model.IsEntryWaitEdit)
+                                        {
+                                            <div class="__box__input select__box__input large__select">
+
+                                                <select class="targetProfitselect" name="SelectedPosition[@index].EntryWait.type">
+                                                    @if (row.EntryWait.Type == "wp_+")
+                                                    {
+                                                        <option value="wp_+" selected>🧭  % ↑</option>
+                                                        <option value="wp_-">🧭  % ↓</option>
+                                                        <option value="wpn_+">🧭  pt ↑</option>
+                                                        <option value="wpn_-">🧭  pt ↓</option>
+                                                    }
+                                                    else if (row.EntryWait.Type == "wp_-")
+                                                    {
+                                                        <option value="wp_+">🧭  % ↑</option>
+                                                        <option value="wp_-" selected>🧭  % ↓</option>
+                                                        <option value="wpn_+">🧭  pt ↑</option>
+                                                        <option value="wpn_-">🧭  pt ↓</option>
+                                                    }
+                                                    else if (row.EntryWait.Type == "wpn_+")
+                                                    {
+                                                        <option value="wp_+">🧭  % ↑</option>
+                                                        <option value="wp_-">🧭  % ↓</option>
+                                                        <option value="wpn_+" selected>🧭  pt ↑</option>
+                                                        <option value="wpn_-">🧭  pt ↓</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="wp_+">🧭  % ↑</option>
+                                                        <option value="wp_-">🧭  % ↓</option>
+                                                        <option value="wpn_+">🧭  pt ↑</option>
+                                                        <option value="wpn_-" selected>🧭  pt ↓</option>
+                                                    }
+
+                                                </select>
+
+                                                <input type="number" placeholder="0" name="SelectedPosition[@index].EntryWait.Value" class="__box__input targetProfitinput" value="@row.EntryWait.Value">
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="__box__input label_group">
+                                                @if (row.EntryWait.Type == "wp_+")
+                                                {
+                                                    <div class="label">🧭  % ↑</div>
+                                                }
+                                                else if (row.EntryWait.Type == "wp_-")
+                                                {
+                                                    <div class="label">🧭  % ↓</div>
+                                                }
+                                                else if (row.EntryWait.Type == "wpn_+")
+                                                {
+                                                    <div class="label">🧭  pt ↑</div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="label">🧭  pt ↓</div>
+
+                                                }
+
+                                                <div class="total_lot" style="text-transform: lowercase; padding: 0px;">
+                                                    <span class="sp_total_lot">@row.EntryWait.Value</span>
+                                                    <input type="hidden" name="SelectedPosition[@index].EntryWait.Value" value="@row.EntryWait.Value">
+                                                    <input type="hidden" name="SelectedPosition[@index].EntryWait.type" value="@row.EntryWait.Type">
+
+                                                </div>
+                                            </div>
+                                        }
 
                                     </div>
                                 }
@@ -351,441 +302,945 @@
                                 {
                                     <div class="add__leg__tpsl"></div>
                                 }
+
+
+
+
+                                @if (row.TargetProfit.Status)
+                                {
+
+                                    @if (Model.IsTargetProfitRowEdit)
+                                    {
+                                        <div class="add__leg__tpsl">
+                                            <div class="__box__input select__box__input">
+                                                <select name="SelectedPosition[@index].TargetProfit.Type">
+                                                    @if (row.TargetProfit.Type == "tpp")
+                                                    {
+                                                        <option value="tpp" selected="selected">TP %</option>
+                                                        <option value="tppn">TP pt</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="tpp">TP %</option>
+                                                        <option value="tppn" selected="selected">TP pt</option>
+
+                                                    }
+
+                                                </select>
+                                                <input class="__box__input" name="SelectedPosition[@index].TargetProfit.Value" placeholder="0" value="@row.TargetProfit.Value">
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="add__leg__tpsl trailing__box">
+                                            <div class="__box__input label_group">
+                                                @if (row.TargetProfit.Type == "tpp")
+                                                {
+                                                    <div class="label">TP %</div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="label">TP pt</div>
+
+                                                }
+
+                                            <div class="total_lot" style="text-transform: lowercase; padding: 0px;">
+                                                <span class="sp_total_lot">@row.TargetProfit.Value</span>
+                                                <input type="hidden" name="SelectedPosition[@index].TargetProfit.type" value="@row.TargetProfit.Type" />
+                                                <input type="hidden" name="SelectedPosition[@index].TargetProfit.Value" value="@row.TargetProfit.Value">
+
+                                            </div>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    <div class="add__leg__tpsl"></div>
+                                    <input type="hidden" name="SelectedPosition[@index].TargetProfit.type" value="@row.TargetProfit.Type" />
+                                    <input type="hidden" name="SelectedPosition[@index].TargetProfit.Value" value="@row.TargetProfit.Value" />
+                                }
+
+
+
+                                @if (row.StopLoss.Status)
+                                {
+                                    if (Model.IsStopLossRowEdit)
+                                    {
+                                        <div class="add__leg__tpsl">
+                                            <div class="__box__input select__box__input large__select">
+                                                <select name="SelectedPosition[@index].StopLoss.Type">
+                                                    @if (row.StopLoss.Type == "slp")
+                                                    {
+                                                        <option value="slp" selected="selected">SL %</option>
+                                                        <option value="slpn">SL pt</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="slp">SL %</option>
+                                                        <option value="slpn" selected="selected">SL pt</option>
+
+                                                    }
+
+                                                </select>
+                                                <input class="__box__input" type="number" name="SelectedPosition[@index].StopLoss.Value" placeholder="0" value="@row.StopLoss.Value">
+                                            </div>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="add__leg__tpsl trailing__box">
+                                            <div class="__box__input label_group">
+                                                @if (row.StopLoss.Type == "slp")
+                                                {
+                                                    <div class="label">SL %</div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="label">SL pt</div>
+
+                                                }
+
+                                                <div class="total_lot" style="text-transform: lowercase; padding: 0px;">
+                                                    <span class="sp_total_lot">@row.StopLoss.Value</span>
+                                                    <input type="hidden" name="SelectedPosition[@index].stopLoss.type" value="@row.StopLoss.Type">
+                                                    <input type="hidden" name="SelectedPosition[@index].stopLoss.value" value="@row.StopLoss.Value">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="add__leg__tpsl"></div>
+                                    <input type="hidden" name="SelectedPosition[@index].StopLoss.Type" value="@row.StopLoss.Type" />
+                                    <input type="hidden" name="SelectedPosition[@index].StopLoss.Value" value="@row.StopLoss.Value" />
+                                }
+
+                                @if (Model.IsReEntry)
+                                {
+                                    if (row.ReEntry.Status)
+                                    {
+                                        if (Model.IsReEntryEdit)
+                                        {
+                                            <div class="add__leg__tpsl trailing__box">
+                                                <div class="__box__input label_group">
+                                                    <div class="label">
+                                                        Re-entry
+                                                    </div>
+                                                    <select name="SelectedPosition[@index].ReEntry.Value">
+                                                        @if (row.ReEntry.Value == 1)
+                                                        {
+                                                            <option value="1" selected>1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                        }
+                                                        else if (row.ReEntry.Value == 2)
+                                                        {
+                                                            <option value="1">1</option>
+                                                            <option value="2" selected>2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                        }
+                                                        else if (row.ReEntry.Value == 3)
+                                                        {
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3" selected>3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                        }
+                                                        else if (row.ReEntry.Value == 4)
+                                                        {
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4" selected>4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                        }
+                                                        else if (row.ReEntry.Value == 5)
+                                                        {
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5" selected>5</option>
+                                                            <option value="6">6</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6" selected>6</option>
+                                                        }
+
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="add__leg__tpsl trailing__box">
+                                                <div class="__box__input label_group">
+                                                    <div class="label"> Re-entry</div>
+
+                                                    <div class="total_lot" style="text-transform: lowercase; padding: 0px;">
+                                                        <span class="sp_total_lot">@row.ReEntry.Value</span>
+                                                        <input type="hidden" name="SelectedPosition[@index].reEntry.value" value="@row.ReEntry.Value">
+                                                        <input type="hidden" name="SelectedPosition[@index].reEntry.Status" value="@row.ReEntry.Status.ToString()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                            <div class="add__leg__tpsl trailing__box">
+                                <input type="hidden" name="SelectedPosition[@index].reEntry.value" value="@row.ReEntry.Value">
+                                <input type="hidden" name="SelectedPosition[@index].reEntry.Status" value="@row.ReEntry.Status.ToString()">
+                            </div>
+                                    }
+                                }
+                                else
+                                {
+                                    @if (row.TrailingStopLoss.Status)
+                                    {
+                                        if (Model.IsTrailingStopLossEdit)
+                                        {
+                                            <div class="add__leg__tpsl trailing__box">
+                                                <div class="__box__input select__box__doubleinput">
+                                                    <select name="SelectedPosition[@index].TrailingStopLoss.Type">
+                                                        @if (row.TrailingStopLoss.Type == "tslp")
+                                                        {
+                                                            <option value="tslp" selected="selected">TSL %</option>
+                                                            <option value="tslpn">TSL pt</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="tslp">TSL %</option>
+                                                            <option value="tslpn" selected="selected">TSL pt</option>
+                                                        }
+
+                                                    </select>
+                                                    <input class="__box__input" type="number" name="SelectedPosition[@index].TrailingStopLoss.XValue" placeholder="X" value="@row.TrailingStopLoss.XValue">
+                                                    <input class="__box__input" type="number" name="SelectedPosition[@index].TrailingStopLoss.YValue" placeholder="Y" value="@row.TrailingStopLoss.YValue">
+                                                </div>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="add__leg__tpsl trailing__box">
+                                                <div class="__box__input label_group">
+                                                    @if (row.TrailingStopLoss.Type == "tslp")
+                                                    {
+                                                        <div class="label">TSL %</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="label">TSL pt</div>
+
+                                                    }
+
+                                                    <div class="total_lot" style="text-transform: lowercase; padding: 0px;">
+                                                        <span class="sp_total_lot">@row.TrailingStopLoss.XValue</span>
+                                                        <span class="sp_total_lot">@row.TrailingStopLoss.YValue</span>
+                                                        <input type="hidden" name="SelectedPosition[@index].trailingStopLoss.type" value="@row.TrailingStopLoss.Type">
+                                                        <input type="hidden" name="SelectedPosition[@index].trailingStopLoss.xValue" value="@row.TrailingStopLoss.XValue">
+                                                        <input type="hidden" name="SelectedPosition[@index].trailingStopLoss.yValue" value="@row.TrailingStopLoss.YValue">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="add__leg__tpsl"></div>
+
+                                        <input type="hidden" name="SelectedPosition[@index].TrailingStopLoss.Type" value="@row.TrailingStopLoss.Type" />
+                                        <input type="hidden" name="SelectedPosition[@index].TrailingStopLoss.XValue" value="@row.TrailingStopLoss.XValue" />
+                                        <input type="hidden" name="SelectedPosition[@index].TrailingStopLoss.YValue" value="@row.TrailingStopLoss.YValue" />
+                                    }
+                                }
+
+
+                                <div title="Click to change" class="position__button __expiry__type__button">
+                                    @row.Stock
+                                </div>
+
+                                <div title="Click to change" class="position__button __expiry__type__button">
+                                    @row.ExpiryType
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col">
+
+                    </div>
+                </div>
+                index++;
+            }
+        </div>
+    </div>
+
+    <div class="row __position__datetime">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="__datetime__box">
+                <div class="__time__box">
+                    <div class="col-4"><span class="__input__label">Entry Time: </span></div>
+                    <div class="col-8 __time__input__box">
+                        <div class="row">
+                            @if (Model.SelectedStrategy == "intraday")
+                            {
+                                <div class="col-md-12 col-12 exit_time_box">
+                                    <label style="padding: 10px;" class="checkbox-container">
+                                        <div class="checkbox-label">
+                                            <input type="checkbox" @(Model.IsTRB ? "checked" : "") disabled><span class="checkbox-custom"></span>
+                                        </div>
+                                        <div class="checkbox__title">Range Breakout</div>
+                                    </label>
+                                </div>
+                            }
+                            <div class="row">
+                                @if (Model.IsEntryTimeEdit)
+                                {
+                                    <div class="col-lg col-md col-sm-12">
+                                        <select class="__box__input" name="SelectedEntryTime.H">
+                                            @for (int i = 9; i <= 15; i++)
+                                            {
+                                                if (Model.SelectedEntryTime.H == i)
+                                                {
+                                                    <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut ">
+                                        <select class="__box__input timeChange" name="selectedEntryTime.m">
+                                            <option value="00" disabled="">00</option>
+                                            <option value="01" disabled="">01</option>
+                                            <option value="02" disabled="">02</option>
+                                            <option value="03" disabled="">03</option>
+                                            <option value="04" disabled="">04</option>
+                                            <option value="05" disabled="">05</option>
+                                            <option value="06" disabled="">06</option>
+                                            <option value="07" disabled="">07</option>
+                                            <option value="08" disabled="">08</option>
+                                            <option value="09" disabled="">09</option>
+                                            <option value="10" disabled="">10</option>
+                                            <option value="11" disabled="">11</option>
+                                            <option value="12" disabled="">12</option>
+                                            <option value="13" disabled="">13</option>
+                                            <option value="14" disabled="">14</option>
+                                            <option value="15" disabled="">15</option>
+
+                                            @for (int i = 16; i <= 59; i++)
+                                            {
+                                                if (Model.SelectedEntryTime.M == i)
+                                                {
+                                                    <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                                }
+                                            }
+
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut">
+                                        <select class="__box__input">
+                                            <option>00</option>
+                                        </select>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-lg col-md col-sm-12">
+                                        <select class="__box__input" disabled>
+                                            <option value="@Model.SelectedEntryTime.H ">@Model.SelectedEntryTime.H </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut ">
+                                        <select class="__box__input" disabled>
+                                            <option value="@Model.SelectedEntryTime.M">@Model.SelectedEntryTime.M</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut">
+                                        <select class="__box__input" disabled>
+                                            <option>00</option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" value="@Model.SelectedEntryTime.M" name="selectedEntryTime.m" />
+                                    <input type="hidden" value="@Model.SelectedEntryTime.H" name="selectedEntryTime.h" />
+                                }
+                            </div>
+
+                            @if (Model.IsTRB)
+                            {
+                                <div style="padding: 0px;" class="col-12 entryTimeRange">
+                                    <label>Until</label>
+                                </div>
+                                if (Model.IsExitTimeEdit)
+                                {
+                                    <div class="col-lg col-md col-sm-12">
+                                        <select class="__box__input timeChange" name="selectedTrb.H">
+                                            @for (int i = 9; i <= 15; i++)
+                                            {
+                                                if (Model.SelectedTrb.H == i)
+                                                {
+                                                    <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut">
+                                        <select class="__box__input timeChange" name="SelectedTrb.M">
+                                            <option value="00" disabled="">00</option>
+                                            <option value="01" disabled="">01</option>
+                                            <option value="02" disabled="">02</option>
+                                            <option value="03" disabled="">03</option>
+                                            <option value="04" disabled="">04</option>
+                                            <option value="05" disabled="">05</option>
+                                            <option value="06" disabled="">06</option>
+                                            <option value="07" disabled="">07</option>
+                                            <option value="08" disabled="">08</option>
+                                            <option value="09" disabled="">09</option>
+                                            <option value="10" disabled="">10</option>
+                                            <option value="11" disabled="">11</option>
+                                            <option value="12" disabled="">12</option>
+                                            <option value="13" disabled="">13</option>
+                                            <option value="14" disabled="">14</option>
+                                            <option value="15" disabled="">15</option>
+                                            <option value="16" disabled="">16</option>
+
+                                            @for (int i = 17; i <= 59; i++)
+                                            {
+                                                if (Model.SelectedTrb.M == i)
+                                                {
+                                                    <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut entryTimeRange">
+                                        <select class="__box__input">
+                                            <option>00</option>
+                                        </select>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-lg col-md col-sm-12">
+                                        <select class="__box__input" disabled>
+                                            <option value="@Model.SelectedTrb.H ">@Model.SelectedTrb.H </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut ">
+                                        <select class="__box__input" disabled>
+                                            <option value="@Model.SelectedTrb.M">@Model.SelectedTrb.M</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-lg col-md col-sm-12 time_minut">
+                                        <select class="__box__input" disabled>
+                                            <option>00</option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" value="@Model.SelectedTrb.M" name="selectedTrb.m" />
+                                    <input type="hidden" value="@Model.SelectedTrb.H" name="selectedTrb.h" />
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                @if (Model.SelectedStrategy == "expiry")
+                {
+                    <div class="__date__box expiry_show">
+                        <div class="col-4">
+                            <span class="__input__label">Entry Date: </span>
+                        </div>
+                        <div class="col-8 __slider__box">
+                            <label><span class="span_entrydate">@Model.EntryDay</span> trading days before monthly expiry(excluding holidays)</label>
+                            <div class="slidecontainer">
+                                <div class="__range__start">24</div>
+                                <div class="__range__end">0</div>
+                                @if (Model.IsEntryDateEdit)
+                                {
+                                    <input min="0" max="24" value="@Model.EntryDay" type="range" name="EntryDay" class="slider input_entrydate">
+                                }
+                                else
+                                {
+                                    <input min="0" max="24" value="@Model.EntryDay" type="range" disabled class="slider input_entrydate">
+                                    <input value="@Model.EntryDay" type="hidden" name="EntryDay">
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="__datetime__box">
+                <div class="__time__box">
+                    <div class="col-4"><span class="__input__label">Exit Time: </span></div>
+                    <div class="col-8 __time__input__box">
+                        <div class="row">
+                            @if (Model.SelectedStrategy == "intraday")
+                            {
+                                <div class="col-md-12 col-12 exit_time_box">
+                                    <label style="padding: 10px;" class="checkbox-container">
+
+                                        <div class="checkbox__title"></div>
+                                    </label>
+                                    <label style="padding: 10px;" class="checkbox-container">
+                                        <div class="checkbox-label"> </div>
+                                        <div class="checkbox__title"></div>
+                                    </label>
+                                </div>
+                            }
+                            @if (Model.IsExitTimeEdit)
+                            {
+                                <div class="col-lg col-md col-sm-12">
+                                    <select class="__box__input timeChange" name="SelectedExitTime.H">
+                                        @for (int i = 9; i <= 15; i++)
+                                        {
+                                            if (Model.SelectedExitTime.M == i)
+                                            {
+                                                <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@i.ToString("##")">@i.ToString("##")</option>
+
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-lg col-md col-sm-12 time_minut">
+                                    <select class="__box__input timeChange" name="SelectedExitTime.M">
+                                        @for (int i = 0; i <= 59; i++)
+                                        {
+                                            if (Model.SelectedExitTime.M == i)
+                                            {
+                                                <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@i.ToString("##")">@i.ToString("##")</option>
+
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-lg col-md col-sm-12 time_minut">
+                                    <select class="__box__input">
+                                        <option>00</option>
+                                    </select>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-lg col-md col-sm-12">
+                                    <select class="__box__input timeChange" disabled>
+                                        <option value="@Model.SelectedExitTime.H" selected>@Model.SelectedExitTime.H</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg col-md col-sm-12 time_minut">
+                                    <select class="__box__input timeChange" disabled>
+                                        <option value="@Model.SelectedExitTime.M" selected>@Model.SelectedExitTime.M</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg col-md col-sm-12 time_minut">
+                                    <select class="__box__input" disabled>
+                                        <option>00</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="selectedExitTime.h" value="@Model.SelectedExitTime.H" />
+                                <input type="hidden" name="selectedExitTime.m" value="@Model.SelectedExitTime.M" />
                             }
 
 
-                            <div title="Click to change" class="position__button __expiry__type__button">
+                        </div>
+                    </div>
 
-                                <input name="model[@row.Id].Stock" type="hidden" value="@row.Stock">
-                                @row.Stock
-                            </div>
+                </div>
 
-                            <div title="Click to change" class="position__button __expiry__type__button">
-
-                                <input name="model[@row.Id].ExpiryType" type="hidden" value="@row.ExpiryType">
-                                @row.ExpiryType
+                @if (Model.SelectedStrategy == "expiry")
+                {
+                    <div class="__date__box expiry_show">
+                        <div class="col-4">
+                            <span class="__input__label">Exit Date: </span>
+                        </div>
+                        <div class="col-8 __slider__box">
+                            <label><span class="span_exitdate">@Model.ExitDay</span> trading days before monthly expiry(excluding holidays)</label>
+                            <div class="slidecontainer">
+                                <div class="__range__start">24</div>
+                                <div class="__range__end">0</div>
+                                @if (Model.IsExitDateEdit)
+                                {
+                                    <input min="0" max="24" value="@Model.ExitDay" type="range" name="ExitDay" class="slider input_exitdate">
+                                }
+                                else
+                                {
+                                    <input min="0" max="24" value="@Model.ExitDay" type="range" disabled class="slider input_entrydate">
+                                    <input value="@Model.ExitDay" type="hidden" name="exitDay">
+                                }
                             </div>
                         </div>
-
                     </div>
-                </div>
-
-                <div class="col">
-
-                </div>
+                }
             </div>
-        }
-
-
-
-
-
+        </div>
     </div>
-</div>
 
-<div class="row __position__datetime">
-    <div class="col-lg-6 col-md-12 col-sm-12">
-        <div class="__datetime__box">
-            <div class="__time__box">
-                <div class="col-4"><span class="__input__label">Entry Time: </span></div>
-                <div class="col-8 __time__input__box">
-                    <div class="row">
-                        @if (Model.SelectedStrategy == "intraday")
-                        {
-                            <div class="col-md-12 col-12 exit_time_box">
+    <div class="row __position__target__profit__loss">
+
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="__datetime__box">
+
+                <div class="__time__box">
+                    <div class="col-4">
+                        <span class="__input__label">Target Profit: </span>
+                    </div>
+                    <div class="col-7 __time__input__box">
+                        <div class="row">
+                            @if (Model.IsTargetProfitEdit)
+                            {
+                                <div class="col-md-6 col-sm-12">
+                                    <select class="__box__input" name="TargetProfitMTMType">
+                                        @if (Model.TargetProfitMTMType == "amount")
+                                        {
+                                            <option value="amount" selected>Total MTM</option>
+                                            <option value="premium">Combined Premium %</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="amount">Total MTM</option>
+                                            <option value="premium" selected>Combined Premium %</option>
+                                        }
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-sm-12 __position__target__profit__loss1">
+                                    @if (Model.TargetProfitMTMType == "amount")
+                                    {
+                                        <div class="__sign__box">
+                                            <div class="fa fa-inr"></div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="__sign__box">
+                                            %
+                                        </div>
+
+                                    }
+
+                                    <input type="number" placeholder="0" min="1" class="__box__input" value="@Model.TargetProfitMTMPrice" name="targetProfitMTMPrice">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6 col-sm-12">
+                                    @if (Model.TargetProfitMTMType == "amount")
+                                    {
+                                        <input type="text" class="__box__input" value="Total MTM" disabled readonly>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" class="__box__input" value="Combined Premium %" disabled readonly>
+
+                                    }
+
+                                    <input type="hidden" value="@Model.TargetProfitMTMType" name="targetProfitMTMType">
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    @if (Model.TargetProfitMTMType == "amount")
+                                    {
+                                        <div class="__sign__box">
+                                            <div class="fa fa-inr"></div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="__sign__box">
+                                            %
+                                        </div>
+
+                                    }
+
+                                    <input type="text" class="__box__input" value="@Model.TargetProfitMTMPrice" disabled readonly>
+                                    <input type="hidden" value="@Model.TargetProfitMTMPrice" name="targetProfitMTMPrice">
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="__datetime__box">
+
+                <div class="__time__box">
+                    <div class="col-4">
+                        <span class="__input__label">Stop Loss: </span>
+                    </div>
+                    <div class="col-7 __time__input__box">
+                        <div class="row">
+                            @if (Model.IsStopLossEdit)
+                            {
+                                <div class="col-md-6 col-sm-12">
+                                    <select class="__box__input selectprofit selectloss" name="stopLossMTMType">
+                                        @if (Model.StopLossMTMType == "amount")
+                                        {
+                                            <option value="amount" selected>Total MTM</option>
+                                            <option value="premium">Combined Premium %</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="amount">Total MTM</option>
+                                            <option value="premium" selected>Combined Premium %</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    @if (Model.StopLossMTMType == "amount")
+                                    {
+
+                                        <div class="__sign__box">
+                                            -<div class="fa fa-inr"> </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="__sign__box">
+                                            %
+                                        </div>
+
+                                    }
+
+                                    <input type="number" placeholder="0" min="1" value="@Model.StopLossMTMPrice" class="__box__input" name="StopLossMTMPrice">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6 col-sm-12 __position__target__profit__loss1">
+                                    @if (Model.StopLossMTMType == "amount")
+                                    {
+
+                                        <input type="text" class="__box__input" value="Total MTM" disabled readonly>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" class="__box__input" value="Combined Premium %" disabled readonly>
+
+                                    }
+
+                                    <input type="hidden" value="@Model.StopLossMTMType" name="stopLossMTMType">
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    @if (Model.StopLossMTMType == "amount")
+                                    {
+
+                                        <div class="__sign__box">
+                                            -<div class="fa fa-inr"> </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="__sign__box">
+                                            %
+                                        </div>
+
+                                    }
+                                    <input type="text" class="__box__input" value="@Model.TargetProfitMTMPrice" disabled readonly>
+                                    <input type="hidden" value="@Model.StopLossMTMPrice" name="stopLossMTMPrice">
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="__datetime__box">
+
+                <div class="__time__box row">
+                    <div class="col-md-2 col-sm-12">
+                        <span class="__input__label">Protect The Profits: </span>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <div class="__input__group">
+                            <div class="row trail__profit__type">
                                 <label style="padding: 10px;" class="checkbox-container">
                                     <div class="checkbox-label">
-                                        <input type="checkbox" name="IsTRB" @(Model.IsTRB ? "checked" : "") disabled><span class="checkbox-custom"></span>
+                                        <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 0 ? "checked" : "") disabled>
+                                        <span class="checkbox-custom radio__type"></span>
                                     </div>
-                                    <div class="checkbox__title">Range Breakout</div>
+                                    <div class="checkbox__title">Lock Minimum Profit</div>
+                                </label>
+                                <label style="padding: 10px;" class="checkbox-container">
+                                    <div class="checkbox-label">
+                                        <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 1 ? "checked" : "") disabled>
+                                        <span class="checkbox-custom radio__type"></span>
+                                    </div>
+                                    <div class="checkbox__title">Trail Profits</div>
+                                </label>
+                                <label style="padding: 10px;" class="checkbox-container">
+                                    <div class="checkbox-label">
+                                        <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 2 ? "checked" : "") disabled>
+                                        <span class="checkbox-custom radio__type"></span>
+                                    </div>
+                                    <div class="checkbox__title">Lock &amp; Trail Profits</div>
                                 </label>
                             </div>
-                        }
-                        <div class="row">
-                            <div class="col-lg col-md col-sm-12">
-                                <select class="__box__input" name="SelectedEntryTime.H">
-                                    @for (int i = 9; i <= 15; i++)
-                                    {
-                                        if (Model.SelectedEntryTime.H == i)
+
+                            @if (Model.SelectedTrailProfitTypeIndex == 0 || Model.SelectedTrailProfitTypeIndex == 2)
+                            {
+
+
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-12">
+                                        <input type="text" disabled="" class="__box__input __no__border __no__bg" value="If Profit Reaches">
+                                    </div>
+                                    <div class="col-md-2 col-sm-12 ">
+                                        <div class="__sign__box">
+                                            <div class="fa fa-inr"></div>
+                                        </div>
+                                        @if (Model.IsProtectTheProfitsEdit)
                                         {
-                                            <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                            <input type="number" placeholder="" step="1" min="100" class="__box__input" value="@Model.TrailTriggerPrice" name="TrailTriggerPrice">
                                         }
                                         else
                                         {
-                                            <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                            <input type="number" class="__box__input" value="@Model.TrailTriggerPrice" disabled>
+                                            <input type="hidden" value="@Model.TrailTriggerPrice" name="trailTriggerPrice">
                                         }
-                                    }
-                                </select>
-                            </div>
-                            <div class="col-lg col-md col-sm-12 time_minut ">
-                                <select class="__box__input timeChange" name="selectedEntryTime_m">
-                                    <option value="00" disabled="">00</option>
-                                    <option value="01" disabled="">01</option>
-                                    <option value="02" disabled="">02</option>
-                                    <option value="03" disabled="">03</option>
-                                    <option value="04" disabled="">04</option>
-                                    <option value="05" disabled="">05</option>
-                                    <option value="06" disabled="">06</option>
-                                    <option value="07" disabled="">07</option>
-                                    <option value="08" disabled="">08</option>
-                                    <option value="09" disabled="">09</option>
-                                    <option value="10" disabled="">10</option>
-                                    <option value="11" disabled="">11</option>
-                                    <option value="12" disabled="">12</option>
-                                    <option value="13" disabled="">13</option>
-                                    <option value="14" disabled="">14</option>
-                                    <option value="15" disabled="">15</option>
-
-                                    @for (int i = 16; i <= 59; i++)
-                                    {
-                                        if (Model.SelectedEntryTime.M == i)
+                                        <div class="__input__label __gray">(Minimum ₹100)</div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Lock Minimum Profit At">
+                                    </div>
+                                    <div class="col-md-2 col-sm-12 ">
+                                        <div class="__sign__box">
+                                            <div class="fa fa-inr"></div>
+                                        </div>
+                                        @if (Model.IsProtectTheProfitsEdit)
                                         {
-                                            <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
+                                            <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailFirstFixedProfit" name="trailFirstFixedProfit">
                                         }
                                         else
                                         {
-                                            <option value="@i.ToString("##")">@i.ToString("##")</option>
+                                            <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailFirstFixedProfit" disabled>
+                                            <input type="hidden" value="@Model.TrailFirstFixedProfit" name="trailFirstFixedProfit">
                                         }
-                                    }
-
-                                </select>
-                            </div>
-                            <div class="col-lg col-md col-sm-12 time_minut">
-                                <select class="__box__input">
-                                    <option>00</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        @if(Model.IsTRB)
-                        {
-                        <div style="padding: 0px;" class="col-12 entryTimeRange">
-                            <label>Until</label>
-                        </div>
-                        <div class="col-lg col-md col-sm-12">
-                            <select class="__box__input timeChange" name="SelectedTrb.H">
-                                @for (int i = 9; i <= 15; i++)
-                                {
-                                    if (Model.SelectedTrb.H == i)
-                                    {
-                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="col-lg col-md col-sm-12 time_minut">
-                            <select class="__box__input timeChange" name="SelectedTrb.M">
-                                <option value="00" disabled="">00</option>
-                                <option value="01" disabled="">01</option>
-                                <option value="02" disabled="">02</option>
-                                <option value="03" disabled="">03</option>
-                                <option value="04" disabled="">04</option>
-                                <option value="05" disabled="">05</option>
-                                <option value="06" disabled="">06</option>
-                                <option value="07" disabled="">07</option>
-                                <option value="08" disabled="">08</option>
-                                <option value="09" disabled="">09</option>
-                                <option value="10" disabled="">10</option>
-                                <option value="11" disabled="">11</option>
-                                <option value="12" disabled="">12</option>
-                                <option value="13" disabled="">13</option>
-                                <option value="14" disabled="">14</option>
-                                <option value="15" disabled="">15</option>
-                                <option value="16" disabled="">16</option>
-
-                                @for (int i = 17; i <= 59; i++)
-                                {
-                                    if (Model.SelectedTrb.M == i)
-                                    {
-                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="col-lg col-md col-sm-12 time_minut entryTimeRange">
-                            <select class="__box__input">
-                                <option>00</option>
-                            </select>
-                        </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            @if (Model.SelectedStrategy == "expiry")
-            {
-                <div class="__date__box expiry_show">
-                    <div class="col-4">
-                        <span class="__input__label">Entry Date: </span>
-                    </div>
-                    <div class="col-8 __slider__box">
-                        <label><span class="span_entrydate">@Model.EntryDay</span> trading days before monthly expiry(excluding holidays)</label>
-                        <div class="slidecontainer">
-                            <div class="__range__start">24</div>
-                            <div class="__range__end">0</div>
-                            <input min="0" max="24" value="@Model.EntryDay" type="range" name="EntryDay" class="slider input_entrydate">
-                        </div>
-                    </div>
-                </div>
-            }
-
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-12 col-sm-12">
-        <div class="__datetime__box">
-            <div class="__time__box">
-                <div class="col-4"><span class="__input__label">Exit Time: </span></div>
-                <div class="col-8 __time__input__box">
-                    <div class="row">
-                        @if (Model.SelectedStrategy == "intraday")
-                        {
-                            <div class="col-md-12 col-12 exit_time_box">
-                                <label style="padding: 10px;" class="checkbox-container">
-
-                                    <div class="checkbox__title"></div>
-                                </label>
-                                <label style="padding: 10px;" class="checkbox-container">
-                                    <div class="checkbox-label"> </div>
-                                    <div class="checkbox__title"></div>
-                                </label>
-                            </div>
-                        }
-                        <div class="col-lg col-md col-sm-12">
-                            <select class="__box__input timeChange" name="SelectedExitTime.H">
-                                @for (int i = 9; i <= 15; i++)
-                                {
-                                    if (Model.SelectedExitTime.M == i)
-                                    {
-                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
-
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="col-lg col-md col-sm-12 time_minut">
-                            <select class="__box__input timeChange" name="SelectedExitTime.M">
-                                @for (int i = 0; i <= 59; i++)
-                                {
-                                    if (Model.SelectedExitTime.M == i)
-                                    {
-                                        <option value="@i.ToString("##")" selected>@i.ToString("##")</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@i.ToString("##")">@i.ToString("##")</option>
-
-                                    }
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-lg col-md col-sm-12 time_minut">
-                            <select class="__box__input">
-                                <option>00</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            @if (Model.SelectedStrategy == "expiry")
-            {
-                <div class="__date__box expiry_show">
-                    <div class="col-4">
-                        <span class="__input__label">Exit Date: </span>
-                    </div>
-                    <div class="col-8 __slider__box">
-                        <label><span class="span_exitdate">@Model.ExitDay</span> trading days before monthly expiry(excluding holidays)</label>
-                        <div class="slidecontainer">
-                            <div class="__range__start">24</div>
-                            <div class="__range__end">0</div>
-                            <input min="0" max="24" value="@Model.ExitDay" type="range" name="ExitDay" class="slider input_exitdate">
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-</div>
-
-<div class="row __position__target__profit__loss">
-
-    <div class="col-lg-6 col-md-12 col-sm-12">
-        <div class="__datetime__box">
-
-            <div class="__time__box">
-                <div class="col-4">
-                    <span class="__input__label">Target Profit: </span>
-                </div>
-                <div class="col-7 __time__input__box">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <select class="__box__input" name="TargetProfitMTMType">
-                                @if (Model.TargetProfitMTMType == "amount")
-                                {
-                                    <option value="amount" selected>Total MTM</option>
-                                    <option value="premium">Combined Premium %</option>
-                                }
-                                else
-                                {
-                                    <option value="amount">Total MTM</option>
-                                    <option value="premium" selected>Combined Premium %</option>
-                                }
-
-                            </select>
-                        </div><div class="col-md-6 col-sm-12">
-                            <div class="__sign__box">
-                                <div class="fa fa-inr"></div>
-                            </div>
-                            <input type="number" placeholder="0" min="1" class="__box__input" value="@Model.TargetProfitMTMPrice" name="targetProfitMTMPrice">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-12 col-sm-12">
-        <div class="__datetime__box">
-
-            <div class="__time__box">
-                <div class="col-4">
-                    <span class="__input__label">Stop Loss: </span>
-                </div>
-                <div class="col-7 __time__input__box">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <select class="__box__input selectprofit selectloss" name="stopLossMTMType">
-                                @if (Model.StopLossMTMType == "amount")
-                                {
-                                    <option value="amount" selected>Total MTM</option>
-                                    <option value="premium">Combined Premium %</option>
-                                }
-                                else
-                                {
-                                    <option value="amount">Total MTM</option>
-                                    <option value="premium" selected>Combined Premium %</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="__sign__box">
-                                -<div class="fa fa-inr"> </div>
-                            </div>
-                            <input type="number" placeholder="0" min="1" value="@Model.StopLossMTMPrice" class="__box__input" name="StopLossMTMPrice">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <div class="col-lg-12 col-md-12 col-sm-12">
-        <div class="__datetime__box">
-
-            <div class="__time__box row">
-                <div class="col-md-2 col-sm-12">
-                    <span class="__input__label">Protect The Profits: </span>
-                </div>
-                <div class="col-md-9 col-sm-9">
-                    <div class="__input__group">
-                        <div class="row trail__profit__type">
-                            <label style="padding: 10px;" class="checkbox-container">
-                                <div class="checkbox-label">
-                                    <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 0 ? "checked" : "") disabled name="SelectedTrailProfitTypeIndex" value="0">
-                                    <span class="checkbox-custom radio__type"></span>
-                                </div>
-                                <div class="checkbox__title">Lock Minimum Profit</div>
-                            </label>
-                            <label style="padding: 10px;" class="checkbox-container">
-                                <div class="checkbox-label">
-                                    <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 1 ? "checked" : "") disabled name="SelectedTrailProfitTypeIndex" value="1">
-                                    <span class="checkbox-custom radio__type"></span>
-                                </div>
-                                <div class="checkbox__title">Trail Profits</div>
-                            </label>
-                            <label style="padding: 10px;" class="checkbox-container">
-                                <div class="checkbox-label">
-                                    <input type="radio" @(Model.SelectedTrailProfitTypeIndex == 2 ? "checked" : "") disabled name="SelectedTrailProfitTypeIndex" value="2">
-                                    <span class="checkbox-custom radio__type"></span>
-                                </div>
-                                <div class="checkbox__title">Lock &amp; Trail Profits</div>
-                            </label>
-                        </div>
-
-                        @if (Model.SelectedTrailProfitTypeIndex == 0 || Model.SelectedTrailProfitTypeIndex == 2)
-                        {
-
-
-                            <div class="row">
-                                <div class="col-md-4 col-sm-12">
-                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="If Profit Reaches">
-                                </div>
-                                <div class="col-md-2 col-sm-12 ">
-                                    <div class="__sign__box">
-                                        <div class="fa fa-inr"></div>
                                     </div>
-                                    <input type="number" placeholder="" step="1" min="100" class="__box__input" value="@Model.TrailTriggerPrice" name="TrailTriggerPrice">
-                                    <div class="__input__label __gray">(Minimum ₹100)</div>
                                 </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Lock Minimum Profit At">
-                                </div>
-                                <div class="col-md-2 col-sm-12 ">
-                                    <div class="__sign__box"><div class="fa fa-inr"></div></div>
-                                    <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailFirstFixedProfit" name="TrailFirstFixedProfit">
-                                </div>
-                            </div>
 
-                        }
-                        @if (Model.SelectedTrailProfitTypeIndex == 0 || Model.SelectedTrailProfitTypeIndex == 2)
-                        {
-                            <div class="row">
+                            }
+                            @if (Model.SelectedTrailProfitTypeIndex == 1 || Model.SelectedTrailProfitTypeIndex == 2)
+                            {
+                                <div class="row">
 
-                                <div class="col-md-4 col-sm-12">
-                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Then For Every Increase In Profit By">
-                                </div>
-                                <div class="col-md-2 col-sm-12 ">
-                                    <div class="__sign__box">
-                                        <div class="fa fa-inr"></div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Then For Every Increase In Profit By">
                                     </div>
-                                    <input type="number" placeholder="" step="1" min="100" class="__box__input" value="@Model.TrailMTMX" name="trailMTMX">
-                                    <div class="__input__label __gray">(Minimum ₹100)</div>
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Trail Minimum Profit By">
-                                </div>
-                                <div class="col-md-2 col-sm-12 ">
-                                    <div class="__sign__box">
-                                        <div class="fa fa-inr"></div>
+                                    <div class="col-md-2 col-sm-12 ">
+                                        <div class="__sign__box">
+                                            <div class="fa fa-inr"></div>
+                                        </div>
+                                        @if (Model.IsProtectTheProfitsEdit)
+                                        {
+                                            <input type="number" placeholder="" step="1" min="100" class="__box__input" value="@Model.TrailMTMX" name="trailMTMX">
+                                        }
+                                        else
+                                        {
+                                            <input type="number" placeholder="" step="1" min="100" class="__box__input" value="@Model.TrailMTMX" disabled>
+                                            <input type="hidden" value="@Model.TrailMTMX" name="trailMTMX">
+                                        }
+                                        <div class="__input__label __gray">(Minimum ₹100)</div>
                                     </div>
-                                    <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailMTMY" name="TrailMTMY">
-                                </div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <input type="text" disabled="" class="__box__input __no__border __no__bg" value="Trail Minimum Profit By">
+                                    </div>
+                                    <div class="col-md-2 col-sm-12 ">
+                                        <div class="__sign__box">
+                                            <div class="fa fa-inr"></div>
+                                        </div>
+                                        @if (Model.IsProtectTheProfitsEdit)
+                                        {
+                                            <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailMTMY" name="trailMTMY">
+                                        }
+                                        else
+                                        {
+                                            <input type="number" placeholder="" step="1" class="__box__input" value="@Model.TrailMTMY" disabled>
+                                            <input type="hidden" value="@Model.TrailMTMY" name="trailMTMY">
+                                        }
+                                    </div>
 
-                            </div>
-                        }
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>                
+
+                </div>
 
             </div>
-
         </div>
     </div>
-</div>
+
+    <div class="row __position__footer positionOptionShow">
+        <div class="__button__control __no__print">
+            <label>Name :</label>  <input type="text" asp-for="Name" required />
+        </div>
+
+        <div class="__button__control __no__print">
+            <button type="submit" class="__button __full__button sharestrategy"> Save </button>
+        </div>
+    </div>
+</form>
 

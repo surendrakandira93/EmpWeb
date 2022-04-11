@@ -42,7 +42,7 @@
     </style>
 </head>
 
-<body>
+<body id="body">
 
     <div class="wrapper">
         <header>
@@ -52,7 +52,7 @@
                         <a href="/home" title=""><img src="/images/logo.png" alt=""></a>
                     </div><!--logo end-->
                     <div class="search-bar">
-                       
+
 
                         @await Html.PartialAsync("_SelectLanguagePartial")
                     </div><!--search-bar end-->
@@ -86,14 +86,35 @@
                             <li>
                                 <a href="/Heatmap" title="">
                                     <span><img src="/images/icon4.png" alt=""></span>
+                                    Heatmap
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/SMK" title="">
+                                    <span><img src="/images/icon4.png" alt=""></span>
                                     StockMock
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/StockMock" title="">
+                                <a href="/Facebook" title="">
                                     <span><img src="/images/icon4.png" alt=""></span>
-                                    StockMock
+                                    Facebook
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/Twitter" title="">
+                                    <span><img src="/images/icon4.png" alt=""></span>
+                                    Twitter
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/QRCode" title="">
+                                    <span><img src="/images/icon4.png" alt=""></span>
+                                    QR Code
                                 </a>
                             </li>
 
@@ -111,7 +132,7 @@
                         <div class="user-account-settingss" id="users">
                             <h3>Setting</h3>
                             <ul class="us-links">
-                                <li><a href="/employee/ChangePassword" title="Change Password">Change Password</a></li>                                
+                                <li><a href="/employee/ChangePassword" title="Change Password">Change Password</a></li>
                             </ul>
                             <h3 class="tc"><a href="/account/Logout" title="">Logout</a></h3>
                         </div><!--user-account-settingss end-->
@@ -128,6 +149,7 @@
 
 
     <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
     <script type="text/javascript" src="/js/popper.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
@@ -138,7 +160,10 @@
     <script type="text/javascript" src="/js/script.js"></script>
     <script src="~/plugins/toastr/toastr.min.js" asp-append-version="true"></script>
     <script src="/plugins/waitMe/waitMe.min.js"></script>
+
     <script src="/js/global.js" asp-append-version="true"></script>
+
+
     @RenderSection("Scripts", required: false)
     @{
         var model = ViewData["NotificationModel"] as Notification;

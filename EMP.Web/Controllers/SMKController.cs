@@ -1,5 +1,8 @@
 ﻿using EMP.Dto;
+using EMP.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +12,11 @@ namespace EMP.Web.Controllers
 {
     public class SMKController : Controller
     {
-        // lotSize = { nifty: 75, banknifty: 20, finnifty: 40 }
+        private readonly IFileService service;
+        public SMKController(IFileService _service)
+        {
+            this.service = _service;
+        }
         public IActionResult Index()
         {
             string qry = "index";
@@ -28,7 +35,7 @@ namespace EMP.Web.Controllers
 
         public IActionResult RunningC(QuryStringDto qry)
         {
-            var response = new StockMockParentDto();
+            var response = new StockMockPositionFormDto();
 
             var et = qry.et;
             var _et = et.Split(",");
@@ -218,9 +225,10 @@ namespace EMP.Web.Controllers
                     var j = waitAndTrade.Split("_");
                     string q = j[0], W = j[1];
                     int val = int.Parse(W);
-                    if (q == "wp")
+                    if (q.ToLower() == "wp")
                     {
                         q = val >= 0 ? "wp_+" : "wp_-";
+                        val = val < 0 ? val * -1 : val;
                     }
                     else
                     {
@@ -264,6 +272,30 @@ namespace EMP.Web.Controllers
             return View(response);
         }
 
+        public async Task<IActionResult> RunningById(string id)
+        {
+            StockMockPositionFormDto model = new StockMockPositionFormDto();
+            var response = await service.GetByKeyAsync<ResponseDto<FileDto>>(id);
+            if (response.IsSuccess && !string.IsNullOrEmpty(response.Result.Value))
+            {
+                model = JsonConvert.DeserializeObject<StockMockPositionFormDto>(response.Result.Value);
+            }
+            return View("RunningC", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RunningC(StockMockParentDto model, IFormCollection fc)
+        {
+            await service.CreateUpdateAsync<ResponseDto<string>>(new FileDto() { Key = model.Id.ToString(), Value = JsonConvert.SerializeObject(model) });
+            return RedirectToAction("SavedSMK");
+        }
+
+
+        public async Task<IActionResult> SavedSMK()
+        {
+            var response = await service.GetAllAsync<ResponseDto<List<FileDto>>>();
+            return View(response.Result);
+        }
         private int GetlotSize(string stock)
         {
             switch (stock)

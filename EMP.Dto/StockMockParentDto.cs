@@ -17,6 +17,7 @@ namespace EMP.Dto
             this.SelectedExitTime = new EntryTime();
         }
         public Guid Id { get; set; }
+        public string Name { get; set; }
         public string SquareOff { get; set; }
 
         public List<StockMockPositionDto> SelectedPosition { get; set; }
@@ -95,6 +96,39 @@ namespace EMP.Dto
         public int TrailMTMY { get; set; }
         public int EntryDay { get; set; }
         public int ExitDay { get; set; }
+
+
+    }
+
+    public class StockMockPositionFormDto : StockMockParentDto
+    {
+        public StockMockPositionFormDto()
+        {
+            IsEntryWaitEdit = true;
+            this.IsTargetProfitRowEdit = true;
+            this.IsStopLossRowEdit = true;
+            this.IsReEntryEdit = true;
+            this.IsTrailingStopLossEdit = true;
+            this.IsEntryTimeEdit = true;
+            this.IsExitTimeEdit = true;
+            this.IsEntryDateEdit = true;
+            this.IsExitDateEdit = true;
+            this.IsTargetProfitEdit = true;
+            this.IsStopLossEdit = true;
+            this.IsProtectTheProfitsEdit = true;
+        }
+        public bool IsEntryWaitEdit { get; set; }
+        public bool IsTargetProfitRowEdit { get; set; }
+        public bool IsStopLossRowEdit { get; set; }
+        public bool IsReEntryEdit { get; set; }
+        public bool IsTrailingStopLossEdit { get; set; }
+        public bool IsEntryTimeEdit { get; set; }
+        public bool IsExitTimeEdit { get; set; }
+        public bool IsEntryDateEdit { get; set; }
+        public bool IsExitDateEdit { get; set; }
+        public bool IsTargetProfitEdit { get; set; }
+        public bool IsStopLossEdit { get; set; }
+        public bool IsProtectTheProfitsEdit { get; set; }
 
 
     }

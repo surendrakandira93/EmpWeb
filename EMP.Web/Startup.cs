@@ -31,14 +31,14 @@ namespace EMP.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
 
-            
+
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();           
+                .AddDataAnnotationsLocalization();
 
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -50,20 +50,39 @@ namespace EMP.Web
             services.AddHttpClient<IShipmentService, ShipmentService>();
             services.AddHttpClient<ISchemeProfitLossService, SchemeProfitLossService>();
 
+            SiteKeys.Domain = Configuration["ServiceUrls:Domain"];
             SiteKeys.APIBase = Configuration["ServiceUrls:APIBase"];
+            SiteKeys.APIFileBase = Configuration["ServiceUrls:APIFileBase"];
+
+            TwitterKeys.APIKey = Configuration["twitter:APIKey"];
+            TwitterKeys.APIKeySecret = Configuration["twitter:APIKeySecret"];
+            TwitterKeys.BearerToken = Configuration["twitter:BearerToken"];
+            TwitterKeys.AccessToken = Configuration["twitter:AccessToken"];
+            TwitterKeys.AccessTokenSecret = Configuration["twitter:AccessTokenSecret"];
+            TwitterKeys.ClientId = Configuration["twitter:ClientId"];
+            TwitterKeys.ClientSecret = Configuration["twitter:ClientSecret"];
+
+            FacebookKeys.ExchangeToken = Configuration["facebook:ExchangeToken"];
+            FacebookKeys.PageId = Configuration["facebook:PageId"];
+            FacebookKeys.BaseUrl = Configuration["facebook:BaseUrl"];
+            FacebookKeys.ClientId = Configuration["facebook:ClientId"];
+            FacebookKeys.ClientSecret = Configuration["facebook:ClientSecret"];
+
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IEmployeeGroupService, EmployeeGroupService>();
             services.AddTransient<IShipmentService, ShipmentService>();
             services.AddTransient<ISchemeProfitLossService, SchemeProfitLossService>();
-
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IViewRenderService, ViewRenderService>();
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
             {
                 opt.LoginPath = "/account/index";

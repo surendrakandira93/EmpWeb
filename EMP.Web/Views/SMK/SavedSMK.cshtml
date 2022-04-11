@@ -1,0 +1,80 @@
+﻿@model List<FileDto>
+
+@{
+}
+
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="main-ws-sec">
+                        <div class="posts-section">
+                            <div class="post-bar">
+                                <div class="post-st">
+                                    <ul>
+                                        <li><a href="/SMK/index" title="" style="background-color:cadetblue;">Back</a></li>
+                                    </ul>
+                                </div>
+                                <h3 class="title-wd">Save SMK</h3>
+                                <table class="table table-bordered" id="shipment_grid">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                Guid id;
+                                                Guid.TryParse(item.Key, out id);
+                                                if (id != Guid.Empty)
+                                                {
+                                                    StockMockParentDto m = Newtonsoft.Json.JsonConvert.DeserializeObject<StockMockParentDto>(item.Value);
+                                                    <tr>
+
+
+                                                        <td>@item.Key</td>
+
+                                                        <td>
+                                                            @m.Name
+                                                        </td>
+                                                        <td>
+                                                            <a href="/SMK/RunningById/@item.Key"> Edit</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="3">Item Not Found</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div><!--main-ws-sec end-->
+                </div>
+
+            </div>
+        </div><!-- main-section-data end-->
+    </div>
+</div>
+
+@section Scripts{
+
+}

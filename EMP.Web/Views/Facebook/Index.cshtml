@@ -1,0 +1,103 @@
+﻿@model List<FacebookDto>
+
+
+<style>
+    .quest-tags li {
+        margin-bottom: 5px;
+    }
+
+    .usr_img {
+        width: 56px;
+    }
+
+    .forum-page {
+        padding: 0px 0;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .select2-selection__choice__display {
+        float: none !important;
+    }
+
+    .select2-selection__choice {
+        width: auto !important;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" href="~/plugins/Select2/css/select2.min.css">
+
+<section class="forum-page">
+    <div class="container">
+        <div class="forum-questions-sec">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="widget widget-user">
+                        
+                        
+                        <h3 class="title-wd">Facebook Message List</h3>
+                        @foreach (var item in Model)
+                        {
+                            <div class="post-bar">
+                                <div class="post_topbar">
+                                    <div class="post_topbar">
+                                        <div class="usy-name">
+                                            <h3>@item.message</h3>
+                                            <span>@item.created_time.ToLongDateString() @item.created_time.ToShortTimeString()</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="widget widget-user">
+                        <h3 class="title-wd">Post new Message</h3>
+                        <form asp-action="index" asp-controller="facebook" method="post" id="frm-add-group" enctype="multipart/form-data">
+                            <div id="validation-summary"></div>
+                            <div class="cp-field">
+                                <h5>Message</h5>
+                                <div class="cpp-fiel">
+                                    <textarea class="form-control">@FacebookKeys.PageToken</textarea>
+                                    <textarea name="message" id="message" placeholder="message" class="form-control" required></textarea>
+                                </div>
+                            </div>
+
+
+
+                            <div class="cp-field">
+                                    <h5> Image</h5>
+                                    <div class="cpp-fiel">
+                                        <input type="file" name="ImageURLFile" id="ImageURLFile">                                        
+                                    </div>
+                                </div>
+
+                            <div class="save-stngs pd2">
+                                <ul>
+                                    <li><button type="submit">Post Message</button></li>
+
+                                </ul>
+                            </div><!--save-stngs end-->
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+
+}

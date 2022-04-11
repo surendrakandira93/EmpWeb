@@ -826,6 +826,29 @@ $(".disableRightClick").on("contextmenu", function (e) {
     return false;
 });
 
+Global.Takeshot = function () {
+    let div =
+        //document.getElementsByTagName('body');
+        document.getElementById('photo');
+  
+
+    // Use the html2canvas
+    // function to take a screenshot
+    // and append it
+    // to the output div
+    html2canvas(div).then(
+        function (canvas) {
+            //document.body.appendChild(canvas);
+            var imgageData = canvas.toDataURL("image/png");
+            newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+            var link = document.createElement('a');
+            link.download = 'my-image-name.jpeg';
+            link.href = newData;
+            link.click();
+            link.remove();            
+            $('canvas').remove();
+        })
+}
 
 Global.StateCode = function (zipString) {
     /* Ensure param is a string to prevent unpredictable parsing results */

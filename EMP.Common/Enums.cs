@@ -44,4 +44,10 @@ namespace EMP.Common
         RelianceOnline = 5
     }
 
+    public enum ImageFormat
+    {
+        Jpg,
+        Png
+    }
+
 }

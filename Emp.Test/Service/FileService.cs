@@ -45,7 +45,9 @@ namespace Emp.Test.Service
             });
         }
 
-        
+
+       
+
         public async Task<T> GetAllAsync<T>()
         {
             return await this.SendAsync<T>(new ApiRequestDto()
