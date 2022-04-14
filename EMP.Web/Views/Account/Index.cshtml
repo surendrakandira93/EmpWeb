@@ -22,6 +22,9 @@
     <link rel="stylesheet" type="text/css" href="/css/responsive.css">
     <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css" />
     <link href="~/plugins/waitMe/waitMe.min.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+    
+
     <style>
         .field-validation-error {
             color: red;
@@ -96,6 +99,13 @@
                                                 @Html.AntiForgeryToken()
                                                 <button type="submit" value="submit">Sign in</button>
                                             </div>
+
+                                            <div class="col-lg-12 no-pdd">
+                                                <button type="button" id="btn_google">Google</button>
+                                                <button type="button" id="btn_facebook">Facebook</button>
+                                                <button type="button" id="btn_twitter">Twitter</button>
+                                                <button type="button" id="btn_signout">Signout</button>
+                                            </div>
                                         </div>
                                     </form>
                                     @* <div class="login-resources">
@@ -134,78 +144,34 @@
                                                         <i class="la la-user"></i>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg-12 no-pdd">
                                                     <div class="sn-field">
                                                         <input type="date" asp-for="DateOfBrith" placeholder="Date Of Brith" data-msg-required="*required" data-rule-required="true">
                                                         <i class="la fa-birthday-cake"></i>
                                                     </div>
                                                 </div>
-                                                
+
 
                                                 <div class="col-lg-12 no-pdd">
                                                     <div class="sn-field">
-                                                        <input type="password" asp-for="Password" placeholder="Password" data-msg-required="*required" data-rule-required="true" >
+                                                        <input type="password" asp-for="Password" placeholder="Password" data-msg-required="*required" data-rule-required="true">
                                                         <i class="la la-lock"></i>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 no-pdd">
                                                     <div class="sn-field">
-                                                        <input type="password" asp-for="ConfirmPassword" placeholder="Repeat Password" data-msg-required="*required" data-rule-required="true" >
+                                                        <input type="password" asp-for="ConfirmPassword" placeholder="Repeat Password" data-msg-required="*required" data-rule-required="true">
                                                         <i class="la la-lock"></i>
                                                         <label id="ConfirmPassword_error" class="error" for="ConfirmPassword" style="display:none;">Confirm Password not matched with Password</label>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                                 <div class="col-lg-12 no-pdd">
                                                     <button type="submit" value="submit">Get Started</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div><!--dff-tab end-->
-                                    @*<div class="dff-tab" id="tab-4">
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-lg-12 no-pdd">
-                                                    <div class="sn-field">
-                                                        <input type="text" name="company-name" placeholder="Company Name">
-                                                        <i class="la la-building"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12 no-pdd">
-                                                    <div class="sn-field">
-                                                        <input type="text" name="country" placeholder="Country">
-                                                        <i class="la la-globe"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12 no-pdd">
-                                                    <div class="sn-field">
-                                                        <input type="password" name="password" placeholder="Password">
-                                                        <i class="la la-lock"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12 no-pdd">
-                                                    <div class="sn-field">
-                                                        <input type="password" name="repeat-password" placeholder="Repeat Password">
-                                                        <i class="la la-lock"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12 no-pdd">
-                                                    <div class="checky-sec st2">
-                                                        <div class="fgt-sec">
-                                                            <input type="checkbox" name="cc" id="c3">
-                                                            <label for="c3">
-                                                                <span></span>
-                                                            </label>
-                                                            <small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
-                                                        </div><!--fgt-sec end-->
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12 no-pdd">
-                                                    <button type="submit" value="submit">Get Started</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>*@
                                     <!--dff-tab end-->
                                 </div>
                             </div><!--login-sec end-->
@@ -228,7 +194,7 @@
                     </ul>
                     <p><img src="images/copy-icon.png" alt="">Copyright 2022</p>
                 </div>
-            </div><!--footy-sec end-->
+            </div>
         </div><!--sign-in-page end-->
 
 
@@ -247,8 +213,154 @@
     <script src="/plugins/waitMe/waitMe.min.js"></script>
     <script src="/js/global.js" asp-append-version="true"></script>
     <script src="/js/Custom/Login.js" asp-append-version="true"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+    <script src="bower_components/firebaseui/dist/firebaseui.js"></script>
 
-     @{
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, signOut , signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDzZ6uwr469KAgQeW2GFqSYxykj3Zmag8U",
+            authDomain: "common-auth-core5.firebaseapp.com",
+            projectId: "common-auth-core5",
+            storageBucket: "common-auth-core5.appspot.com",
+            messagingSenderId: "1090645954986",
+            appId: "1:1090645954986:web:0d7baf37df828d24809bd3",
+            measurementId: "G-1JWVS73CPN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const auth = getAuth();
+
+        $("#btn_google").on('click', function () {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    console.log(result);                    
+                    StoreTokenInDB(user.displayName, user.email, user.phoneNumber, user.accessToken, user.uid, user.photoURL);                    
+                }).catch((error) => {
+
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.email;
+                    // The AuthCredential type that was used.
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    // ...
+                    signOut();
+                });
+        })
+
+        function StoreTokenInDB(name, email, phone, token, uid, photoURL) {
+
+            try {                
+                const docRef = addDoc(collection(db, "users"), {
+                    uid: uid,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    photoURL: photoURL,
+                    timestamp: new Date(),
+                    token: [{
+                        id: uniqueId(),
+                        token: token,
+                        timestamp: new Date()
+                    }]
+                });
+                console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        }
+
+        $("#btn_facebook").on('click', function () {
+            const provider = new FacebookAuthProvider();
+            
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // The signed-in user info.
+                    const user = result.user;
+
+                    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                    const credential = FacebookAuthProvider.credentialFromResult(result);
+                    const accessToken = credential.accessToken;
+                    console.log(result);
+                    debugger;
+                    StoreTokenInDB(user.displayName, user.email, user.phoneNumber, user.accessToken, user.uid, user.photoURL);
+                    // ...
+                })
+                .catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    debugger;
+                    // The email of the user's account used.
+                    const email = error.email;
+                    // The AuthCredential type that was used.
+                    const credential = FacebookAuthProvider.credentialFromError(error);
+
+                    signOut();
+                });
+        })
+
+        $("#btn_twitter").on('click', function () {
+            const provider = new TwitterAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+                    // You can use these server side with your app's credentials to access the Twitter API.
+                    const credential = TwitterAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    const secret = credential.secret;
+                    // The signed-in user info.
+                    const user = result.user;
+
+                }).catch((error) => {
+                    debugger;
+                    
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.email;
+                    // The AuthCredential type that was used.
+                    const credential = TwitterAuthProvider.credentialFromError(error);
+                    // ...
+                    signOut();
+                })
+        })
+
+        $("#btn_signout").on('click', function () {
+            signOut();
+        });
+
+        const uniqueId = (length = 16) => {
+            return parseInt(Math.ceil(Math.random() * Date.now()).toPrecision(length).toString().replace(".", ""))
+        }
+
+        function signOut() {
+
+            signOut(auth).then(() => {
+                // Sign-out successful.
+            }).catch((error) => {
+                // An error happened.
+            });
+        }
+    </script>
+    @{
         var model = ViewData["NotificationModel"] as Notification;
         if (model == null)
         {

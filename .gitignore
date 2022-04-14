@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /EMP.Web/wwwroot/UserImage
 /EMP.Web/wwwroot/GroupImage
+/EMP.Web/wwwroot/QRCode
